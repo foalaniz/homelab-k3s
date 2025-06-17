@@ -16,12 +16,10 @@ spec:
       labels:
         app: homepage
     spec:
-      # Add this securityContext to ensure the container runs as a non-root user
-      # with appropriate permissions for writable directories.
       securityContext:
-        runAsUser: 1000 # Typical UID for non-root users (like 'node' user in many images)
-        runAsGroup: 1000 # Typical GID for non-root users
-        fsGroup: 1000 # Ensures mounted volumes are owned by this group
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - name: homepage
           image: ghcr.io/gethomepage/homepage:latest
@@ -30,15 +28,16 @@ spec:
               name: http
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
-              value: "192.168.254.131:30081" # NODEport of your service
+              value: "192.168.254.131:<your_nodeport>" # Keep this correct!
           volumeMounts:
-            - name: homepage-config-volume
+            - name: homepage-config-volume # Mount the ConfigMap at /app/config
               mountPath: /app/config
-            - name: homepage-data-volume # <--- NEW: Mount a writable volume
-              mountPath: /app/config/logs # <--- NEW: Where Homepage tries to write logs
+              readOnly: false # <--- IMPORTANT: Make this NOT read-only
+            - name: homepage-data-volume # Mount the writable volume for logs/temp files
+              mountPath: /app/config/logs
       volumes:
         - name: homepage-config-volume
           configMap:
             name: homepage-config
-        - name: homepage-data-volume # <--- NEW: Define the writable volume
-          emptyDir: {} # This creates an empty, writable directory for the Pod
+        - name: homepage-data-volume
+          emptyDir: {}
