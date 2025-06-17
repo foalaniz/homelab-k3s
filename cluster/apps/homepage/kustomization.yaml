@@ -1,0 +1,6 @@
+# FILE: homelab-k3s/cluster/apps/homepage/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - deployment.yaml  # Include your Deployment manifest
+  - service.yaml     # Include your Service manifest
