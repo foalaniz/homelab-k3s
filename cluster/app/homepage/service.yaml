@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: homepage-service
+spec:
+  type: NodePort # Para acceder desde fuera de tu VM K3s
+  selector:
+    app: homepage # Debe coincidir con el label 'app' de tu Deployment
+  ports:
+    - protocol: TCP
+      port: 80      # Puerto al que te conectarás para acceder al servicio
+      targetPort: 3000 # Puerto interno del contenedor (el containerPort del Deployment)
+      nodePort: 30080 # Puerto en la IP de tu VM K3s (elige uno entre 30000-32767)
+      name: http

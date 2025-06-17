@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homepage-deployment
+  labels:
+    app: homepage # Este label es importante para que el Service lo encuentre
+spec:
+  replicas: 1 # Puedes empezar con 1 réplica
+  selector:
+    matchLabels:
+      app: homepage # Debe coincidir con las labels de arriba
+  template:
+    metadata:
+      labels:
+        app: homepage # Este label también debe coincidir
+    spec:
+      containers:
+        - name: homepage
+          image: ghcr.io/gethomepage/homepage:latest # Asegúrate de usar la imagen correcta
+          ports:
+            - containerPort: 3000 # Homepage escucha internamente en el puerto 3000
+              name: http
+          env: # Variables de entorno (opcionales, pero buena práctica si las necesitas)
+            - name: HOMEPAGE_ALLOWED_HOSTS
+              value: "gethomepage.dev" # Ajusta si es necesario
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          # Puedes añadir resource requests/limits, volumeMounts, etc., aquí si los necesitas
+          # lifecycle: # Ejemplo: si necesitas ejecutar un comando antes de que el contenedor se inicie
+          #   postStart:
+          #     exec:
+          #       command: ["/bin/sh", "-c", "echo Hello from postStart!"]
+          # readinessProbe: # Opcional: para que Kubernetes sepa cuándo la app está lista para recibir tráfico
+          #   httpGet:
+          #     path: / # Ajusta según la URL de health check de Homepage
+          #     port: 3000
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 5
