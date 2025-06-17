@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: homepage-deployment
+  namespace: default # Cambia si usas otro namespace
   labels:
     app: homepage # importante para que el Service lo encuentre
 spec:
