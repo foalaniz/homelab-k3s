@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - deployment.yaml  # Include your Deployment manifest
   - service.yaml     # Include your Service manifest
+  - homepage-config-cm.yaml # Include your ConfigMap manifest

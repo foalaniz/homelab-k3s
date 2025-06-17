@@ -23,19 +23,13 @@ spec:
               name: http
           env: # Variables de entorno (opcionales)
             - name: HOMEPAGE_ALLOWED_HOSTS
-              value: "gethomepage.dev" # Ajusta si es necesario
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
-          # Puedes añadir resource requests/limits, volumeMounts, etc., aquí si los necesitas
-          # lifecycle: # Ejemplo: si necesitas ejecutar un comando antes de que el contenedor se inicie
-          #   postStart:
-          #     exec:
-          #       command: ["/bin/sh", "-c", "echo Hello from postStart!"]
-          # readinessProbe: # Opcional: para que Kubernetes sepa cuándo la app está lista para recibir tráfico
-          #   httpGet:
-          #     path: / # Ajusta según la URL de health check de Homepage
-          #     port: 3000
-          #   initialDelaySeconds: 10
-          #   periodSeconds: 5
+              value: "192.168.254.131:30081,0.0.0.0" # <--- FIX THIS! Use your actual NodePort (e.g., 30081).
+                                                      # You can add "0.0.0.0" too for flexibility:
+                                                      # value: "192.168.254.131:<your_nodeport>,0.0.0.0"
+          volumeMounts: # <--- ADD THIS SECTION
+            - name: homepage-config-volume
+              mountPath: /app/config # This is where Homepage expects its config
+      volumes: # <--- ADD THIS SECTION (at the same level as 'containers')
+        - name: homepage-config-volume
+          configMap:
+            name: homepage-config # This MUST match the name in your ConfigMap (Step 1)
