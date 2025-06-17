@@ -28,16 +28,10 @@ spec:
               name: http
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
-              value: "192.168.254.131:<your_nodeport>" # Keep this correct!
+              value: "192.168.254.131:30081" # Keep this correct!
           volumeMounts:
-            - name: homepage-config-volume # Mount the ConfigMap at /app/config
+            - name: homepage-config-volume
               mountPath: /app/config
-              readOnly: false # <--- IMPORTANT: Make this NOT read-only
-            - name: homepage-data-volume # Mount the writable volume for logs/temp files
-              mountPath: /app/config/logs
       volumes:
         - name: homepage-config-volume
-          configMap:
-            name: homepage-config
-        - name: homepage-data-volume
           emptyDir: {}
