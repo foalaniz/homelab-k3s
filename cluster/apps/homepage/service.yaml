@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: homepage-service
   namespace: default # Cambia si usas otro namespace
+  labels:
+    app: homepage # Importante para que el Deployment lo encuentre
 spec:
   type: NodePort # Para acceder desde fuera de tu VM K3s
   selector:
