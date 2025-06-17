@@ -1,35 +1,44 @@
+# FILE: homelab-k3s/cluster/apps/homepage/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: homepage-deployment
-  namespace: default # Cambia si usas otro namespace
+  namespace: default
   labels:
-    app: homepage # importante para que el Service lo encuentre
+    app: homepage
 spec:
-  replicas: 1 # Puedes empezar con 1 réplica
+  replicas: 1
   selector:
     matchLabels:
-      app: homepage # Debe coincidir con las labels de arriba
+      app: homepage
   template:
     metadata:
       labels:
-        app: homepage # Este label también debe coincidir
+        app: homepage
     spec:
+      # Add this securityContext to ensure the container runs as a non-root user
+      # with appropriate permissions for writable directories.
+      securityContext:
+        runAsUser: 1000 # Typical UID for non-root users (like 'node' user in many images)
+        runAsGroup: 1000 # Typical GID for non-root users
+        fsGroup: 1000 # Ensures mounted volumes are owned by this group
       containers:
         - name: homepage
-          image: ghcr.io/gethomepage/homepage:latest # Asegúrate de usar la imagen correcta
+          image: ghcr.io/gethomepage/homepage:latest
           ports:
-            - containerPort: 3000 # Homepage escucha internamente en el puerto 3000
+            - containerPort: 3000
               name: http
-          env: # Variables de entorno (opcionales)
+          env:
             - name: HOMEPAGE_ALLOWED_HOSTS
-              value: "192.168.254.131:30081" # <--- FIX THIS! Use your actual NodePort (e.g., 30081).
-                                                      # You can add "0.0.0.0" too for flexibility:
-                                                      # value: "192.168.254.131:<your_nodeport>,0.0.0.0"
-          volumeMounts: # <--- ADD THIS SECTION
+              value: "192.168.254.131:30081" # NODEport of your service
+          volumeMounts:
             - name: homepage-config-volume
-              mountPath: /app/config # This is where Homepage expects its config
-      volumes: # <--- ADD THIS SECTION (at the same level as 'containers')
+              mountPath: /app/config
+            - name: homepage-data-volume # <--- NEW: Mount a writable volume
+              mountPath: /app/config/logs # <--- NEW: Where Homepage tries to write logs
+      volumes:
         - name: homepage-config-volume
           configMap:
-            name: homepage-config # This MUST match the name in your ConfigMap (Step 1)
+            name: homepage-config
+        - name: homepage-data-volume # <--- NEW: Define the writable volume
+          emptyDir: {} # This creates an empty, writable directory for the Pod
