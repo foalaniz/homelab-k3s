@@ -23,7 +23,7 @@ spec:
               name: http
           env: # Variables de entorno (opcionales)
             - name: HOMEPAGE_ALLOWED_HOSTS
-              value: "192.168.254.131:30081,0.0.0.0" # <--- FIX THIS! Use your actual NodePort (e.g., 30081).
+              value: "192.168.254.131:30081" # <--- FIX THIS! Use your actual NodePort (e.g., 30081).
                                                       # You can add "0.0.0.0" too for flexibility:
                                                       # value: "192.168.254.131:<your_nodeport>,0.0.0.0"
           volumeMounts: # <--- ADD THIS SECTION
