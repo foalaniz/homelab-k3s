@@ -11,5 +11,5 @@ spec:
     - protocol: TCP
       port: 80      # Puerto al que te conectarás para acceder al servicio
       targetPort: 3000 # Puerto interno del contenedor (el containerPort del Deployment)
-      nodePort: 30080 # Puerto en la IP de tu VM K3s (elige uno entre 30000-32767)
+      nodePort: 30081 # Puerto en la IP de tu VM K3s (elige uno entre 30000-32767)
       name: http
