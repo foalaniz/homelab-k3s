@@ -5,4 +5,4 @@ resources:
  - ./postgres
  - ./pgadmin
  - ./commafeed
- - ./ingress
+ - ./ingress.yaml
