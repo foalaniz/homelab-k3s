@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: commafeed
-        image: athou/commafeed:latest
+        image: athou/commafeed:4.0.0
         ports:
         - containerPort: 8082
         env:
