@@ -1,0 +1,4 @@
+# Secrets - NO SUBIR A GIT
+*secret*.yaml
+*.env
+.env*

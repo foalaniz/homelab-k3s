@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: commafeed-service
+  namespace: default
+spec:
+  selector:
+    app: commafeed
+  ports:
+  - port: 8082
+    targetPort: 8082
+    protocol: TCP
+    nodePort: 30082
+  type: NodePort
