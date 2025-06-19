@@ -22,12 +22,12 @@ spec:
         - name: PGADMIN_DEFAULT_EMAIL
           valueFrom:
             secretKeyRef:
-              name: pgadmin-secret 
+              name: pgladmin-secret 
               key: PGADMIN_DEFAULT_EMAIL
         - name: PGADMIN_DEFAULT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: pgadmin-secret 
+              name: pgladmin-secret 
               key: PGADMIN_DEFAULT_PASSWORD
         - name: PGADMIN_CONFIG_SERVER_MODE
           value: "False"
