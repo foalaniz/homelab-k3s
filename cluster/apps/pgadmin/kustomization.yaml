@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - pgadmin-deployment.yaml
   - pgadmin-service.yaml
+  - pgadmin-pvc.yaml
