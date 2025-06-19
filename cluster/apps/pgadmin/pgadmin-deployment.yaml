@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pgadmin
-  namespace: default
+  namespace: default 
 spec:
   replicas: 1
   selector:
@@ -15,24 +15,24 @@ spec:
     spec:
       containers:
       - name: pgadmin
-        image: dpage/pgadmin4:latest
+        image: dpage/pgadmin4:latest 
         ports:
         - containerPort: 80
         env:
         - name: PGADMIN_DEFAULT_EMAIL
           valueFrom:
             secretKeyRef:
-              name: pgladmin-secret
+              name: pgadmin-secret 
               key: PGADMIN_DEFAULT_EMAIL
         - name: PGADMIN_DEFAULT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: pgladmin-secret
+              name: pgadmin-secret 
               key: PGADMIN_DEFAULT_PASSWORD
         - name: PGADMIN_CONFIG_SERVER_MODE
           value: "False"
         - name: PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED
-          value: "False"
+          value: "False" 
         resources:
           requests:
             memory: "256Mi"
@@ -45,4 +45,5 @@ spec:
           mountPath: /var/lib/pgadmin
       volumes:
       - name: pgadmin-data
-        emptyDir: {}
+        persistentVolumeClaim: # Changed from emptyDir
+          claimName: pgadmin-data-pvc # References the PVC defined in pgadmin-pvc.yaml
