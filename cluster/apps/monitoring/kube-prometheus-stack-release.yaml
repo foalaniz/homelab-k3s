@@ -1,0 +1,73 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: "59.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+      interval: 15m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    # --- Configuración General ---
+    alertmanager:
+      enabled: false
+    prometheus-node-exporter:
+      enabled: true
+
+    # --- Configuración de Grafana ---
+    grafana:
+      enabled: true
+      
+      
+      admin:
+        existingSecret: "grafana-admin-secret" 
+        userKey: "admin-user"                  
+        passwordKey: "admin-password"          
+
+
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: web
+        hosts:
+          - grafana.homelab.local
+        paths:
+          - /
+        pathType: Prefix
+
+      persistence:
+        enabled: true
+        type: pvc
+        storageClassName: "default" 
+        accessModes:
+          - ReadWriteOnce
+        size: "2Gi"
+
+    # --- Configuración de Prometheus ---
+    prometheus:
+      enabled: true
+      prometheusSpec:
+        
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: "default" 
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: "10Gi" 

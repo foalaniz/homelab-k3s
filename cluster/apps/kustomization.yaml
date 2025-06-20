@@ -5,4 +5,5 @@ resources:
  - ./postgres
  - ./pgadmin
  - ./commafeed
+ - ./monitoring
  - ingress.yaml
