@@ -58,6 +58,23 @@ spec:
           - ReadWriteOnce
         size: "2Gi"
 
+      grafana.ini:
+        database:
+          type: postgres
+          host: "postgres-service.default.svc.cluster.local:5432" 
+          name: "grafana"                                         
+          user: ${__file:/etc/grafana/secrets/database/GF_DATABASE_USER}
+          password: ${__file:/etc/grafana/secrets/database/GF_DATABASE_PASSWORD}
+          ssl_mode: "disable"
+
+      
+      extraSecretMounts:
+        - name: grafana-db-credentials-mount
+          secretName: grafana-db-credentials
+          defaultMode: 0440
+          mountPath: /etc/grafana/secrets/database
+          readOnly: true
+
     # --- Configuración de Prometheus ---
     prometheus:
       enabled: true
