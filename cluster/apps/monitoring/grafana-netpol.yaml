@@ -14,5 +14,4 @@ spec:
     - Ingress
   # Reglas de entrada
   ingress:
-
     - {}
