@@ -26,24 +26,27 @@ spec:
       enabled: false
 
     grafana:
+      # Habilitar Grafana
       enabled: true
+      # Usar secreto para la contraseña de admin
       admin:
         existingSecret: "grafana-admin-secret"
         userKey: "admin-user"
         passwordKey: "admin-password"
 
+      # Configuración del Ingress para Grafana
       ingress:
         enabled: true
         ingressClassName: traefik
         hosts:
           - grafana.homelab.local
       
+      # Habilitar persistencia para Grafana
       persistence:
         enabled: true
         storageClassName: "local-path"
       
-
-      # Usamos 'extraEnv' para inyectar todas las variables de entorno necesarias.
+      # Variables de entorno para Grafana y la base de datos
       extraEnv:
         - name: GF_DATABASE_TYPE
           value: "postgres"
@@ -53,13 +56,11 @@ spec:
           value: "grafana"
         - name: GF_DATABASE_SSL_MODE
           value: "disable"
-        # Le decimos que tome el valor del usuario desde nuestro secreto
         - name: GF_DATABASE_USER
           valueFrom:
             secretKeyRef:
               name: grafana-db-credentials
               key: GF_DATABASE_USER
-        # Le decimos que tome el valor de la contraseña desde nuestro secreto
         - name: GF_DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -67,6 +68,7 @@ spec:
               key: GF_DATABASE_PASSWORD
 
     prometheus:
+      # Habilitar Prometheus
       enabled: true
       prometheusSpec:
         storageSpec:
