@@ -1,3 +1,4 @@
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -21,33 +22,19 @@ spec:
     remediation:
       retries: 3
   values:
-    alertmanager:
-      enabled: false
-
     grafana:
-      # Habilitar Grafana
       enabled: true
-      # Usar secreto para la contraseña de admin
       admin:
         existingSecret: "grafana-admin-secret"
-        userKey: "admin-user"
-        passwordKey: "admin-password"
-
-      # Configuración del Ingress para Grafana
       ingress:
         enabled: true
         ingressClassName: traefik
         hosts:
           - grafana.homelab.local
-      
-      # Habilitar persistencia para Grafana
       persistence:
         enabled: true
         storageClassName: "local-path"
-      
-      # Variables de entorno para Grafana
       extraEnv:
-        # --- Configuración de Base de Datos ---
         - name: GF_DATABASE_TYPE
           value: "postgres"
         - name: GF_DATABASE_HOST
@@ -66,15 +53,11 @@ spec:
             secretKeyRef:
               name: grafana-db-credentials
               key: GF_DATABASE_PASSWORD
-        
-        # --- Configuración de Proxy  ---
         - name: GF_SERVER_ROOT_URL
           value: "http://grafana.homelab.local"
         - name: GF_SERVER_SERVE_FROM_SUB_PATH
           value: "false"
-
     prometheus:
-      # Habilitar Prometheus
       enabled: true
       prometheusSpec:
         storageSpec:
@@ -85,3 +68,24 @@ spec:
               resources:
                 requests:
                   storage: "10Gi"
+  
+  # --- PARCHE PARA FORZAR EL USO DEL NOMBRE DEL PUERTO ---
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Ingress
+              name: kube-prometheus-stack-grafana
+            patch: |-
+              apiVersion: networking.k8s.io/v1
+              kind: Ingress
+              metadata:
+                name: kube-prometheus-stack-grafana
+              spec:
+                rules:
+                - http:
+                    paths:
+                    - backend:
+                        service:
+                          port:
+                            name: http-web # Usar el nombre del puerto en lugar del número
