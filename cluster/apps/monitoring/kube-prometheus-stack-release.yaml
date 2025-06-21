@@ -14,7 +14,8 @@ spec:
         kind: HelmRepository
         name: prometheus-community
         namespace: flux-system
-      interval: 15m
+  # Aumentamos el timeout para darle tiempo a la BD de migrar
+  timeout: 15m
   install:
     remediation:
       retries: 3
@@ -43,26 +44,18 @@ spec:
         storageClassName: "local-path"
       
 
+      # Primero, definimos las variables no sensibles
       env:
-        # Configuración general de la base de datos
         GF_DATABASE_TYPE: "postgres"
         GF_DATABASE_HOST: "postgres-service.default.svc.cluster.local:5432"
         GF_DATABASE_NAME: "grafana"
         GF_DATABASE_SSL_MODE: "disable"
-        
-        # Carga del usuario desde el secreto 
-        GF_DATABASE_USER:
-          valueFrom:
-            secretKeyRef:
-              name: grafana-db-credentials
-              key: GF_DATABASE_USER
 
-        # Carga de la contraseña desde el secreto 
-        GF_DATABASE_PASSWORD:
-          valueFrom:
-            secretKeyRef:
-              name: grafana-db-credentials
-              key: GF_DATABASE_PASSWORD
+      # Luego, usamos 'envFrom' para cargar TODAS las llaves del secreto
+      # como variables de entorno. Este es el método que el chart espera.
+      envFrom:
+        - secretRef:
+            name: grafana-db-credentials
 
     prometheus:
       enabled: true
