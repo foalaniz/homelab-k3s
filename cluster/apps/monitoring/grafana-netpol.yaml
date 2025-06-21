@@ -2,21 +2,17 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-traefik-to-grafana
+  name: allow-all-ingress-to-grafana
   namespace: monitoring
 spec:
-
+  # Aplica esta política a los pods de Grafana
   podSelector:
     matchLabels:
       app.kubernetes.io/name: grafana
+  # Aplica la política para el tráfico de entrada (Ingress)
   policyTypes:
     - Ingress
+  # Reglas de entrada
   ingress:
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              name: traefik-system
 
-      ports:
-        - protocol: TCP
-          port: 3000 # El puerto en el que escucha Grafana
+    - {}
