@@ -42,20 +42,29 @@ spec:
         enabled: true
         storageClassName: "local-path"
       
-      # --- CONFIGURACIÓN DE BASE DE DATOS (MÉTODO CORRECTO Y FINAL) ---
-      
-      # 1. Se definen las variables de entorno NO sensibles en el bloque 'env'
-      env:
-        GF_DATABASE_TYPE: "postgres"
-        GF_DATABASE_HOST: "postgres-service.default.svc.cluster.local:5432"
-        GF_DATABASE_NAME: "grafana"
-        GF_DATABASE_SSL_MODE: "disable"
 
-
-      # Esto tomará TODAS las llaves del secreto y las convertirá en variables de entorno.
-      envFrom:
-        - secretRef:
-            name: grafana-db-credentials
+      # Usamos 'extraEnv' para inyectar todas las variables de entorno necesarias.
+      extraEnv:
+        - name: GF_DATABASE_TYPE
+          value: "postgres"
+        - name: GF_DATABASE_HOST
+          value: "postgres-service.default.svc.cluster.local:5432"
+        - name: GF_DATABASE_NAME
+          value: "grafana"
+        - name: GF_DATABASE_SSL_MODE
+          value: "disable"
+        # Le decimos que tome el valor del usuario desde nuestro secreto
+        - name: GF_DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: grafana-db-credentials
+              key: GF_DATABASE_USER
+        # Le decimos que tome el valor de la contraseña desde nuestro secreto
+        - name: GF_DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: grafana-db-credentials
+              key: GF_DATABASE_PASSWORD
 
     prometheus:
       enabled: true
