@@ -1,0 +1,41 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: traefik-system # Lo instalaremos en su propio namespace
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: traefik
+      version: "28.0.0" # Usamos una versión específica y probada
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: flux-system
+  # Valores para configurar Traefik
+  values:
+    # Habilitar el proveedor de Ingress de Kubernetes
+    providers:
+      kubernetesIngress:
+        enabled: true
+
+    # Crear los permisos RBAC necesarios automáticamente
+    rbac:
+      enabled: true
+
+    # Configurar los puertos
+    ports:
+      # El puerto 'web' es para el tráfico HTTP
+      web:
+        port: 8000
+        # Exponerlo como un NodePort en el puerto 30080
+        nodePort: 30080
+      # El puerto 'traefik' es para el dashboard
+      traefik:
+        port: 9000
+
+    # El dashboard no requiere un Ingress, se accede por su propio puerto
+    # (Esto es opcional, pero útil para depurar)
+    # Para acceder al dashboard: http://<IP_VM>:9000/dashboard/
