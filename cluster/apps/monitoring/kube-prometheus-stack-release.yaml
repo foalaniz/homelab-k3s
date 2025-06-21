@@ -31,7 +31,7 @@ spec:
     # --- Configuración de Grafana ---
     grafana:
       enabled: true
-      
+      replicas: 1
       
       admin:
         existingSecret: "grafana-admin-secret" 
