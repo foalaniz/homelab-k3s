@@ -21,59 +21,57 @@ spec:
   upgrade:
     remediation:
       retries: 3
+  # Mantenemos los values simples, sin configuración de BD aquí
   values:
-    alertmanager:
-      enabled: false
-
     grafana:
       enabled: true
       admin:
         existingSecret: "grafana-admin-secret"
-      
       ingress:
         enabled: true
         ingressClassName: traefik
         hosts:
           - grafana.homelab.local
-      
       persistence:
         enabled: true
         storageClassName: "local-path"
 
-      # --- CONFIGURACIÓN HÍBRIDA Y DEFINITIVA ---
-      
-      # 1. Modificamos el grafana.ini para forzar el uso de PostgreSQL
-      grafana.ini:
-        database:
-          type: postgres
-          host: "postgres-service.default.svc.cluster.local:5432"
-          name: "grafana"
-          ssl_mode: "disable"
-          # El usuario y la contraseña se proporcionarán a continuación
-      
-      # 2. Inyectamos las credenciales de forma segura con extraEnv
-      extraEnv:
-        - name: GF_DATABASE_USER
-          valueFrom:
-            secretKeyRef:
-              name: grafana-db-credentials
-              key: GF_DATABASE_USER
-        - name: GF_DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: grafana-db-credentials
-              key: GF_DATABASE_PASSWORD
-        - name: GF_SERVER_ROOT_URL
-          value: "http://grafana.homelab.local"
-
-    prometheus:
-      enabled: true
-      prometheusSpec:
-        storageSpec:
-          volumeClaimTemplate:
-            spec:
-              storageClassName: "local-path"
-              accessModes: ["ReadWriteOnce"]
-              resources:
-                requests:
-                  storage: "10Gi"
+  # --- LA SOLUCIÓN DEFINITIVA: POST-RENDERERS ---
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: kube-prometheus-stack-grafana
+            # Este parche inyecta las variables de entorno directamente en el Deployment
+            patch: |-
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: kube-prometheus-stack-grafana
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - name: grafana
+                        env:
+                          - name: GF_DATABASE_TYPE
+                            value: "postgres"
+                          - name: GF_DATABASE_HOST
+                            value: "postgres-service.default.svc.cluster.local:5432"
+                          - name: GF_DATABASE_NAME
+                            value: "grafana"
+                          - name: GF_DATABASE_SSL_MODE
+                            value: "disable"
+                          - name: GF_SERVER_ROOT_URL
+                            value: "http://grafana.homelab.local"
+                          - name: GF_DATABASE_USER
+                            valueFrom:
+                              secretKeyRef:
+                                name: grafana-db-credentials
+                                key: GF_DATABASE_USER
+                          - name: GF_DATABASE_PASSWORD
+                            valueFrom:
+                              secretKeyRef:
+                                name: grafana-db-credentials
+                                key: GF_DATABASE_PASSWORD
