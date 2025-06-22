@@ -6,4 +6,4 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  url: https://funkypenguin.github.io/geek-cookbook/
+  url: https://geek-cookbook.github.io/charts/
