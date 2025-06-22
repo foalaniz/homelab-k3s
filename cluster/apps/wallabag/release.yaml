@@ -15,7 +15,7 @@ spec:
         name: geek-cookbook
         namespace: flux-system
   values:
-    # Fix the ingress configuration structure
+    # Estructura corregida para el Ingress
     ingress:
       main:
         enabled: true
@@ -28,14 +28,13 @@ spec:
               - path: /
                 pathType: Prefix
     
-    # Fix the persistence configuration structure
+    # Estructura corregida para la persistencia
     persistence:
       data:
         enabled: true
         storageClass: "local-path"
         size: 5Gi
         accessMode: ReadWriteOnce
-        # Ensure the mount path is specified
         mountPath: /var/www/wallabag/data
 
     postgresql:
@@ -50,6 +49,8 @@ spec:
         value: "5432"
       - name: SYMFONY__ENV__DATABASE_NAME
         value: "wallabag"
+      # --- LÍNEA CRÍTICA Y CORREGIDA ---
+      # Asegúrate de que no tenga el puerto :30080
       - name: SYMFONY__ENV__DOMAIN_NAME
         value: "http://wallabag.homelab.local"
       - name: SYMFONY__ENV__DATABASE_USER
