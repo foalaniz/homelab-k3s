@@ -49,10 +49,20 @@ spec:
         value: "5432"
       - name: SYMFONY__ENV__DATABASE_NAME
         value: "wallabag"
-      # --- LÍNEA CRÍTICA Y CORREGIDA ---
-      # Asegúrate de que no tenga el puerto :30080
+      # Domain configuration - CRITICAL for asset loading
       - name: SYMFONY__ENV__DOMAIN_NAME
         value: "http://wallabag.homelab.local"
+      # Additional environment variables for proper asset handling
+      - name: SYMFONY__ENV__SERVER_NAME
+        value: "wallabag.homelab.local"
+      - name: SYMFONY__ENV__FOSUSER_REGISTRATION
+        value: "false"
+      - name: SYMFONY__ENV__FOSUSER_CONFIRMATION
+        value: "false"
+      # Ensure proper base URL
+      - name: SYMFONY__ENV__DOMAIN_NAME
+        value: "http://wallabag.homelab.local"
+      # Database credentials
       - name: SYMFONY__ENV__DATABASE_USER
         valueFrom:
           secretKeyRef:
