@@ -15,16 +15,18 @@ spec:
         name: geek-cookbook
         namespace: flux-system
   values:
+    # Fix the ingress configuration structure
     ingress:
-      enabled: true
-      className: traefik
-      annotations:
-        traefik.ingress.kubernetes.io/router.entrypoints: web
-      hosts:
-        - host: "wallabag.homelab.local"
-          paths:
-            - path: /
-              pathType: Prefix
+      main:
+        enabled: true
+        className: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: web
+        hosts:
+          - host: "wallabag.homelab.local"
+            paths:
+              - path: /
+                pathType: Prefix
     
     # Fix the persistence configuration structure
     persistence:
