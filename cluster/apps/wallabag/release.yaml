@@ -9,74 +9,85 @@ spec:
   chart:
     spec:
       chart: wallabag
-      version: "7.2.0"
+      version: "7.1.2"
       sourceRef:
         kind: HelmRepository
-        name: geek-cookbook
+        name: k8s-home-lab
         namespace: flux-system
-  # Dejamos solo los values que el chart sí entiende
   values:
+    # Configuración de la imagen
+    image:
+      repository: wallabag/wallabag
+      tag: "2.6.9"
+      pullPolicy: IfNotPresent
+
+    # Variables de entorno para la configuración de Wallabag
+    env:
+      SYMFONY__ENV__DATABASE_DRIVER: "pdo_pgsql"
+      SYMFONY__ENV__DATABASE_HOST: "postgres-service"
+      SYMFONY__ENV__DATABASE_PORT: "5432"
+      SYMFONY__ENV__DATABASE_NAME: "wallabag"
+      SYMFONY__ENV__DOMAIN_NAME: "http://wallabag.homelab.local"
+      SYMFONY__ENV__DATABASE_USER:
+        valueFrom:
+          secretKeyRef:
+            name: wallabag-db-secret
+            key: DB_USER
+      SYMFONY__ENV__DATABASE_PASSWORD:
+        valueFrom:
+          secretKeyRef:
+            name: wallabag-db-secret
+            key: DB_PASSWORD
+
+    # Configuración del servicio
+    service:
+      main:
+        ports:
+          http:
+            port: 80
+
+    # Configuración del ingress
     ingress:
       main:
         enabled: true
-        className: traefik
+        ingressClassName: traefik
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: web
         hosts:
-          - host: "wallabag.homelab.local"
+          - host: wallabag.homelab.local
             paths:
               - path: /
                 pathType: Prefix
 
+    # Configuración de persistencia
     persistence:
       data:
         enabled: true
+        type: pvc
         storageClass: "local-path"
         size: 5Gi
         accessMode: ReadWriteOnce
         mountPath: /var/www/wallabag/data
+      images:
+        enabled: true
+        type: pvc
+        storageClass: "local-path"
+        size: 2Gi
+        accessMode: ReadWriteOnce
+        mountPath: /var/www/wallabag/web/assets/images
 
+    # Deshabilitamos la base de datos integrada
     postgresql:
       enabled: false
+    mariadb:
+      enabled: false
 
-  # --- AQUÍ FORZAMOS LA CONFIGURACIÓN CORRECTA ---
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              kind: Deployment
-              name: wallabag # Apuntamos al Deployment de wallabag
-            patch: |-
-              # Este es el parche que se aplicará
-              apiVersion: apps/v1
-              kind: Deployment
-              metadata:
-                name: wallabag
-              spec:
-                template:
-                  spec:
-                    containers:
-                      # Apuntamos al contenedor específico
-                      - name: wallabag
-                        # Y le inyectamos todas las variables de entorno necesarias
-                        env:
-                          - name: SYMFONY__ENV__DATABASE_DRIVER
-                            value: "pdo_pgsql"
-                          - name: SYMFONY__ENV__DATABASE_HOST
-                            value: "postgres-service"
-                          - name: SYMFONY__ENV__DATABASE_PORT
-                            value: "5432"
-                          - name: SYMFONY__ENV__DATABASE_NAME
-                            value: "wallabag"
-                          - name: SYMFONY__ENV__DOMAIN_NAME
-                            value: "http://wallabag.homelab.local"
-                          - name: SYMFONY__ENV__DATABASE_USER
-                            valueFrom:
-                              secretKeyRef:
-                                name: wallabag-db-secret
-                                key: DB_USER
-                          - name: SYMFONY__ENV__DATABASE_PASSWORD
-                            valueFrom:
-                              secretKeyRef:
-                                name: wallabag-db-secret
-                                key: DB_PASSWORD
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: k8s-home-lab
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://k8s-home-lab.github.io/helm-charts/
