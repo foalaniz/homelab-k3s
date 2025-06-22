@@ -28,7 +28,7 @@ spec:
               name: http
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
-              value: "homepage.homelab.local,192.168.254.131:30081" # Keep this correct!
+              value: "homepage.homelab.local,192.168.254.131" # Keep this correct!
           volumeMounts:
             - name: homepage-config-volume
               mountPath: /app/config
