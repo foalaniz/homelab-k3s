@@ -62,6 +62,8 @@ spec:
       # Ensure proper base URL
       - name: SYMFONY__ENV__DOMAIN_NAME
         value: "http://wallabag.homelab.local"
+      - name: WALLABAG_URL
+        value: "http://wallabag.homelab.local"
       # Database credentials
       - name: SYMFONY__ENV__DATABASE_USER
         valueFrom:
