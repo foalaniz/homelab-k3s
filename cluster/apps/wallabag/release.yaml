@@ -9,25 +9,35 @@ spec:
   chart:
     spec:
       chart: wallabag
-      version: "7.1.2"
+      version: "6.6.2" # Usamos una versión específica de este chart
       sourceRef:
         kind: HelmRepository
-        name: k8s-home-lab
+        name: k8s-home-lab # Apuntamos al nuevo repositorio
         namespace: flux-system
   values:
-    # Configuración de la imagen
     image:
       repository: wallabag/wallabag
-      tag: "2.6.9"
-      pullPolicy: IfNotPresent
+      tag: 2.6.9 # Usamos una etiqueta de imagen estable
 
-    # Variables de entorno para la configuración de Wallabag
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: traefik
+        hosts:
+          - host: "wallabag.homelab.local"
+            paths:
+              - path: /
+                pathType: Prefix
+
+    # Este chart espera las variables de entorno aquí
     env:
       SYMFONY__ENV__DATABASE_DRIVER: "pdo_pgsql"
       SYMFONY__ENV__DATABASE_HOST: "postgres-service"
       SYMFONY__ENV__DATABASE_PORT: "5432"
       SYMFONY__ENV__DATABASE_NAME: "wallabag"
       SYMFONY__ENV__DOMAIN_NAME: "http://wallabag.homelab.local"
+
+      # Cargamos el usuario y la contraseña desde el secreto que ya existe
       SYMFONY__ENV__DATABASE_USER:
         valueFrom:
           secretKeyRef:
@@ -39,55 +49,10 @@ spec:
             name: wallabag-db-secret
             key: DB_PASSWORD
 
-    # Configuración del servicio
-    service:
-      main:
-        ports:
-          http:
-            port: 80
-
-    # Configuración del ingress
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: traefik
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: web
-        hosts:
-          - host: wallabag.homelab.local
-            paths:
-              - path: /
-                pathType: Prefix
-
-    # Configuración de persistencia
+    # Configuramos la persistencia
     persistence:
       data:
         enabled: true
-        type: pvc
         storageClass: "local-path"
         size: 5Gi
         accessMode: ReadWriteOnce
-        mountPath: /var/www/wallabag/data
-      images:
-        enabled: true
-        type: pvc
-        storageClass: "local-path"
-        size: 2Gi
-        accessMode: ReadWriteOnce
-        mountPath: /var/www/wallabag/web/assets/images
-
-    # Deshabilitamos la base de datos integrada
-    postgresql:
-      enabled: false
-    mariadb:
-      enabled: false
-
----
-apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: HelmRepository
-metadata:
-  name: k8s-home-lab
-  namespace: flux-system
-spec:
-  interval: 1h
-  url: https://k8s-home-lab.github.io/helm-charts/

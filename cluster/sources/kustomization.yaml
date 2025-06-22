@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - prometheus-community.yaml
   - traefik-charts.yaml
-  - geek-cookbook-charts.yaml 
+  - k8s-home-lab-charts.yaml
