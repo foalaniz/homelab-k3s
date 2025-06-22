@@ -6,5 +6,6 @@ resources:
  - ./pgadmin
  - ./commafeed
  - ./monitoring
- - ingress.yaml
  - ./traefik
+ - ./wallabag
+ - ingress.yaml
