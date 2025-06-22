@@ -51,7 +51,7 @@ spec:
       - name: SYMFONY__ENV__DATABASE_NAME
         value: "wallabag"
       - name: SYMFONY__ENV__DOMAIN_NAME
-        value: "http://wallabag.homelab.local/wallabag/web"
+        value: "http://wallabag.homelab.local"
       - name: SYMFONY__ENV__DATABASE_USER
         valueFrom:
           secretKeyRef:
