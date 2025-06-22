@@ -55,15 +55,17 @@ spec:
       # Additional environment variables for proper asset handling
       - name: SYMFONY__ENV__SERVER_NAME
         value: "wallabag.homelab.local"
+      # Force the correct base URL for assets
+      - name: SYMFONY__ENV__BASE_URL
+        value: "http://wallabag.homelab.local"
+      # Alternative asset URL configuration
+      - name: SYMFONY__ENV__ASSETS_BASE_URL
+        value: "http://wallabag.homelab.local"
+      # Disable registration and confirmation
       - name: SYMFONY__ENV__FOSUSER_REGISTRATION
         value: "false"
       - name: SYMFONY__ENV__FOSUSER_CONFIRMATION
         value: "false"
-      # Ensure proper base URL
-      - name: SYMFONY__ENV__DOMAIN_NAME
-        value: "http://wallabag.homelab.local"
-      - name: WALLABAG_URL
-        value: "http://wallabag.homelab.local"
       # Database credentials
       - name: SYMFONY__ENV__DATABASE_USER
         valueFrom:
