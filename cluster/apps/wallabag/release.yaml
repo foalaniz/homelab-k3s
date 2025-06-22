@@ -3,19 +3,18 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: wallabag
-  namespace: default # Namespace donde se desplegará Wallabag
+  namespace: default
 spec:
   interval: 15m
   chart:
     spec:
       chart: wallabag
-      version: "7.2.0" # Fijar una versión
+      version: "7.2.0"
       sourceRef:
         kind: HelmRepository
         name: geek-cookbook
         namespace: flux-system
   values:
-    # Configuración del Ingress para acceder con un dominio
     ingress:
       enabled: true
       className: traefik
@@ -26,19 +25,15 @@ spec:
           paths:
             - path: /
               pathType: Prefix
-
-
+    
     persistence:
       enabled: true
       storageClass: "local-path"
       size: 5Gi
 
-    # Deshabilita PosgreSQL interno de Wallabag
     postgresql:
       enabled: false
 
-    # Configuram la conexión a la base de datos PostgreSQL 
-    
     extraEnv:
       - name: SYMFONY__ENV__DATABASE_DRIVER
         value: "pdo_pgsql"
@@ -49,17 +44,14 @@ spec:
       - name: SYMFONY__ENV__DATABASE_NAME
         value: "wallabag"
       - name: SYMFONY__ENV__DOMAIN_NAME
-        # URL pública
         value: "http://wallabag.homelab.local:30080"
-
-      # Carga el usuario y la contraseña desde un secreto
       - name: SYMFONY__ENV__DATABASE_USER
         valueFrom:
           secretKeyRef:
-            name: wallabag-db-secret # Nombre del secreto  
+            name: wallabag-db-secret
             key: DB_USER
       - name: SYMFONY__ENV__DATABASE_PASSWORD
         valueFrom:
           secretKeyRef:
-            name: wallabag-db-secret # Nombre del secreto 
+            name: wallabag-db-secret
             key: DB_PASSWORD
