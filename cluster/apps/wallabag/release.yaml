@@ -14,6 +14,49 @@ spec:
         kind: HelmRepository
         name: geek-cookbook
         namespace: flux-system
+  # PostRenderer para inyectar las variables de entorno
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: wallabag
+            patch: |
+              - op: replace
+                path: /spec/template/spec/containers/0/env
+                value:
+                  - name: SYMFONY__ENV__DATABASE_DRIVER
+                    value: "pdo_pgsql"
+                  - name: SYMFONY__ENV__DATABASE_HOST
+                    value: "postgres-service"
+                  - name: SYMFONY__ENV__DATABASE_PORT
+                    value: "5432"
+                  - name: SYMFONY__ENV__DATABASE_NAME
+                    value: "wallabag"
+                  - name: SYMFONY__ENV__DOMAIN_NAME
+                    value: "http://wallabag.homelab.local"
+                  - name: SYMFONY__ENV__SERVER_NAME
+                    value: "wallabag.homelab.local"
+                  - name: SYMFONY__ENV__BASE_URL
+                    value: "http://wallabag.homelab.local"
+                  - name: SYMFONY__ENV__ASSETS_BASE_URL
+                    value: "http://wallabag.homelab.local"
+                  - name: SYMFONY__ENV__FOSUSER_REGISTRATION
+                    value: "false"
+                  - name: SYMFONY__ENV__FOSUSER_CONFIRMATION
+                    value: "false"
+                  - name: SYMFONY__ENV__DATABASE_USER
+                    valueFrom:
+                      secretKeyRef:
+                        name: wallabag-db-secret
+                        key: DB_USER
+                  - name: SYMFONY__ENV__DATABASE_PASSWORD
+                    valueFrom:
+                      secretKeyRef:
+                        name: wallabag-db-secret
+                        key: DB_PASSWORD
+                  - name: TZ
+                    value: "UTC"
   values:
     # Estructura corregida para el Ingress
     ingress:
@@ -40,40 +83,5 @@ spec:
     postgresql:
       enabled: false
 
-    extraEnv:
-      - name: SYMFONY__ENV__DATABASE_DRIVER
-        value: "pdo_pgsql"
-      - name: SYMFONY__ENV__DATABASE_HOST
-        value: "postgres-service"
-      - name: SYMFONY__ENV__DATABASE_PORT
-        value: "5432"
-      - name: SYMFONY__ENV__DATABASE_NAME
-        value: "wallabag"
-      # Domain configuration - CRITICAL for asset loading
-      - name: SYMFONY__ENV__DOMAIN_NAME
-        value: "http://wallabag.homelab.local"
-      # Additional environment variables for proper asset handling
-      - name: SYMFONY__ENV__SERVER_NAME
-        value: "wallabag.homelab.local"
-      # Force the correct base URL for assets
-      - name: SYMFONY__ENV__BASE_URL
-        value: "http://wallabag.homelab.local"
-      # Alternative asset URL configuration
-      - name: SYMFONY__ENV__ASSETS_BASE_URL
-        value: "http://wallabag.homelab.local"
-      # Disable registration and confirmation
-      - name: SYMFONY__ENV__FOSUSER_REGISTRATION
-        value: "false"
-      - name: SYMFONY__ENV__FOSUSER_CONFIRMATION
-        value: "false"
-      # Database credentials
-      - name: SYMFONY__ENV__DATABASE_USER
-        valueFrom:
-          secretKeyRef:
-            name: wallabag-db-secret
-            key: DB_USER
-      - name: SYMFONY__ENV__DATABASE_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: wallabag-db-secret
-            key: DB_PASSWORD
+    # Ya no necesitamos extraEnv porque el postRenderer se encarga de todo
+    # extraEnv: []
