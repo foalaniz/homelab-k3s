@@ -15,38 +15,28 @@ spec:
         name: traefik
         namespace: flux-system
   values:
-    ports:
-      web:
-        port: 8000
-      traefik:
-        port: 9000
-    rbac:
-      enabled: true
+    # Habilitar el proveedor de Ingress de Kubernetes
     providers:
       kubernetesIngress:
         enabled: true
 
+    # Crear los permisos RBAC necesarios automáticamente
+    rbac:
+      enabled: true
 
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              kind: Deployment
-              name: traefik
-            patch: |-
-              apiVersion: apps/v1
-              kind: Deployment
-              metadata:
-                name: traefik
-              spec:
-                template:
-                  spec:
-                    containers:
-                      - name: traefik
-                        ports:
-                          - name: web
-                            containerPort: 8000
-                            hostPort: 80 # Conecta el contenedor al puerto 80 de la VM
-                          - name: traefik
-                            containerPort: 9000
-                            hostPort: 8080 # Conecta el dashboard al puerto 8080 de la VM
+    # --- CONFIGURACIÓN DE PUERTOS Y DASHBOARD ---
+    # Habilitar el API y el dashboard de forma insegura (ideal para homelab)
+    api:
+      insecure: true # Permite acceso al API
+      dashboard: true # Activa el dashboard
+
+    ports:
+      # El puerto 'web' es para el tráfico de tus aplicaciones
+      web:
+        port: 8000
+        hostPort: 80 # Conecta el contenedor al puerto 80 de la VM
+
+      # El puerto 'traefik' es para el API y el dashboard
+      traefik:
+        port: 9000
+        hostPort: 8080 # Conecta el contenedor al puerto 8080 de la VM
