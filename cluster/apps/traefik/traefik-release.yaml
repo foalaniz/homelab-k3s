@@ -15,22 +15,38 @@ spec:
         name: traefik
         namespace: flux-system
   values:
+    ports:
+      web:
+        port: 8000
+      traefik:
+        port: 9000
+    rbac:
+      enabled: true
     providers:
       kubernetesIngress:
         enabled: true
 
-    rbac:
-      enabled: true
 
-    ports:
-      # Puerto para el tráfico de tus aplicaciones (ej. Grafana)
-      web:
-        port: 8000
-        nodePort: 30080
-
-      # --- CAMBIO AQUÍ ---
-      # Puerto 'traefik' para el dashboard
-      traefik:
-        port: 9000
-        # Exponerlo como un NodePort en el puerto 30090
-        nodePort: 30090
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: traefik
+            patch: |-
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: traefik
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - name: traefik
+                        ports:
+                          - name: web
+                            containerPort: 8000
+                            hostPort: 80 # Conecta el contenedor al puerto 80 de la VM
+                          - name: traefik
+                            containerPort: 9000
+                            hostPort: 8080 # Conecta el dashboard al puerto 8080 de la VM
