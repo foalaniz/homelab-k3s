@@ -26,10 +26,15 @@ spec:
             - path: /
               pathType: Prefix
     
+    # Fix the persistence configuration structure
     persistence:
-      enabled: true
-      storageClass: "local-path"
-      size: 5Gi
+      data:
+        enabled: true
+        storageClass: "local-path"
+        size: 5Gi
+        accessMode: ReadWriteOnce
+        # Ensure the mount path is specified
+        mountPath: /var/www/wallabag/data
 
     postgresql:
       enabled: false
