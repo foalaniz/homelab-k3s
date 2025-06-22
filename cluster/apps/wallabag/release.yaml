@@ -14,51 +14,8 @@ spec:
         kind: HelmRepository
         name: geek-cookbook
         namespace: flux-system
-  # PostRenderer para inyectar las variables de entorno
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              kind: Deployment
-              name: wallabag
-            patch: |
-              - op: replace
-                path: /spec/template/spec/containers/0/env
-                value:
-                  - name: SYMFONY__ENV__DATABASE_DRIVER
-                    value: "pdo_pgsql"
-                  - name: SYMFONY__ENV__DATABASE_HOST
-                    value: "postgres-service"
-                  - name: SYMFONY__ENV__DATABASE_PORT
-                    value: "5432"
-                  - name: SYMFONY__ENV__DATABASE_NAME
-                    value: "wallabag"
-                  - name: SYMFONY__ENV__DOMAIN_NAME
-                    value: "http://wallabag.homelab.local"
-                  - name: SYMFONY__ENV__SERVER_NAME
-                    value: "wallabag.homelab.local"
-                  - name: SYMFONY__ENV__BASE_URL
-                    value: "http://wallabag.homelab.local"
-                  - name: SYMFONY__ENV__ASSETS_BASE_URL
-                    value: "http://wallabag.homelab.local"
-                  - name: SYMFONY__ENV__FOSUSER_REGISTRATION
-                    value: "false"
-                  - name: SYMFONY__ENV__FOSUSER_CONFIRMATION
-                    value: "false"
-                  - name: SYMFONY__ENV__DATABASE_USER
-                    valueFrom:
-                      secretKeyRef:
-                        name: wallabag-db-secret
-                        key: DB_USER
-                  - name: SYMFONY__ENV__DATABASE_PASSWORD
-                    valueFrom:
-                      secretKeyRef:
-                        name: wallabag-db-secret
-                        key: DB_PASSWORD
-                  - name: TZ
-                    value: "UTC"
+  # Dejamos solo los values que el chart sí entiende
   values:
-    # Estructura corregida para el Ingress
     ingress:
       main:
         enabled: true
@@ -70,8 +27,7 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-    
-    # Estructura corregida para la persistencia
+
     persistence:
       data:
         enabled: true
@@ -83,5 +39,44 @@ spec:
     postgresql:
       enabled: false
 
-    # Ya no necesitamos extraEnv porque el postRenderer se encarga de todo
-    # extraEnv: []
+  # --- AQUÍ FORZAMOS LA CONFIGURACIÓN CORRECTA ---
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: wallabag # Apuntamos al Deployment de wallabag
+            patch: |-
+              # Este es el parche que se aplicará
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: wallabag
+              spec:
+                template:
+                  spec:
+                    containers:
+                      # Apuntamos al contenedor específico
+                      - name: wallabag
+                        # Y le inyectamos todas las variables de entorno necesarias
+                        env:
+                          - name: SYMFONY__ENV__DATABASE_DRIVER
+                            value: "pdo_pgsql"
+                          - name: SYMFONY__ENV__DATABASE_HOST
+                            value: "postgres-service"
+                          - name: SYMFONY__ENV__DATABASE_PORT
+                            value: "5432"
+                          - name: SYMFONY__ENV__DATABASE_NAME
+                            value: "wallabag"
+                          - name: SYMFONY__ENV__DOMAIN_NAME
+                            value: "http://wallabag.homelab.local"
+                          - name: SYMFONY__ENV__DATABASE_USER
+                            valueFrom:
+                              secretKeyRef:
+                                name: wallabag-db-secret
+                                key: DB_USER
+                          - name: SYMFONY__ENV__DATABASE_PASSWORD
+                            valueFrom:
+                              secretKeyRef:
+                                name: wallabag-db-secret
+                                key: DB_PASSWORD
