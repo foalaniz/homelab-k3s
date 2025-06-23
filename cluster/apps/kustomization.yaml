@@ -8,4 +8,5 @@ resources:
  - ./monitoring
  - ./traefik
  - ./readeck
+ - ./flux-system-monitoring 
  - ingress.yaml

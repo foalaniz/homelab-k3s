@@ -1,0 +1,34 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Mantenemos el PodMonitor que ya habíamos creado
+  - pod-monitor.yaml
+
+# --- GENERADOR AUTOMÁTICO DE DASHBOARDS ---
+# Esto le dice a Kustomize que cree ConfigMaps a partir de archivos remotos
+configMapGenerator:
+  - name: flux-cluster-dashboard
+    namespace: flux-system
+    options:
+      # Le ponemos la etiqueta mágica para que Grafana lo importe
+      labels:
+        grafana_dashboard: "1"
+    files:
+      - flux-cluster.json=https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/dashboards/cluster.json
+
+  - name: flux-control-plane-dashboard
+    namespace: flux-system
+    options:
+      labels:
+        grafana_dashboard: "1"
+    files:
+      - flux-control-plane.json=https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/dashboards/control-plane.json
+
+  - name: flux-kustomization-dashboard
+    namespace: flux-system
+    options:
+      labels:
+        grafana_dashboard: "1"
+    files:
+      - flux-kustomization.json=https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/dashboards/kustomization.json
