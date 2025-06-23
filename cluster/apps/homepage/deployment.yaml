@@ -1,38 +1,20 @@
-# Test with minimal configuration first
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: homepage-config-minimal
-  namespace: default
-data:
-  settings.yaml: |
-    title: Test Homepage
-    
-  services.yaml: |
-    - "Test Group":
-        - "Test Service":
-            icon: mdi-test-tube
-            href: "http://example.com"
-            description: "Test service"
-
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: homepage-test
+  name: homepage-deployment
   namespace: default
   labels:
-    app: homepage-test
+    app: homepage
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: homepage-test
+      app: homepage
   template:
     metadata:
       labels:
-        app: homepage-test
+        app: homepage
     spec:
       securityContext:
         runAsUser: 1000
@@ -62,33 +44,16 @@ spec:
             - containerPort: 3000
               name: http
           env:
-            - name: LOG_LEVEL
-              value: "debug"
             - name: HOMEPAGE_ALLOWED_HOSTS
-              value: "homepage.homelab.local,192.168.254.131,192.168.254.131:30082"
+              value: "*"
+            - name: LOG_LEVEL
+              value: "info"
           volumeMounts:
             - name: config-writable
               mountPath: /app/config
       volumes:
         - name: config-readonly
           configMap:
-            name: homepage-config-minimal
+            name: homepage-config
         - name: config-writable
           emptyDir: {}
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: homepage-test-service
-  namespace: default
-spec:
-  type: NodePort
-  selector:
-    app: homepage-test
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
-      nodePort: 30082
-      name: http

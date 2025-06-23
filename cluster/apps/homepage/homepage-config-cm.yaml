@@ -14,6 +14,7 @@ data:
       saturate: 50
       brightness: 50
       opacity: 30
+    base: http://192.168.254.131:30081
     layout:
       - "Administración del Clúster":
           style: row
@@ -60,13 +61,11 @@ data:
             description: "Lector de artículos guardados"
 
   widgets.yaml: |
-    # Optional: Add some basic widgets
     - search:
         provider: duckduckgo
         target: _blank
 
   bookmarks.yaml: |
-    # Optional: Add bookmarks
     - Developer:
         - Github:
             - abbr: GH
@@ -76,5 +75,5 @@ data:
     # Empty docker config since we're running in Kubernetes
     
   kubernetes.yaml: |
-    # Optional: Configure Kubernetes integration
+    # Kubernetes integration config
     mode: cluster
