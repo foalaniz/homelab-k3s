@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,40 +20,21 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
-      initContainers:
-        - name: config-setup
-          image: busybox:1.36
-          command: ['sh', '-c']
-          args:
-            - |
-              mkdir -p /app/config
-              [ -f /app/config/settings.yaml ] || cp /app/src/skeleton/settings.yaml /app/config/
-              [ -f /app/config/services.yaml ] || cp /app/src/skeleton/services.yaml /app/config/
-          volumeMounts:
-            - name: config-writable
-              mountPath: /app/config
       containers:
         - name: homepage
           image: ghcr.io/gethomepage/homepage:latest
-          imagePullPolicy: Always
           ports:
             - containerPort: 3000
               name: http
           env:
-            - name: HOMEPAGE_CONFIG_DIR
-              value: "/app/config"
             - name: HOMEPAGE_ALLOWED_HOSTS
-              value: "*"
+              value: "homepage.homelab.local,192.168.254.131"
           volumeMounts:
-            - name: config-writable
+            # El contenedor montará el volumen en su ruta de configuración
+            - name: homepage-config-volume
               mountPath: /app/config
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "500m"
-              memory: "512Mi"
+      # El volumen se define para que tome su contenido DIRECTAMENTE del ConfigMap
       volumes:
-        - name: config-writable
-          emptyDir: {}
+        - name: homepage-config-volume
+          configMap:
+            name: homepage-config
