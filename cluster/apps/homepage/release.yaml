@@ -1,0 +1,38 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homepage
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: homepage
+      version: "1.1.1"
+      sourceRef:
+        kind: HelmRepository
+        name: homepage-charts
+        namespace: flux-system
+  values:
+    # Configuración del Ingress
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: traefik
+        hosts:
+          - host: homepage.homelab.local
+            paths:
+              - path: /
+                pathType: Prefix
+
+    # Le decimos al chart que monte nuestro ConfigMap como un volumen
+    extraVolumes:
+      - name: homepage-config
+        configMap:
+          name: homepage-config
+
+    extraVolumeMounts:
+      - name: homepage-config
+        mountPath: /app/config
+        readOnly: true
