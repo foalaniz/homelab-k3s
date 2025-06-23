@@ -7,8 +7,13 @@ data:
   settings.yaml: |
     title: Mi Homelab
     header: Bienvenid@ a mi clúster de k3s
+    # Deshabilitar completamente los defaults
     providers:
-      showDefaults: false
+      kubernetes: false
+      docker: false
+      bookmarks: false
+      services: false
+      widgets: false
     background:
       image: https://images.unsplash.com/photo-1506260408121-e353d10b87c7
       blur: sm

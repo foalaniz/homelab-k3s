@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -9,12 +8,37 @@ spec:
   chart:
     spec:
       chart: homepage
-      version: "1.1.1" # Usamos una versión específica
+      version: "1.1.1"
       sourceRef:
         kind: HelmRepository
         name: homepage-charts
         namespace: flux-system
   values:
+    # Deshabilitar todos los providers por defecto
+    config:
+      providers:
+        kubernetes: false
+        docker: false
+        bookmarks: false
+        services: false
+        widgets: false
+    
+    # Montar solo TU configuración
+    volumes:
+      - name: config
+        configMap:
+          name: homepage-config
+          items:
+            - key: settings.yaml
+              path: settings.yaml
+            - key: services.yaml
+              path: services.yaml
+
+    volumeMounts:
+      - name: config
+        mountPath: /app/config
+        readOnly: true
+    
     # Configuración del Ingress
     ingress:
       main:
@@ -25,16 +49,3 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-
-    # --- LA CLAVE ESTÁ AQUÍ ---
-    # Le decimos al chart que monte nuestro ConfigMap existente
-    # en la ruta de configuración de la aplicación.
-    volumes:
-      - name: config
-        configMap:
-          name: homepage-config # El nombre de tu ConfigMap
-
-    volumeMounts:
-      - name: config
-        mountPath: /app/config
-        readOnly: true # El chart lo maneja como solo lectura
