@@ -28,12 +28,15 @@ spec:
             - path: /
               pathType: Prefix
 
-    # Le decimos al pod que cargue las variables de entorno desde nuestro secreto
     extraEnvFrom:
       - secretRef:
           name: readeck-db-secret
 
+    # --- ESTRUCTURA CORREGIDA PARA LA PERSISTENCIA ---
+    # La configuración ahora está anidada bajo la llave 'data'
     persistence:
-      enabled: true
-      storageClass: "local-path"
-      size: 5Gi
+      data:
+        enabled: true
+        storageClass: "local-path"
+        size: 5Gi
+        accessMode: ReadWriteOnce
