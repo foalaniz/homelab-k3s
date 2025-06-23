@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: default
+data:
+  settings.yaml: |
+    title: Mi Homelab
+    header: Bienvenido a mi clúster K3s
+    favicon: https://github.com/walkxcode/dashboard-icons/blob/main/png/heimdall.png
+    theme: dark
+    color: slate
+    headerStyle: clean
+    hideVersion: true
+    providers:
+      openweathermap: openweathermapapikey
+      weatherapi: weatherapiapikey
+
+  services.yaml: |
+    - "Administración":
+        - "Traefik Dashboard":
+            icon: traefik.png
+            href: "http://192.168.254.131:8080/dashboard/"
+            description: "Reverse Proxy & Load Balancer"
+            ping: "http://192.168.254.131:8080"
+        - "Grafana":
+            icon: grafana.png
+            href: "http://grafana.homelab.local"
+            description: "Monitoring & Dashboards"
+            ping: "http://grafana.homelab.local"
+
+    - "Aplicaciones":
+        - "Commafeed":
+            icon: rss.png
+            href: "http://commafeed.homelab.local"
+            description: "RSS Feed Reader"
+            ping: "http://commafeed.homelab.local"
+        - "Readeck":
+            icon: readeck.png
+            href: "http://readeck.homelab.local"
+            description: "Read Later App"
+            ping: "http://readeck.homelab.local"
+
+    - "Base de Datos":
+        - "pgAdmin":
+            icon: postgresql.png
+            href: "http://pgadmin.homelab.local"
+            description: "PostgreSQL Administration"
+            ping: "http://pgadmin.homelab.local"
+
+  widgets.yaml: |
+    - search:
+        provider: duckduckgo
+        target: _blank
+    - datetime:
+        text_size: xl
+        format:
+          timeStyle: short
+          dateStyle: short
+          hourCycle: h23
+    - openmeteo:
+        label: Mexico City
+        latitude: 19.4326
+        longitude: -99.1332
+        timezone: America/Mexico_City
+        units: metric
+        cache: 5
+
+  bookmarks.yaml: |
+    - "DevOps":
+        - "Kubernetes":
+            - abbr: K8s
+              href: "https://kubernetes.io/docs/"
+        - "Flux":
+            - abbr: FLX
+              href: "https://fluxcd.io/docs/"
+        - "Traefik":
+            - abbr: TFK
+              href: "https://doc.traefik.io/traefik/"
+
+  docker.yaml: ""
+  kubernetes.yaml: ""
+
+---

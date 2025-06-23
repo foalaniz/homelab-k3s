@@ -15,9 +15,9 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: homepage-service
+            name: homepage
             port:
-              number: 80
+              number: 3000
   - host: pgadmin.homelab.local
     http:
       paths:
@@ -38,3 +38,13 @@ spec:
             name: commafeed-service
             port:
               number: 8082
+  - host: readeck.homelab.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: readeck
+            port:
+              number: 8000
