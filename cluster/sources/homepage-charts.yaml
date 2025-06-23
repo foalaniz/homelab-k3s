@@ -2,8 +2,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: homepage-charts
+  name: homepage-charts # Este nombre debe coincidir con el de tu HelmRelease
   namespace: flux-system
 spec:
   interval: 1h
-  url: https://jameswynn.github.io/helm-charts
+  url: https://jameswynn.github.io/helm-charts # URL del repositorio oficial del chart
