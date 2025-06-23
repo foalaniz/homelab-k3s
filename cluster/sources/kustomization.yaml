@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - prometheus-community.yaml
   - traefik-charts.yaml
-  - k8s-home-lab-charts.yaml
