@@ -5,36 +5,37 @@ resources:
   # Mantenemos el PodMonitor que ya habíamos creado
   - pod-monitor.yaml
 
-# Generador de ConfigMaps usando las URLs correctas del repositorio flux2-monitoring-example
+# Generador de ConfigMaps
 configMapGenerator:
-  - name: flux-cluster-dashboard
-    namespace: flux-system
-    options:
-      labels:
-        grafana_dashboard: "1"
-    files:
-      - flux-cluster.json=https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
-  - name: flux-control-plane-dashboard
-    namespace: flux-system
-    options:
-      labels:
-        grafana_dashboard: "1"
-    files:
-      - flux-control-plane.json=https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/control-plane.json
+  # --- DASHBOARDS DE FLUX (AHORA COMENTADOS) ---
+  # - name: flux-cluster-dashboard
+  #   namespace: flux-system
+  #   options:
+  #     labels:
+  #       grafana_dashboard: "1"
+  #   files:
+  #     - flux-cluster.json=https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
+  # - name: flux-control-plane-dashboard
+  #   namespace: flux-system
+  #   options:
+  #     labels:
+  #       grafana_dashboard: "1"
+  #   files:
+  #     - flux-control-plane.json=https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/control-plane.json
 
-# Alternativa usando dashboards de Grafana Labs (recomendados)
-# Estos dashboards están más actualizados y mantenidos por la comunidad:
-# - name: flux-cluster-stats-dashboard
-#   namespace: flux-system
-#   options:
-#     labels:
-#       grafana_dashboard: "1"
-#   files:
-#     - flux-cluster-stats.json=https://grafana.com/api/dashboards/14936/revisions/latest/download
-# - name: flux2-dashboard
-#   namespace: flux-system
-#   options:
-#     labels:
-#       grafana_dashboard: "1"
-#   files:
-#     - flux2.json=https://grafana.com/api/dashboards/16714/revisions/latest/download
+  # --- DASHBOARDS DE GRAFANA LABS (AHORA ACTIVOS) ---
+  # Estos dashboards están más actualizados y mantenidos por la comunidad:
+  - name: flux-cluster-stats-dashboard
+    namespace: flux-system
+    options:
+      labels:
+        grafana_dashboard: "1"
+    files:
+      - flux-cluster-stats.json=https://grafana.com/api/dashboards/14936/revisions/latest/download
+  - name: flux2-dashboard
+    namespace: flux-system
+    options:
+      labels:
+        grafana_dashboard: "1"
+    files:
+      - flux2.json=https://grafana.com/api/dashboards/16714/revisions/latest/download
