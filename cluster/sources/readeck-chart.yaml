@@ -6,4 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  url: https://codeberg.org/readeck/readeck
+  # ESTA ES LA URL CORRECTA PARA EL HELM CHART
+  url: https://zekker6.github.io/readeck-helm-chart

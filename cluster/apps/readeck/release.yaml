@@ -19,41 +19,29 @@ spec:
       repository: zekker6/readeck
       tag: "v0.1.0-alpha.12"
 
-    # Try alternative ingress structure for common chart library
+    # Estructura de Ingress corregida (sin 'main')
     ingress:
-      main:
-        enabled: true
-        className: traefik
-        hosts:
-          - host: "readeck.homelab.local"
-            paths:
-              - path: /
-                pathType: Prefix
-
-    # Alternative networking structure if above doesn't work
-    # networking:
-    #   ingress:
-    #     enabled: true
-    #     className: traefik
-    #     hosts:
-    #       - host: "readeck.homelab.local"
-    #         paths:
-    #           - path: /
-    #             pathType: Prefix
-
+      enabled: true
+      className: traefik
+      hosts:
+        - host: "readeck.homelab.local"
+          paths:
+            - path: /
+              pathType: Prefix
+    
+    # Carga las variables de entorno desde el secreto
     extraEnvFrom:
       - secretRef:
           name: readeck-db-secret
 
-    # Persistence configuration
+    # Estructura de Persistencia corregida (sin 'data')
     persistence:
-      data:
-        enabled: true
-        storageClass: "local-path"
-        size: 5Gi
-        accessMode: ReadWriteOnce
+      enabled: true
+      storageClass: "local-path"
+      size: 5Gi
+      accessMode: ReadWriteOnce
 
-    # Optional: Add resource limits for homelab
+    # Límites de recursos (esto está perfecto)
     resources:
       requests:
         memory: "64Mi"
