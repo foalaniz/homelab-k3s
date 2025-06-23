@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: readeck
-      version: "0.1.0"
+      # Eliminamos la versión para que use la más reciente y evitar errores
       sourceRef:
         kind: HelmRepository
         name: readeck-chart
@@ -19,23 +19,24 @@ spec:
       repository: zekker6/readeck
       tag: "v0.1.0-alpha.12"
 
+    # --- ESTRUCTURA CORREGIDA PARA EL INGRESS ---
     ingress:
-      enabled: true
-      className: traefik
-      hosts:
-        - host: "readeck.homelab.local"
-          paths:
-            - path: /
-              pathType: Prefix
+      main: # La configuración ahora está bajo la llave 'main'
+        enabled: true
+        className: traefik
+        hosts:
+          - host: "readeck.homelab.local"
+            paths:
+              - path: /
+                pathType: Prefix
 
     extraEnvFrom:
       - secretRef:
           name: readeck-db-secret
 
     # --- ESTRUCTURA CORREGIDA PARA LA PERSISTENCIA ---
-    # La configuración ahora está anidada bajo la llave 'data'
     persistence:
-      data:
+      data: # La configuración ahora está bajo la llave 'data'
         enabled: true
         storageClass: "local-path"
         size: 5Gi
