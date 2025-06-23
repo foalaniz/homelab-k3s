@@ -7,5 +7,4 @@ resources:
  - ./commafeed
  - ./monitoring
  - ./traefik
- - ./wallabag
  - ingress.yaml
