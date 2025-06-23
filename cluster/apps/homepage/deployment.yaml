@@ -1,4 +1,4 @@
-# FILE: homelab-k3s/cluster/apps/homepage/deployment.yaml
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,12 +26,17 @@ spec:
           ports:
             - containerPort: 3000
               name: http
+          # La variable de hosts permitidos que ya corregimos
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
-              value: "homepage.homelab.local,homepage.homelab.local:30080,192.168.254.131,192.168.254.131:30081" # Keep this correct!
+              value: "homepage.homelab.local,192.168.254.131"
           volumeMounts:
             - name: homepage-config-volume
               mountPath: /app/config
+
+      # --- CORRECCIÓN IMPORTANTE AQUÍ ---
       volumes:
         - name: homepage-config-volume
-          emptyDir: {}
+          # Le decimos que el volumen debe usar nuestro ConfigMap
+          configMap:
+            name: homepage-config # El nombre de tu ConfigMap
