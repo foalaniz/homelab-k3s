@@ -8,11 +8,11 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: wallabag
-      version: "6.6.2" # Usamos una versión específica de este chart
+      chart: wallabag # Mantenemos el nombre
+      # Eliminamos la versión para que Flux use la más reciente
       sourceRef:
         kind: HelmRepository
-        name: k8s-home-lab # Apuntamos al nuevo repositorio
+        name: k8s-home-lab
         namespace: flux-system
   values:
     image:
