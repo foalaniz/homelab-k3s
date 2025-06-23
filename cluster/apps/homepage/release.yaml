@@ -9,30 +9,50 @@ spec:
   chart:
     spec:
       chart: homepage
-      version: "1.1.1"
+      version: "1.1.1" # Versión del chart
       sourceRef:
         kind: HelmRepository
         name: homepage-charts
         namespace: flux-system
   values:
-    # Configuración del Ingress
+    # Imagen que especificaste
+    image:
+      repository: ghcr.io/gethomepage/homepage
+      tag: "v0.10.9"
+
+    # Le decimos al chart que use el ConfigMap y el Secret que creamos
+    config:
+      # El chart montará el Secret 'homepage-config' en /app/config
+      existingSecret: homepage-config
+
+    # Inyectamos las variables de entorno desde nuestro ConfigMap
+    envFrom:
+      - configMapRef:
+          name: homepage-env-configmap
+
+    # Configuramos el Ingress
     ingress:
       main:
         enabled: true
         ingressClassName: traefik
         hosts:
-          - host: homepage.homelab.local
+          - host: "homepage.homelab.local"
             paths:
               - path: /
                 pathType: Prefix
 
-    # Le decimos al chart que monte nuestro ConfigMap como un volumen
-    extraVolumes:
-      - name: homepage-config
-        configMap:
-          name: homepage-config
+    # Contexto de seguridad para el pod
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
 
-    extraVolumeMounts:
-      - name: homepage-config
-        mountPath: /app/config
-        readOnly: true
+    # Contexto de seguridad para el contenedor
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      seccompProfile:
+        type: "RuntimeDefault"
+      capabilities:
+        drop:
+          - ALL
