@@ -14,12 +14,21 @@ data:
       saturate: 50
       brightness: 50
       opacity: 30
+    layout:
+      - "Administración del Clúster":
+          style: row
+          columns: 3
+      - "Bases de Datos":
+          style: row
+          columns: 2
+      - "Aplicaciones":
+          style: row
+          columns: 2
       
   services.yaml: |
     - "Administración del Clúster":
         - "Traefik":
             icon: traefik
-            # Recuerda reemplazar con la IP de tu VM
             href: "http://192.168.254.131:8080/dashboard/"
             description: "Dashboard del Ingress Controller"
 
@@ -49,3 +58,23 @@ data:
             icon: book-open-page-variant
             href: "http://readeck.homelab.local"
             description: "Lector de artículos guardados"
+
+  widgets.yaml: |
+    # Optional: Add some basic widgets
+    - search:
+        provider: duckduckgo
+        target: _blank
+
+  bookmarks.yaml: |
+    # Optional: Add bookmarks
+    - Developer:
+        - Github:
+            - abbr: GH
+              href: https://github.com/
+
+  docker.yaml: |
+    # Empty docker config since we're running in Kubernetes
+    
+  kubernetes.yaml: |
+    # Optional: Configure Kubernetes integration
+    mode: cluster

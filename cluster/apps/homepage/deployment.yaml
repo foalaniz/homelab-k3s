@@ -1,20 +1,38 @@
+# Test with minimal configuration first
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config-minimal
+  namespace: default
+data:
+  settings.yaml: |
+    title: Test Homepage
+    
+  services.yaml: |
+    - "Test Group":
+        - "Test Service":
+            icon: mdi-test-tube
+            href: "http://example.com"
+            description: "Test service"
+
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: homepage-deployment
+  name: homepage-test
   namespace: default
   labels:
-    app: homepage
+    app: homepage-test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: homepage
+      app: homepage-test
   template:
     metadata:
       labels:
-        app: homepage
+        app: homepage-test
     spec:
       securityContext:
         runAsUser: 1000
@@ -27,16 +45,29 @@ spec:
             - containerPort: 3000
               name: http
           env:
-            - name: HOMEPAGE_ALLOWED_HOSTS
-              value: "homepage.homelab.local,192.168.254.131"
+            - name: LOG_LEVEL
+              value: "debug"
           volumeMounts:
-            - name: homepage-config-volume
+            - name: config
               mountPath: /app/config
-
-      # --- LA CORRECCIÓN ESTÁ AQUÍ ---
-      # Le decimos que el volumen 'homepage-config-volume'
-      # debe usar los datos del ConfigMap 'homepage-config'.
       volumes:
-        - name: homepage-config-volume
+        - name: config
           configMap:
-            name: homepage-config
+            name: homepage-config-minimal
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homepage-test-service
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    app: homepage-test
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+      nodePort: 30082
+      name: http
