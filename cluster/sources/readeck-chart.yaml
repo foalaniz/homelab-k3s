@@ -6,4 +6,4 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  url: https://zekker6.github.io/readeck-helm-chart
+  url: https://zekker6.github.io/helm-charts
