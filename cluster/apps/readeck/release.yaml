@@ -1,0 +1,39 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: readeck
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: readeck
+      version: "0.1.0"
+      sourceRef:
+        kind: HelmRepository
+        name: readeck-chart
+        namespace: flux-system
+  values:
+    image:
+      repository: zekker6/readeck
+      tag: "v0.1.0-alpha.12"
+
+    ingress:
+      enabled: true
+      className: traefik
+      hosts:
+        - host: "readeck.homelab.local"
+          paths:
+            - path: /
+              pathType: Prefix
+
+    # Le decimos al pod que cargue las variables de entorno desde nuestro secreto
+    extraEnvFrom:
+      - secretRef:
+          name: readeck-db-secret
+
+    persistence:
+      enabled: true
+      storageClass: "local-path"
+      size: 5Gi

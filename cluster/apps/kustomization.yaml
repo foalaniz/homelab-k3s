@@ -7,4 +7,5 @@ resources:
  - ./commafeed
  - ./monitoring
  - ./traefik
+ - ./readeck
  - ingress.yaml
