@@ -15,11 +15,16 @@ spec:
         name: readeck-chart
         namespace: flux-system
   values:
-    image:
-      repository: zekker6/readeck
-      tag: "v0.1.0-alpha.12"
+    # Usamos 'env' para inyectar directamente la variable que la app espera
+    env:
+      # El nombre de la variable que Readeck usa
+      - name: READECK_DATABASE_URL
+        # Obtenemos el valor completo desde el secreto que ya creamos
+        valueFrom:
+          secretKeyRef:
+            name: readeck-db-secret
+            key: READECK_DATABASE_URL
 
-    # Estructura de Ingress corregida (sin 'main')
     ingress:
       enabled: true
       className: traefik
@@ -29,23 +34,8 @@ spec:
             - path: /
               pathType: Prefix
     
-    # Carga las variables de entorno desde el secreto
-    extraEnvFrom:
-      - secretRef:
-          name: readeck-db-secret
-
-    # Estructura de Persistencia corregida (sin 'data')
     persistence:
       enabled: true
       storageClass: "local-path"
       size: 5Gi
       accessMode: ReadWriteOnce
-
-    # Límites de recursos (esto está perfecto)
-    resources:
-      requests:
-        memory: "64Mi"
-        cpu: "50m"
-      limits:
-        memory: "256Mi"
-        cpu: "200m"
