@@ -5,14 +5,47 @@ metadata:
   name: homepage-config
   namespace: default
 data:
-  # settings.yaml con lo mínimo indispensable
   settings.yaml: |
     title: Mi Homelab
-
-  # services.yaml con un solo grupo y un solo servicio de prueba
+    header: Bienvenid@ a mi clúster de k3s
+    background:
+      image: https://images.unsplash.com/photo-1506260408121-e353d10b87c7
+      blur: sm
+      saturate: 50
+      brightness: 50
+      opacity: 30
+      
   services.yaml: |
-    - "Grupo de Prueba":
-        - "Documentación de Homepage":
+    - "Administración del Clúster":
+        - "Traefik":
+            icon: traefik
+            # Recuerda reemplazar con la IP de tu VM
+            href: "http://192.168.254.131:8080/dashboard/"
+            description: "Dashboard del Ingress Controller"
+
+        - "Grafana":
+            icon: grafana
+            href: "http://grafana.homelab.local"
+            description: "Dashboards de Monitoreo"
+
+        - "Repositorio (Flux)":
+            icon: github
+            href: "https://github.com/foalaniz/homelab-k3s"
+            description: "Código fuente de la configuración"
+
+    - "Bases de Datos":
+        - "pgAdmin 4":
+            icon: postgresql
+            href: "http://pgadmin.homelab.local"
+            description: "Interfaz para PostgreSQL"
+
+    - "Aplicaciones":
+        - "CommaFeed":
+            icon: rss
+            href: "http://commafeed.homelab.local"
+            description: "Lector de feeds RSS"
+            
+        - "Readeck":
             icon: book-open-page-variant
-            href: "https://gethomepage.dev/"
-            description: "Sitio oficial"
+            href: "http://readeck.homelab.local"
+            description: "Lector de artículos guardados"
