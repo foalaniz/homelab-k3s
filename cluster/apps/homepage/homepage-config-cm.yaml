@@ -1,11 +1,9 @@
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: homepage-config
   namespace: default
 data:
-  # --- Configuración General de la Página ---
   settings.yaml: |
     title: Mi Homelab
     header: Bienvenid@ a mi clúster de k3s
@@ -16,14 +14,13 @@ data:
       brightness: 50
       opacity: 30
 
-  # --- Lista de todos tus servicios ---
   services.yaml: |
     - "Administración del Clúster":
         - "Traefik":
             icon: traefik
             href: "http://192.168.254.131:8080/dashboard/"
             description: "Dashboard del Ingress Controller"
-
+        
         - "Grafana":
             icon: grafana
             href: "http://grafana.homelab.local"
@@ -40,7 +37,7 @@ data:
             icon: rss
             href: "http://commafeed.homelab.local"
             description: "Lector de feeds RSS"
-
+        
         - "Readeck":
             icon: book-open-page-variant
             href: "http://readeck.homelab.local"
