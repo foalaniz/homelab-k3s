@@ -5,6 +5,7 @@ metadata:
   name: homepage-config
   namespace: default
 data:
+  # --- Configuración General de la Página ---
   settings.yaml: |
     title: Mi Homelab
     header: Bienvenid@ a mi clúster de k3s
@@ -14,22 +15,13 @@ data:
       saturate: 50
       brightness: 50
       opacity: 30
-    base: http://192.168.254.131:30081
-    layout:
-      - "Administración del Clúster":
-          style: row
-          columns: 3
-      - "Bases de Datos":
-          style: row
-          columns: 2
-      - "Aplicaciones":
-          style: row
-          columns: 2
-      
+
+  # --- Lista de todos tus servicios ---
   services.yaml: |
     - "Administración del Clúster":
         - "Traefik":
             icon: traefik
+            # Reemplaza con la IP de tu VM y el puerto del dashboard de Traefik
             href: "http://192.168.254.131:8080/dashboard/"
             description: "Dashboard del Ingress Controller"
 
@@ -37,11 +29,6 @@ data:
             icon: grafana
             href: "http://grafana.homelab.local"
             description: "Dashboards de Monitoreo"
-
-        - "Repositorio (Flux)":
-            icon: github
-            href: "https://github.com/foalaniz/homelab-k3s"
-            description: "Código fuente de la configuración"
 
     - "Bases de Datos":
         - "pgAdmin 4":
@@ -54,26 +41,8 @@ data:
             icon: rss
             href: "http://commafeed.homelab.local"
             description: "Lector de feeds RSS"
-            
+
         - "Readeck":
             icon: book-open-page-variant
             href: "http://readeck.homelab.local"
             description: "Lector de artículos guardados"
-
-  widgets.yaml: |
-    - search:
-        provider: duckduckgo
-        target: _blank
-
-  bookmarks.yaml: |
-    - Developer:
-        - Github:
-            - abbr: GH
-              href: https://github.com/
-
-  docker.yaml: |
-    # Empty docker config since we're running in Kubernetes
-    
-  kubernetes.yaml: |
-    # Kubernetes integration config
-    mode: cluster
