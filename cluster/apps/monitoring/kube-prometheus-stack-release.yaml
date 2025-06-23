@@ -21,8 +21,8 @@ spec:
   upgrade:
     remediation:
       retries: 3
-  # Mantenemos los values simples, sin configuración de BD aquí
   values:
+    # Esta sección la dejamos como estaba
     grafana:
       enabled: true
       admin:
@@ -36,14 +36,32 @@ spec:
         enabled: true
         storageClassName: "local-path"
 
-  # --- LA SOLUCIÓN DEFINITIVA: POST-RENDERERS ---
+    # --- SECCIÓN A MODIFICAR ---
+    prometheus:
+      enabled: true
+      prometheusSpec:
+        # Le dice a Prometheus que busque PodMonitors en todos los namespaces
+        podMonitorNamespaceSelector: {}
+        podMonitorSelector:
+          matchLabels: {}
+        # Mantenemos la configuración de persistencia que ya tenías
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 10Gi
+              storageClassName: local-path
+
+  # La sección postRenderers la dejamos como estaba para Grafana
   postRenderers:
     - kustomize:
         patches:
           - target:
               kind: Deployment
               name: kube-prometheus-stack-grafana
-            # Este parche inyecta las variables de entorno directamente en el Deployment
             patch: |-
               apiVersion: apps/v1
               kind: Deployment
