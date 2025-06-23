@@ -21,7 +21,6 @@ data:
     - "Administración del Clúster":
         - "Traefik":
             icon: traefik
-            # Reemplaza con la IP de tu VM y el puerto del dashboard de Traefik
             href: "http://192.168.254.131:8080/dashboard/"
             description: "Dashboard del Ingress Controller"
 
