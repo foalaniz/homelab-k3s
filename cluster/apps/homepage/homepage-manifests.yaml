@@ -110,6 +110,8 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /app/config
+        - name: homepage-logs # <--- AÑADE ESTE MONTAJE
+          mountPath: /app/config/logs
         resources:
           requests:
             memory: 128Mi
@@ -121,6 +123,8 @@ spec:
       - name: config
         configMap:
           name: homepage-config
+      - name: homepage-logs # <--- AÑADE ESTE VOLUMEN
+        emptyDir: {}
 
 ---
 apiVersion: v1
