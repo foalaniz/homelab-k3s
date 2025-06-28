@@ -29,7 +29,7 @@ data:
 
     - "Aplicaciones":
         - "Commafeed":
-            icon: rss.png
+            icon: https://cdn-icons-png.flaticon.com/512/252/252035.png
             href: "http://commafeed.homelab.local"
             description: "RSS Feed Reader"
 
