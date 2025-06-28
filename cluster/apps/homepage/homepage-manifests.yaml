@@ -20,12 +20,12 @@ data:
             icon: traefik.png
             href: "http://192.168.254.131:8080/dashboard/"
             description: "Reverse Proxy & Load Balancer"
-            ping: "http://traefik.traefik-system.svc.cluster.local:9000/ping"
+         
         - "Grafana":
             icon: grafana.png
             href: "http://grafana.homelab.local"
             description: "Monitoring & Dashboards"
-            ping: "http://grafana.homelab.local"
+         
 
     - "Aplicaciones":
         - "Commafeed":
@@ -37,14 +37,14 @@ data:
             icon: readeck.png
             href: "http://readeck.homelab.local"
             description: "Read Later App"
-            ping: "http://readeck.homelab.local"
+         
 
     - "Base de Datos":
         - "pgAdmin":
             icon: postgresql.png
             href: "http://pgadmin.homelab.local"
             description: "PostgreSQL Administration"
-            ping: "http://pgadmin-service.default.svc.cluster.local:80"
+         
 
   widgets.yaml: |
     - search:
