@@ -44,7 +44,7 @@ data:
             icon: postgresql.png
             href: "http://pgadmin.homelab.local"
             description: "PostgreSQL Administration"
-            ping: "http://pgadmin.homelab.local"
+            ping: "http://pgadmin-service.default.svc.cluster.local:80"
 
   widgets.yaml: |
     - search:
