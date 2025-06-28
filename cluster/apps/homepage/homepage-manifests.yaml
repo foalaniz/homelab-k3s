@@ -32,7 +32,7 @@ data:
             icon: rss.png
             href: "http://commafeed.homelab.local"
             description: "RSS Feed Reader"
-            ping: "http://commafeed.homelab.local"
+
         - "Readeck":
             icon: readeck.png
             href: "http://readeck.homelab.local"
