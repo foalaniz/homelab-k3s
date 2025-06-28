@@ -29,7 +29,7 @@ data:
 
     - "Aplicaciones":
         - "Commafeed":
-            icon: "https://github.com/homarr-labs/dashboard-icons/blob/main/svg/commafeed.svg"
+            icon: commafeed.svg
             href: "http://commafeed.homelab.local"
             description: "RSS Feed Reader"
 
