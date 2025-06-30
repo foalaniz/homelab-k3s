@@ -17,6 +17,6 @@ spec:
     protocol: TCP
   - name: http
     port: 8080 # Changed from 3000 to 8080 to avoid conflict with homepage
-    targetPort: 3000 # Container still uses 3000 internally
+    targetPort: 80 # Container still uses 3000 internally
     protocol: TCP
   type: ClusterIP

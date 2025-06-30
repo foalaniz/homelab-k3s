@@ -26,7 +26,7 @@ spec:
       # Permite la conexión a los puertos del pod de AdGuard
       ports:
         - protocol: TCP
-          port: 3000 # El puerto del contenedor (targetPort)
+          port: 80 # El puerto del contenedor (targetPort)
         - protocol: TCP
           port: 53
         - protocol: UDP

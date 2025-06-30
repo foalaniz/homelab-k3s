@@ -23,7 +23,7 @@ spec:
         - containerPort: 53
           name: dns-tcp
           protocol: TCP
-        - containerPort: 3000
+        - containerPort: 80
           name: http
         volumeMounts:
         - name: adguard-config
