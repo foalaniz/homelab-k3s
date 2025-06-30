@@ -26,14 +26,9 @@ spec:
         - containerPort: 3000 # El puerto interno de la UI
           name: http
         volumeMounts:
-        - name: work-volume
-          mountPath: /opt/adguardhome/work
-        - name: conf-volume
+        - name: adguard-config
           mountPath: /opt/adguardhome/conf
       volumes:
-      - name: work-volume
-        persistentVolumeClaim:
-          claimName: adguard-config-pvc
-      - name: conf-volume
+      - name: adguard-config
         persistentVolumeClaim:
           claimName: adguard-config-pvc
