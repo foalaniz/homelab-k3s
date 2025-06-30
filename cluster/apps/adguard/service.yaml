@@ -17,6 +17,6 @@ spec:
     protocol: TCP
   - name: http
     port: 8081 # Usamos el puerto 8080 para la interfaz web para no chocar con Traefik
-    targetPort: 80
+    targetPort: 3000
     protocol: TCP
   type: LoadBalancer # Importante para que obtenga la IP del Host
