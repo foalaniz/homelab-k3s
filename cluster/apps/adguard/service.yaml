@@ -19,4 +19,4 @@ spec:
     port: 8083 # Usamos el puerto 8080 para la interfaz web para no chocar con Traefik
     targetPort: 3000
     protocol: TCP
-  type: LoadBalancer # Importante para que obtenga la IP del Host
+  type: ClusterIP # Importante para que obtenga la IP del Host
