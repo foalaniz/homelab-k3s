@@ -23,22 +23,17 @@ spec:
         - containerPort: 53
           name: dns-tcp
           protocol: TCP
-        - containerPort: 80  # ✅ Cambiado de 3000 a 80
+        - containerPort: 3000
           name: http
         volumeMounts:
         - name: adguard-config
           mountPath: /opt/adguardhome/conf
+        - name: adguard-work
+          mountPath: /opt/adguardhome/work
       volumes:
       - name: adguard-config
         persistentVolumeClaim:
           claimName: adguard-config-pvc
-  - host: adguard.homelab.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: adguard-service
-            port:
-              number: 80  # ✅ Cambiado a puerto 80
+      - name: adguard-work
+        persistentVolumeClaim:
+          claimName: adguard-work-pvc
