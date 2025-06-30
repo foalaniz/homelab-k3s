@@ -18,9 +18,11 @@ spec:
         image: adguard/adguardhome:latest
         ports:
         - containerPort: 53
+          hotstPort: 53
           name: dns-udp
           protocol: UDP
         - containerPort: 53
+          hotstPort: 53
           name: dns-tcp
           protocol: TCP
         - containerPort: 80
