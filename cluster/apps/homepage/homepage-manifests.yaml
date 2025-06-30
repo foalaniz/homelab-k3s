@@ -43,6 +43,11 @@ data:
         - "pgAdmin":
             icon: postgresql.png
             href: "http://pgadmin.homelab.local"
+
+    - "Red":
+        - "AdGuard Home":
+            icon: adguard-home.svg
+            href: "http://adguard.homelab.local"
        
          
 
