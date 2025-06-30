@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: adguard-service
+  namespace: default
+spec:
+  selector:
+    app: adguard
+  ports:
+  - name: dns-udp
+    port: 53
+    targetPort: 53
+    protocol: UDP
+  - name: dns-tcp
+    port: 53
+    targetPort: 53
+    protocol: TCP
+  - name: http
+    port: 8080 # Usamos el puerto 8080 para la interfaz web para no chocar con Traefik
+    targetPort: 80
+    protocol: TCP
+  type: LoadBalancer # Importante para que obtenga la IP del Host

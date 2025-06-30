@@ -9,4 +9,5 @@ resources:
  - ./traefik
  - ./readeck
  - ./flux-system-monitoring 
+ - ./adguard
  - ingress.yaml

@@ -19,31 +19,31 @@ data:
         - "Traefik Dashboard":
             icon: traefik.png
             href: "http://192.168.254.131:8080/dashboard/"
-            description: "Reverse Proxy & Load Balancer"
+          
          
         - "Grafana":
             icon: grafana.png
             href: "http://grafana.homelab.local"
-            description: "Monitoring & Dashboards"
+
          
 
     - "Aplicaciones":
         - "Commafeed":
             icon: commafeed.svg
             href: "http://commafeed.homelab.local"
-            description: "RSS Feed Reader"
+        
 
         - "Readeck":
             icon: readeck.png
             href: "http://readeck.homelab.local"
-            description: "Read Later App"
+       
          
 
     - "Base de Datos":
         - "pgAdmin":
             icon: postgresql.png
             href: "http://pgadmin.homelab.local"
-            description: "PostgreSQL Administration"
+       
          
 
   widgets.yaml: |
