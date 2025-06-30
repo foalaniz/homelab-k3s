@@ -6,3 +6,4 @@ resources:
   - ingress.yaml
   - pvc.yaml
   - dns-service.yaml
+  - adguard-netpol.yaml

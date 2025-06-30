@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-traefik-to-adguard
+  namespace: default
+spec:
+  # Aplica esta política a los pods con la etiqueta app=adguard
+  podSelector:
+    matchLabels:
+      app: adguard
+  # Aplica la política para el tráfico de entrada (Ingress)
+  policyTypes:
+    - Ingress
+  # Reglas de entrada
+  ingress:
+    # Permite el tráfico desde los pods en el namespace 'traefik-system'
+    # que tengan la etiqueta app.kubernetes.io/name=traefik
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: traefik-system
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+      # Permite la conexión a los puertos del pod de AdGuard
+      ports:
+        - protocol: TCP
+          port: 3000 # El puerto del contenedor (targetPort)
+        - protocol: TCP
+          port: 53
+        - protocol: UDP
+          port: 53
