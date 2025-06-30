@@ -47,4 +47,4 @@ spec:
           service:
             name: adguard-service
             port:
-              number: http
+              number: 3000
