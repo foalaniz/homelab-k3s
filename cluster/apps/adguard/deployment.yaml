@@ -23,7 +23,7 @@ spec:
         - containerPort: 53
           name: dns-tcp
           protocol: TCP
-        - containerPort: 3000
+        - containerPort: 3000 # El puerto interno de la UI
           name: http
         volumeMounts:
         - name: work-volume
