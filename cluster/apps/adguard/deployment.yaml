@@ -23,7 +23,7 @@ spec:
         - containerPort: 53
           name: dns-tcp
           protocol: TCP
-        - containerPort: 3000 # El puerto interno de la UI
+        - containerPort: 80  # ✅ Cambiado de 3000 a 80
           name: http
         volumeMounts:
         - name: adguard-config
@@ -32,3 +32,13 @@ spec:
       - name: adguard-config
         persistentVolumeClaim:
           claimName: adguard-config-pvc
+  - host: adguard.homelab.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: adguard-service
+            port:
+              number: 80  # ✅ Cambiado a puerto 80
