@@ -47,4 +47,4 @@ spec:
           service:
             name: adguard-service
             port:
-              number: 8083
+              number: http
