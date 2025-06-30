@@ -23,5 +23,17 @@ spec:
         - containerPort: 53
           name: dns-tcp
           protocol: TCP
-        - containerPort: 80
+        - containerPort: 3000
           name: http
+        volumeMounts:
+        - name: work-volume
+          mountPath: /opt/adguardhome/work
+        - name: conf-volume
+          mountPath: /opt/adguardhome/conf
+      volumes:
+      - name: work-volume
+        persistentVolumeClaim:
+          claimName: adguard-config-pvc
+      - name: conf-volume
+        persistentVolumeClaim:
+          claimName: adguard-config-pvc
