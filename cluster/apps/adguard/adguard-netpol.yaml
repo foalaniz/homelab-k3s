@@ -11,6 +11,7 @@ spec:
   # Aplica la política para el tráfico de entrada (Ingress)
   policyTypes:
     - Ingress
+    - Egress
   # Reglas de entrada
   ingress:
     # Permite el tráfico desde los pods en el namespace 'traefik-system'
