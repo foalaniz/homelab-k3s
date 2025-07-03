@@ -19,8 +19,7 @@ spec:
     providers:
       kubernetesIngress:
         enabled: true
-    additionalArguments:
-      - "--entrypoints.web.http.services.default-service=default/homepage@kubernetescrd"
+
 
     # Crear los permisos RBAC necesarios automáticamente
     rbac:
