@@ -22,7 +22,7 @@ spec:
     additionalArguments:
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-      - "--entrypoints.websecure.http.services.default-service=default-homepage-service@kubernetescrd"
+      - "--entrypoints.web.http.services.default-service=default/homepage@kubernetescrd"
 
     # Crear los permisos RBAC necesarios automáticamente
     rbac:
