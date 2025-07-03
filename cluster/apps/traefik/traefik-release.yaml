@@ -20,8 +20,6 @@ spec:
       kubernetesIngress:
         enabled: true
     additionalArguments:
-      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.web.http.services.default-service=default/homepage@kubernetescrd"
 
     # Crear los permisos RBAC necesarios automáticamente
