@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: default-http-route
+  namespace: default # Asegúrate de que este es el namespace de Homepage
+spec:
+  entryPoints:
+    - web # Esto aplica la regla al tráfico HTTP en el puerto 80
+  routes:
+    # Esta regla coincide con CUALQUIER tráfico sin un Host específico
+    - match: PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: homepage # Este es el nombre de tu servicio de Homepage
+          port: 3000  # Este es el puerto del servicio de Homepage
