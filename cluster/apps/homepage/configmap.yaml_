@@ -22,7 +22,7 @@ data:
             icon: traefik.png
             href: "http://192.168.1.76:8080/dashboard/"
             description: "Reverse Proxy & Load Balancer"
-            ping: "http://192.168.254.131:8080"
+            ping: "http://192.168.1.76:8080"
         - "Grafana":
             icon: grafana.png
             href: "http://grafana.homelab.local"
