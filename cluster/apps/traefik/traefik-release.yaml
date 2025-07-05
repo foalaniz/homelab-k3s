@@ -35,9 +35,9 @@ spec:
       # El puerto 'web' es para el tráfico de tus aplicaciones
       web:
         port: 8000
-        hostPort: 80 # Conecta el contenedor al puerto 80 de la VM
+        #hostPort: 80 # Conecta el contenedor al puerto 80 de la VM
 
       # El puerto 'traefik' es para el API y el dashboard
       traefik:
         port: 9000
-        hostPort: 8080 # Conecta el contenedor al puerto 8080 de la VM
+        #hostPort: 8080 # Conecta el contenedor al puerto 8080 de la VM
