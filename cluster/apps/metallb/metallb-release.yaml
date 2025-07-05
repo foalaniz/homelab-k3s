@@ -1,0 +1,23 @@
+# cluster/apps/metallb/metallb-release.yaml
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: metallb
+  namespace: metallb-system
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: metallb
+      version: "0.14.8" # Puedes usar una versión más reciente si lo deseas
+      sourceRef:
+        kind: HelmRepository
+        name: metallb
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3

@@ -8,7 +8,9 @@ resources:
  - ./monitoring
  - ./traefik
  - ./readeck
- #- ./flux-system-monitoring 
  - ./adguard
+ - ./metallb
  - ingress.yaml
  - flux-monitoring-kustomization.yaml
+#- ./flux-system-monitoring 
+

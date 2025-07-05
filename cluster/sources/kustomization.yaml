@@ -4,4 +4,5 @@ resources:
   - prometheus-community.yaml
   - traefik-charts.yaml
   - readeck-chart.yaml
+  - metallb-helm-repo.yaml
   #- homepage-chart.yaml
