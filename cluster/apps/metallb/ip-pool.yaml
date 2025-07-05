@@ -1,0 +1,18 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: primary-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    # IMPORTANTE: Ajusta este rango a tu red local
+    - "192.168.1.54-192.168.1.64"
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: default
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - primary-pool
