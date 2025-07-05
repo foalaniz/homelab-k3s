@@ -35,9 +35,13 @@ spec:
       # El puerto 'web' es para el tráfico de tus aplicaciones
       web:
         port: 8000
+        expose: true # Le dice a Klipper que exponga este puerto
+        exposedPort: 80 # El puerto que usarás desde el exterior
         #hostPort: 80 # Conecta el contenedor al puerto 80 de la VM
 
       # El puerto 'traefik' es para el API y el dashboard
       traefik:
         port: 9000
+        expose: true # Le dice a Klipper que exponga este puerto
+        exposedPort: 8080 # El puerto que usarás para el dashboard
         #hostPort: 8080 # Conecta el contenedor al puerto 8080 de la VM
