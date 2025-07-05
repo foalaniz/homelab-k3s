@@ -1,8 +1,6 @@
-# cluster/apps/metallb/kustomization.yaml
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - install.yaml
-  # Este Kustomization aplica la configuración DESPUÉS de que la instalación esté lista.
-  - depends-on.yaml
+  - namespace.yaml
+  - release.yaml
