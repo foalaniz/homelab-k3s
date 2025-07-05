@@ -9,6 +9,6 @@ resources:
  - ./traefik
  - ./readeck
  - ./adguard
- - ./metallb
+ #- ./metallb
  - ingress.yaml
  - flux-monitoring-kustomization.yaml
