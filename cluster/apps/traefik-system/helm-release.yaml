@@ -1,0 +1,33 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: traefik-system
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: traefik
+      version: "28.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: flux-system
+  values:
+    # servicio sea de tipo LoadBalancer
+    service:
+      type: LoadBalancer
+    # dashboard de Traefik para poder verlo
+    api:
+      dashboard: true
+      insecure: true # acceder sin HTTPS por ahora
+    # puertos de entrada
+    ports:
+      web:
+        port: 8000
+        expose: true
+        exposedPort: 80
+      websecure:
+        port: 8443
+        expose: true
+        exposedPort: 443

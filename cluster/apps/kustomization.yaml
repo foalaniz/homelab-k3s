@@ -4,3 +4,4 @@ resources:
   # Le decimos a Flux que gestione estos dos nuevos "instaladores"
   - ./metallb-install.yaml
   - ./metallb-config.yaml
+  - ./traefik-system 
