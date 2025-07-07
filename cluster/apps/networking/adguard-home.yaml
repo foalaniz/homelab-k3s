@@ -3,15 +3,6 @@ kind: Namespace
 metadata:
   name: networking
 ---
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: adguard-home-charts
-  namespace: flux-system
-spec:
-  interval: 1h
-  url: https://emanuele-f.github.io/helm-charts/
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -25,15 +16,14 @@ spec:
       version: "2.5.0"
       sourceRef:
         kind: HelmRepository
+        # Asegúrate de que apunte al nombre correcto que definimos en sources
         name: adguard-home-charts
         namespace: flux-system
   values:
-    #  volumen persistente para guardar la configuración de AdGuard
     persistence:
       enabled: true
-      storageClass: "local-path" # k3s viene con este StorageClass por defecto
+      storageClass: "local-path"
       size: 4Gi
-    #  Traefik cómo acceder al panel de AdGuard
     ingress:
       enabled: true
       hosts:
