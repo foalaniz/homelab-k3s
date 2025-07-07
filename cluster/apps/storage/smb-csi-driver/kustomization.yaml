@@ -1,0 +1,6 @@
+# cluster/apps/storage/smb-csi-driver/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - helm-release.yaml
