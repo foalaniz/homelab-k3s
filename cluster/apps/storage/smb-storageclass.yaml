@@ -5,8 +5,8 @@ metadata:
 provisioner: smb.csi.k8s.io
 parameters:
   source: "//192.168.1.6/media"
-  csi.storage.k8s.io/node-stage-secret-name: "smb-share-creds"
-  csi.storage.k8s.io/node-stage-secret-namespace: "database"
+  "csi.storage.k8s.io/node-stage-secret-name": "smb-share-creds"
+  "csi.storage.k8s.io/node-stage-secret-namespace": "database"
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 allowVolumeExpansion: true
