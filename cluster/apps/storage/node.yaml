@@ -1,4 +1,4 @@
----
+# foalaniz/homelab-k3s/homelab-k3s-da6a1b9804f9eaea040fe804020356ec4255da51/cluster/apps/storage/node.yaml
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -77,17 +77,19 @@ spec:
             - mountPath: /registration
               name: registration-dir
       volumes:
+        # Moved 'socket-dir' to the top of the list for better parsing robustness.
+        - name: socket-dir
+          emptyDir: {}
+        # Ensure all hostPath volumes use 'DirectoryOrCreate' for consistent behavior.
         - hostPath:
             path: /var/lib/kubelet/plugins/smb.csi.k8s.io
             type: DirectoryOrCreate
           name: registration-dir
         - hostPath:
             path: /var/lib/kubelet/
-            type: Directory
+            type: DirectoryOrCreate # Changed from Directory
           name: mountpoint-dir
         - hostPath:
             path: /var/lib/kubelet/plugins_registry/
-            type: Directory
+            type: DirectoryOrCreate # Changed from Directory
           name: plugin-dir
-        - name: socket-dir
-          emptyDir: {}
