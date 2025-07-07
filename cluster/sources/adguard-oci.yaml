@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: adguard-gabe565
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: oci://ghcr.io/gabe565/charts
+  ref:
+    semver: ">=0.1.0"

@@ -5,4 +5,4 @@ resources:
   - ./metallb-install.yaml
   - ./metallb-config.yaml
   - ./traefik-system 
-  - ./networking
+  - ./adguard-home.yaml
