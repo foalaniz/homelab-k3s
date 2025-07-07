@@ -6,6 +6,7 @@ metadata:
   labels:
     app: adguard-home
 spec:
+  type: LoadBalancer
   selector:
     app: adguard-home
   ports:
@@ -21,4 +22,3 @@ spec:
     port: 53
     targetPort: 53
     protocol: UDP
-  type: ClusterIP
