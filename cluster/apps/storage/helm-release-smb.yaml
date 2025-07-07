@@ -21,13 +21,4 @@ spec:
     remediation:
       retries: 3
   values:
-    fullnameOverride: csi-driver-smb # <--- ASEGÚRATE DE QUE ESTÉ ASÍ
-
-    storageClass:
-      enabled: true
-      name: smb-client
-      reclaimPolicy: Delete
-      mountOptions:
-        - dir_mode=0777
-        - file_mode=0777
-        - vers=3.0
+    fullnameOverride: csi-driver-smb 
