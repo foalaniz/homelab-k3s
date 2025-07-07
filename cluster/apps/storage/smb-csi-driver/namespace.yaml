@@ -1,7 +1,0 @@
-# cluster/apps/storage/smb-csi-driver/namespace.yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: kube-system 
-  labels:
-    name: kube-system
