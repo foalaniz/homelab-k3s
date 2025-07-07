@@ -1,0 +1,9 @@
+# cluster/sources/smb-csi-driver.yaml
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: csi-driver-smb
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://kubernetes-csi.github.io/csi-driver-smb
