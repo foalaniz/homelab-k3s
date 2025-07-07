@@ -1,3 +1,4 @@
+# cluster/apps/storage/controller.yaml
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -50,19 +51,6 @@ spec:
             - "--leader-election"
             - "--leader-election-namespace=kube-system"
             - "--timeout=300s"
-          env:
-            - name: ADDRESS
-              value: /csi/csi.sock
-          volumeMounts:
-            - mountPath: /csi
-              name: socket-dir
-        - name: csi-resizer
-          image: registry.k8s.io/sig-storage/csi-resizer:v1.11.2
-          args:
-            - "--v=5"
-            - "--csi-address=$(ADDRESS)"
-            - "--leader-election"
-            - "--leader-election-namespace=kube-system"
           env:
             - name: ADDRESS
               value: /csi/csi.sock
