@@ -6,9 +6,8 @@ provisioner: smb.csi.k8s.io
 parameters:
   # Necesitas cambiar esto por tu servidor SMB real
   source: "//192.168.1.6/media"  # ⚠️ CAMBIA ESTO POR TU SERVIDOR SMB
-  # Configuración para usar el secret que creaste
-  node-stage-secret-name: "smb-share-creds"
-  node-stage-secret-namespace: "database"
+  csi.storage.k8s.io/node-stage-secret-name: "smb-share-creds"
+  csi.storage.k8s.io/node-stage-secret-namespace: "database"
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 allowVolumeExpansion: true
