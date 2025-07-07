@@ -1,0 +1,42 @@
+# cluster/apps/storage/smb-test/smb-test.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: smb-test-pvc
+  namespace: database # Usa el mismo namespace que tu Secret SMB
+spec:
+  accessModes:
+    - ReadWriteOnce # O ReadWriteMany si lo necesitas y tu driver lo soporta
+  storageClassName: smb-client # ¡Asegúrate de que este es el nombre de tu StorageClass SMB!
+  resources:
+    requests:
+      storage: 1Gi # Un tamaño pequeño es suficiente para la prueba
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smb-test-app
+  namespace: database # Usa el mismo namespace que PVC y Secret
+  labels:
+    app: smb-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smb-test
+  template:
+    metadata:
+      labels:
+        app: smb-test
+    spec:
+      containers:
+      - name: busybox-container
+        image: busybox:1.36 # Un contenedor ligero para pruebas
+        command: ["/bin/sh", "-c", "while true; do echo $(date -u) >> /mnt/smb/test.txt; sleep 5; done"]
+        volumeMounts:
+        - name: smb-volume
+          mountPath: /mnt/smb # El punto de montaje en el contenedor
+      volumes:
+      - name: smb-volume
+        persistentVolumeClaim:
+          claimName: smb-test-pvc
