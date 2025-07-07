@@ -1,0 +1,10 @@
+# Ignorar cualquier archivo que termine en -secret.yaml
+*-secret.yaml
+
+# Ignorar cualquier archivo que se llame secret.yaml
+secret.yaml
+secrets.yaml
+
+# Ignorar archivos de entorno
+.env
+*.env

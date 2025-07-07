@@ -1,0 +1,4 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Le decimos a Flux que gestione estos dos nuevos "instaladores"
