@@ -18,6 +18,7 @@ spec:
     spec:
       serviceAccountName: csi-smb-controller-sa
       containers:
+        # Contenedor 1: smb (se queda)
         - name: smb
           image: mcr.microsoft.com/k8s/csi/smb-csi:v1.15.0
           args:
@@ -43,6 +44,7 @@ spec:
             timeoutSeconds: 3
             periodSeconds: 10
             failureThreshold: 5
+        # Contenedor 2: csi-provisioner (se queda)
         - name: csi-provisioner
           image: registry.k8s.io/sig-storage/csi-provisioner:v4.0.1
           args:
@@ -57,6 +59,7 @@ spec:
           volumeMounts:
             - mountPath: /csi
               name: socket-dir
+        # El contenedor csi-resizer ha sido eliminado
       volumes:
         - name: socket-dir
           emptyDir: {}
