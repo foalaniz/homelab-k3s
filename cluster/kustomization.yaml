@@ -4,4 +4,3 @@ resources:
   - ./flux-system
   - ./sources
   - ./apps
-  - ./apps/storage
