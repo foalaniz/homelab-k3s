@@ -6,4 +6,4 @@ resources:
   - pvc-data.yaml
   - deployment.yaml
   - service.yaml
-  - ingress.yaml
+  - adguard-ingressroute.yaml

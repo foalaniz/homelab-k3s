@@ -1,0 +1,15 @@
+# adguard-ingressroute.yaml
+apiVersion: traefik.io/v1alpha1 # Importante: Esta es la API de Traefik CRD
+kind: IngressRoute
+metadata:
+  name: adguard-home-route
+  namespace: networking # El mismo namespace que AdGuard Home
+spec:
+  entryPoints:
+    - web # O websecure si configuras TLS
+  routes:
+    - match: Host(`adguard.homelab.local`)
+      kind: Rule
+      services:
+        - name: adguard-home # El nombre de tu Service de Kubernetes
+          port: 3000          # El puerto de la interfaz web
