@@ -1,3 +1,4 @@
+# adguard-home.yaml
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -12,13 +13,13 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: adguard-home
-      version: "2.5.0"
+      chart: oci://ghcr.io/gabe565/charts/adguard-home
+      version: "0.13.0" #última versión estable de este chart
       sourceRef:
-        kind: HelmRepository
-        # Asegúrate de que apunte al nombre correcto que definimos en sources
-        name: adguard-home-charts
-        namespace: flux-system
+
+        kind: OCIRepository
+        name: adguard-home-oci # 
+        namespace: flux-system # OCIRepository también viven en flux-system
   values:
     persistence:
       enabled: true
@@ -26,8 +27,21 @@ spec:
       size: 4Gi
     ingress:
       enabled: true
+      # explícitamente a Traefik que use este Ingress
+      className: traefik
       hosts:
         - host: adguard.homelab.local
           paths:
             - path: /
               pathType: Prefix
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: adguard-home-oci
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: oci://ghcr.io/gabe565/charts
+  ref:
+    tag: "adguard-home-0.13.0"
