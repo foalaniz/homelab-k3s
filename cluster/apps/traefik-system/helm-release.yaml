@@ -14,20 +14,26 @@ spec:
         name: traefik
         namespace: flux-system
   values:
-    # servicio sea de tipo LoadBalancer
+    #  servicio sea de tipo LoadBalancer para que MetalLB le dé una IP
     service:
       type: LoadBalancer
-    # dashboard de Traefik para poder verlo
+
+    # Habilita el dashboard de Traefik para poder verlo
     api:
       dashboard: true
-      insecure: true # acceder sin HTTPS por ahora
-    # puertos de entrada
+      insecure: true #  permite acceder sin HTTPS por ahora
+
+    #  puertos de entrada.
     ports:
       web:
         port: 8000
-        expose: true
+        # Redirigi el puerto 80 del exterior al puerto 8000 de Traefik
         exposedPort: 80
+        protocol: TCP
       websecure:
         port: 8443
-        expose: true
+        # Redirigis el puerto 443 del exterior al puerto 8443 de Traefik
         exposedPort: 443
+        protocol: TCP
+      traefik:
+        port: 9000
