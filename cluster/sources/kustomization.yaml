@@ -3,4 +3,5 @@ kind: Kustomization
 resources:
   - metallb.yaml
   - traefik.yaml
+  - smb-csi-driver.yaml
 
