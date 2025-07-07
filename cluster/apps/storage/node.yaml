@@ -77,19 +77,20 @@ spec:
             - mountPath: /registration
               name: registration-dir
       volumes:
-        # Moved 'socket-dir' to the top of the list for better parsing robustness.
+        # Changed 'socket-dir' from emptyDir to a hostPath as a workaround for K3s validation issue.
         - name: socket-dir
-          emptyDir: {}
-        # Ensure all hostPath volumes use 'DirectoryOrCreate' for consistent behavior.
+          hostPath:
+            path: /tmp/csi-sockets # Using a temporary hostPath for the socket
+            type: DirectoryOrCreate
         - hostPath:
             path: /var/lib/kubelet/plugins/smb.csi.k8s.io
             type: DirectoryOrCreate
           name: registration-dir
         - hostPath:
             path: /var/lib/kubelet/
-            type: DirectoryOrCreate # Changed from Directory
+            type: DirectoryOrCreate
           name: mountpoint-dir
         - hostPath:
             path: /var/lib/kubelet/plugins_registry/
-            type: DirectoryOrCreate # Changed from Directory
+            type: DirectoryOrCreate
           name: plugin-dir
