@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: media-stack 
+data:
+  # --- Configuración de los servicios que aparecerán en el dashboard ---
+  services.yaml: |
+    - "Mis Aplicaciones":
+        - Sonarr:
+            href: http://series.homelab.local
+            icon: sonarr.png
+            description: Gestor de Series
+
+        - Radarr: # Aunque no esté instalado, lo dejamos de ejemplo
+            href: http://peliculas.homelab.local
+            icon: radarr.png
+            description: Gestor de Películas
+
+        - qBittorrent:
+            href: http://downloads.homelab.local
+            icon: qbittorrent.png
+            description: Cliente de Descargas
+
+    - "Infraestructura":
+        - Traefik:
+            href: http://traefik.homelab.local
+            icon: traefik.png
+            description: Dashboard de Traefik
+
+  # --- Configuración de los marcadores ---
+  bookmarks.yaml: |
+    - "Búsqueda":
+        - "Google": "https://google.com"
+        - "DuckDuckGo": "https://duckduckgo.com"
+
+  # --- Configuración de los Widgets ---
+  widgets.yaml: |
+    - resources:
+        label: Cluster
+        cpu: true
+        memory: true
+
+  # --- Configuración General ---
+  settings.yaml: |
+    title: Mi Homelab
+    background: https://images.unsplash.com/photo-1470813740244-df37b8c1edcb
+    # ...puedes añadir más personalización aquí...

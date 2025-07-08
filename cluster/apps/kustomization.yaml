@@ -9,3 +9,4 @@ resources:
  - ./media 
  - ./database 
  - ./media-stack
+ - ./homepage
