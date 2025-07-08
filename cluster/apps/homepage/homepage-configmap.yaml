@@ -33,7 +33,6 @@ data:
             description: Cliente de Descargas
 
 
-
     - "Infraestructura":
         - Traefik:
             href: http://traefik.homelab.local/dashboard/#/
