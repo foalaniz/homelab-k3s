@@ -1,0 +1,51 @@
+# cluster/apps/media-stack/qbittorrent-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+  namespace: media-stack
+  labels:
+    app: qbittorrent
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate 
+    matchLabels:
+      app: qbittorrent
+  template:
+    metadata:
+      labels:
+        app: qbittorrent
+    spec:
+      containers:
+        - name: qbittorrent
+          image: lscr.io/linuxserver/qbittorrent:4.6.5 
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "America/Mexico_City"
+            - name: WEBUI_PORT
+              value: "8080" 
+          ports:
+            - name: webui
+              containerPort: 8080
+            - name: torrent-tcp
+              containerPort: 6881
+            - name: torrent-udp
+              containerPort: 6881
+              protocol: UDP
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: qbittorrent-config
+        - name: downloads
+          hostPath:
+            path: /mnt/windows-media 
