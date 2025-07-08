@@ -1,0 +1,65 @@
+# cluster/apps/media/media-browser.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: media-browser
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: media-browser
+  template:
+    metadata:
+      labels:
+        app: media-browser
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        volumeMounts:
+        - name: media-volume
+          mountPath: /usr/share/nginx/html/media
+          readOnly: true
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+      volumes:
+      - name: media-volume
+        hostPath:
+          path: /mnt/windows-media
+          type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: media-browser-service
+  namespace: media
+spec:
+  selector:
+    app: media-browser
+  ports:
+  - port: 80
+    targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: media-browser-route
+  namespace: media
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`media.homelab.local`)
+      kind: Rule
+      services:
+        - name: media-browser-service
+          port: 80

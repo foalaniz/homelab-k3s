@@ -6,5 +6,5 @@ resources:
  - ./metallb-config.yaml
  - ./traefik-system 
  - ./networking/
- - ./storage 
+ - ./media 
  - ./database 
