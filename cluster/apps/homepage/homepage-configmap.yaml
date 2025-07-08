@@ -10,27 +10,27 @@ data:
         - Sonarr:
             href: http://series.homelab.local
             icon: sonarr.png
-            description: Gestor de Series
+           
 
         - Radarr: # Aunque no esté instalado, lo dejamos de ejemplo
             href: http://movies.homelab.local
             icon: radarr.png
-            description: Gestor de Películas
+           
 
         - Lidarr:
             href: http://music.homelab.local
             icon: lidarr.png
-            description: Cliente de Musica
+           
 
         - Prowlarr:
             href: http://prowlarr.homelab.local
-            icon: prowlarrpng
-            description: Cliente de TODO
+            icon: prowlarr.png
+           
 
         - qBittorrent:
             href: http://downloads.homelab.local
             icon: qbittorrent.png
-            description: Cliente de Descargas
+           
 
 
     - "Infraestructura":
