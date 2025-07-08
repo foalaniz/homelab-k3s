@@ -1,0 +1,45 @@
+# cluster/apps/media-stack/lidarr/lidarr-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lidarr
+  namespace: media-stack
+  labels:
+    app: lidarr
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: lidarr
+  template:
+    metadata:
+      labels:
+        app: lidarr
+    spec:
+      containers:
+        - name: lidarr
+          image: lscr.io/linuxserver/lidarr:latest
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "America/Mexico_City"
+          ports:
+            - name: http
+              containerPort: 8686
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: downloads 
+              mountPath: /downloads
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: lidarr-config
+        - name: downloads 
+          hostPath:
+            path: /mnt/windows-media
