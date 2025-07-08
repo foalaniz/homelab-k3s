@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: smb-mounter
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      app: smb-mounter
+  template:
+    metadata:
+      labels:
+        app: smb-mounter
+    spec:
+      hostNetwork: true
+      hostPID: true
+      containers:
+      - name: smb-mount
+        image: alpine:latest
+        securityContext:
+          privileged: true
+        env:
+        - name: SMB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: smb-share-creds
+              key: username
+        - name: SMB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: smb-share-creds
+              key: password
+        command:
+        - /bin/sh
+        - -c
+        - |
+          # Install cifs-utils
+          apk add --no-cache cifs-utils
+          
+          # Create mount point
+          mkdir -p /host/mnt/windows-media
+          
+          # Check if already mounted
+          if ! mountpoint -q /host/mnt/windows-media; then
+            echo "Mounting SMB share..."
+            mount -t cifs //192.168.1.6/media /host/mnt/windows-media \
+              -o username="$SMB_USERNAME",password="$SMB_PASSWORD",uid=0,gid=0,file_mode=0777,dir_mode=0777,vers=3.0
+            
+            if [ $? -eq 0 ]; then
+              echo "SMB share mounted successfully"
+            else
+              echo "Failed to mount SMB share"
+              exit 1
+            fi
+          else
+            echo "SMB share already mounted"
+          fi
+          
+          # Keep container running and monitor mount
+          while true; do
+            if ! mountpoint -q /host/mnt/windows-media; then
+              echo "Mount lost, attempting to remount..."
+              mount -t cifs //192.168.1.6/media /host/mnt/windows-media \
+                -o username="$SMB_USERNAME",password="$SMB_PASSWORD",uid=0,gid=0,file_mode=0777,dir_mode=0777,vers=3.0
+            fi
+            sleep 30
+          done
+        volumeMounts:
+        - name: host-root
+          mountPath: /host
+          mountPropagation: Bidirectional
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+      volumes:
+      - name: host-root
+        hostPath:
+          path: /
+          type: Directory
+      tolerations:
+      - operator: Exists
+        effect: NoSchedule

@@ -1,9 +1,0 @@
-# cluster/apps/storage/kustomization.yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - rbac.yaml
-  - controller.yaml
-  - node.yaml
-  - smb-storageclass.yaml
-  - smb-test-resource.yaml
