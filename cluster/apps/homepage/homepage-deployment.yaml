@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: homepage
-  namespace: media-stack # Usamos el mismo namespace
+  namespace: media-stack 
   labels:
     app: homepage
 spec:
@@ -24,7 +24,6 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /app/config
-            # Montamos cada archivo de configuración individualmente
             - name: config-files
               mountPath: /app/config/services.yaml
               subPath: services.yaml
@@ -38,10 +37,13 @@ spec:
               mountPath: /app/config/settings.yaml
               subPath: settings.yaml
       volumes:
-        - name: config 
+        - name: config
+          emptyDir: {}
         - name: config-files
           configMap:
-            name: homepage-config 
+            name: homepage-config
+
+--- # <-- SEPARADOR 
 
 apiVersion: v1
 kind: Service
@@ -54,7 +56,9 @@ spec:
   ports:
     - port: 3000
       targetPort: 3000
----
+
+--- # <-- SEPARADOR 
+
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -64,7 +68,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`home.homelab.local`) # Dominio para tu dashboard
+    - match: Host(`home.homelab.local`)
       kind: Rule
       services:
         - name: homepage
