@@ -21,7 +21,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`music.homelab.local`)
+    - match: Host(`prowlarr.homelab.local`)
       kind: Rule
       services:
         - name: lidarr
