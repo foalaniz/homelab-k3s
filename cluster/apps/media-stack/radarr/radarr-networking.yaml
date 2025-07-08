@@ -1,0 +1,28 @@
+# cluster/apps/media-stack/radarr/radarr-networking.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr
+  namespace: media-stack
+spec:
+  selector:
+    app: radarr
+  ports:
+    - name: http
+      port: 7878
+      targetPort: 7878
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: radarr
+  namespace: media-stack
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`movies.homelab.local`)
+      kind: Rule
+      services:
+        - name: radarr
+          port: 7878
