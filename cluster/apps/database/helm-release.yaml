@@ -16,13 +16,12 @@ spec:
         namespace: flux-system
   values:
     auth:
-      existingSecret: "postgres-creds" 
+      existingSecret: "postgres-creds"
       secretKeys:
         usernameKey: "POSTGRES_USERNAME"
-        passwordKey: "POSTGRES_PASSWORD"
+        passwordKey: "POSTGRES_PASSWORD" 
       database: "homelab"
 
-    # --- Almacenamiento Persistente ---
     primary:
       persistence:
         enabled: true
