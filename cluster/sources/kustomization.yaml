@@ -4,3 +4,4 @@ resources:
   - metallb.yaml
   - traefik.yaml
   - bitnami.yaml
+  - community-charts.yaml

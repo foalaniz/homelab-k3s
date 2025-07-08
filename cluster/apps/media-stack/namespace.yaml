@@ -1,0 +1,7 @@
+# cluster/apps/media-stack/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: media-stack
+  labels:
+    name: media-stack

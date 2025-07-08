@@ -1,0 +1,7 @@
+# cluster/apps/media-stack/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - pvc-qbittorrent.yaml   
+  - helm-release-qbittorrent.yaml
