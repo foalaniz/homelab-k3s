@@ -15,13 +15,13 @@ spec:
         name: bitnami
         namespace: flux-system
   values:
+    # --- Autenticación Simplificada ---
     auth:
-      existingSecret: "postgres-creds"
-      secretKeys:
-        usernameKey: "POSTGRES_USERNAME"
-        passwordKey: "POSTGRES_PASSWORD" 
+      existingSecret: "postgres-creds" 
       database: "homelab"
 
+
+    # --- Almacenamiento Persistente ---
     primary:
       persistence:
         enabled: true
