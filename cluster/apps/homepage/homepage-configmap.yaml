@@ -39,6 +39,14 @@ data:
             icon: traefik.png
             description: Dashboard de Traefik
 
+  # --- Configuración de los marcadores ---
+  bookmarks.yaml: |
+    - Búsqueda:
+        - Google:
+            href: https://google.com
+        - DuckDuckGo:
+            href: https://duckduckgo.com
+
 
   # --- Configuración de los Widgets ---
   widgets.yaml: |
