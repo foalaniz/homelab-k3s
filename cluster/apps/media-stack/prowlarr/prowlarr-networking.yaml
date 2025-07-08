@@ -1,0 +1,28 @@
+# cluster/apps/media-stack/prowlarr/prowlarr-networking.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: prowlarr
+  namespace: media-stack
+spec:
+  selector:
+    app: prowlarr
+  ports:
+    - name: http
+      port: 9696
+      targetPort: 9696
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prowlarr
+  namespace: media-stack
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`music.homelab.local`)
+      kind: Rule
+      services:
+        - name: prowlarr
+          port: 9696
