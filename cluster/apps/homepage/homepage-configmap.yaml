@@ -5,6 +5,23 @@ metadata:
   namespace: media-stack 
 data:
   # --- Configuración de los servicios que aparecerán en el dashboard ---
+
+  bookmarks.yaml: |
+    - Búsqueda:
+        - Google:
+            href: https://google.com
+        - DuckDuckGo:
+            href: https://duckduckgo.com
+
+
+  # --- Configuración de los Widgets ---
+  widgets.yaml: |
+    - resources:
+        label: Cluster
+        cpu: true
+        memory: true
+
+  # --- Configuración de los marcadores ---
   services.yaml: |
     - "Mis Aplicaciones":
         - Sonarr:
@@ -38,22 +55,6 @@ data:
             href: http://traefik.homelab.local/dashboard/#/
             icon: traefik.png
             description: Dashboard de Traefik
-
-  # --- Configuración de los marcadores ---
-  bookmarks.yaml: |
-    - Búsqueda:
-        - Google:
-            href: https://google.com
-        - DuckDuckGo:
-            href: https://duckduckgo.com
-
-
-  # --- Configuración de los Widgets ---
-  widgets.yaml: |
-    - resources:
-        label: Cluster
-        cpu: true
-        memory: true
 
   # --- Configuración General ---
   settings.yaml: |
