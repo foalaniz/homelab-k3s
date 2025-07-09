@@ -1,3 +1,4 @@
+# cluster/apps/pgadmin/pgadmin-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -7,6 +8,8 @@ metadata:
     app: pgadmin
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: pgadmin
@@ -24,10 +27,37 @@ spec:
           ports:
             - containerPort: 80
           volumeMounts:
+            - name: pgadmin-data
+              mountPath: /var/lib/pgadmin
             - name: config
               mountPath: /pgadmin4/servers.json
               subPath: servers.json
-  volumes:
-    - name: config
-      configMap:
-        name: pgadmin-config # Monta el archivo de configuración de servidores
+              readOnly: true
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /misc/ping
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /misc/ping
+              port: 80
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 5
+      volumes:
+        - name: config
+          configMap:
+            name: pgadmin-config
+        - name: pgadmin-data
+          persistentVolumeClaim:
+            claimName: pgadmin-data
