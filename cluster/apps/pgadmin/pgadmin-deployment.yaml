@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+  namespace: database
+  labels:
+    app: pgadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+        - name: pgadmin
+          image: dpage/pgadmin4:8.8
+          envFrom:
+            - secretRef:
+                name: pgadmin-creds 
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: config
+              mountPath: /pgadmin4/servers.json
+              subPath: servers.json
+  volumes:
+    - name: config
+      configMap:
+        name: pgadmin-config # Monta el archivo de configuración de servidores

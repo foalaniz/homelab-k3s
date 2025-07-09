@@ -10,3 +10,4 @@ resources:
  - ./database 
  - ./media-stack
  - ./homepage
+ - ./pgadmin
