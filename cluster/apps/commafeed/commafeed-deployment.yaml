@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: commafeed
-  namespace: database
+  namespace: media-stack  
   labels:
     app: commafeed
 spec:
@@ -32,4 +32,4 @@ spec:
                   name: commafeed-creds
                   key: DB_PASSWORD
           ports:
-            - containerPort: 8080 
+            - containerPort: 8080
