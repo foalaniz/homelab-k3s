@@ -5,7 +5,11 @@ metadata:
   namespace: media-stack 
 data:
   bookmarks.yaml: |
-    []
+    - Search:
+        - Google:
+            href: "https://google.com"
+        - DuckDuckGo:
+            href: "https://duckduckgo.com"
 
   widgets.yaml: |
     - resources:
@@ -14,10 +18,42 @@ data:
         memory: true
 
   services.yaml: |
-    - "Test":
-        - Google:
-            href: "https://google.com"
-            description: "Test service"
+    - "Mis Aplicaciones":
+        - Sonarr:
+            href: "http://series.homelab.local"
+            icon: "sonarr.png"
+            description: "Series TV"
+        - Radarr:
+            href: "http://movies.homelab.local"
+            icon: "radarr.png"
+            description: "Películas"
+        - Lidarr:
+            href: "http://music.homelab.local"
+            icon: "lidarr.png"
+            description: "Música"
+        - Prowlarr:
+            href: "http://prowlarr.homelab.local"
+            icon: "prowlarr.png"
+            description: "Indexador"
+        - qBittorrent:
+            href: "http://downloads.homelab.local"
+            icon: "qbittorrent.png"
+            description: "Descargas"
+        - Commafeed:
+            href: "http://rss.homelab.local"
+            icon: "commafeed.png"
+            description: "RSS Reader"
+    - "Infraestructura":
+        - Traefik:
+            href: "http://traefik.homelab.local/dashboard/"
+            icon: "traefik.png"
+            description: "Dashboard de Traefik"
 
   settings.yaml: |
     title: "Mi Homelab"
+    background: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb"
+    hideErrors: true
+    search:
+      provider: "google"
+      target: "_blank"
+      focus: false
