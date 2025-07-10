@@ -11,3 +11,4 @@ resources:
  - ./media-stack
  - ./homepage
  - ./pgadmin
+ - ./commafeed

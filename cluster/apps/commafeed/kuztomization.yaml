@@ -1,0 +1,5 @@
+apiVersion: kuztomize.config.k8s.io/v1beta1
+kind: Kustomizationr
+resource:
+ - commafeed.deployment.yaml
+ - commafeed-networking.yaml

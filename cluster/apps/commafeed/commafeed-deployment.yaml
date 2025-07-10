@@ -1,0 +1,36 @@
+apiVersion: apps/v1beta1
+kind: deployment
+metadata:
+  name: commafeed
+  namesapace: media-stack
+  labels:
+    app: commafeed
+spec:
+  replicas: 1
+selector:
+  matchLabels:
+    app: commafeed
+template:
+  metadata:
+    labels:
+      app: commafeed 
+spech:
+  containers:
+  - name: commafeed
+    image: athou/commafeed:4.5.0
+    env:
+      - name: DATABASE_URL
+        value: "postgres://$(DB_USER):$(DB_PASSWORD)@postgresql.database.svc.cluster.local:5432/commafeed"
+      - name: DATABASE_USER
+        valueFrom:
+          name: commafeed-creds
+          key: DB_USER
+          namespace: database 
+      - name: DB_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: commafeed-creds
+            key: DB_PASSWORD
+            namespace: database 
+    ports:
+      - containerPort: 8082
