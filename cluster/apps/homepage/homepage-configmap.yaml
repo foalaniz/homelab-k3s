@@ -9,9 +9,9 @@ data:
   bookmarks.yaml: |
     - Búsqueda:
         - Google:
-            href: https://google.com
+            href: "https://google.com"
         - DuckDuckGo:
-            href: https://duckduckgo.com
+            href: "https://duckduckgo.com"
 
   # --- Configuración de los Widgets ---
   widgets.yaml: |
@@ -24,45 +24,39 @@ data:
   services.yaml: |
     - "Mis Aplicaciones":
         - Sonarr:
-            href: http://series.homelab.local
-            icon: sonarr.png
-            description: Series TV
-
+            href: "http://series.homelab.local"
+            icon: "sonarr.png"
+            description: "Series TV"
         - Radarr:
-            href: http://movies.homelab.local
-            icon: radarr.png
-            description: Películas
-
+            href: "http://movies.homelab.local"
+            icon: "radarr.png"
+            description: "Películas"
         - Lidarr:
-            href: http://music.homelab.local
-            icon: lidarr.png
-            description: Música
-
+            href: "http://music.homelab.local"
+            icon: "lidarr.png"
+            description: "Música"
         - Prowlarr:
-            href: http://prowlarr.homelab.local
-            icon: prowlarr.png
-            description: Indexador
-
+            href: "http://prowlarr.homelab.local"
+            icon: "prowlarr.png"
+            description: "Indexador"
         - qBittorrent:
-            href: http://downloads.homelab.local
-            icon: qbittorrent.png
-            description: Descargas
-
+            href: "http://downloads.homelab.local"
+            icon: "qbittorrent.png"
+            description: "Descargas"
         - Commafeed:
-            href: http://rss.homelab.local
-            icon: commafeed.png
-            description: RSS Reader
-
+            href: "http://rss.homelab.local"
+            icon: "commafeed.png"
+            description: "RSS Reader"
     - "Infraestructura":
         - Traefik:
-            href: http://traefik.homelab.local/dashboard/
-            icon: traefik.png
-            description: Dashboard de Traefik
+            href: "http://traefik.homelab.local/dashboard/"
+            icon: "traefik.png"
+            description: "Dashboard de Traefik"
 
   # --- Configuración General ---
   settings.yaml: |
-    title: Mi Homelab
-    background: https://images.unsplash.com/photo-1470813740244-df37b8c1edcb
+    title: "Mi Homelab"
+    background: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb"
     search:
-      provider: google
-      target: _blank
+      provider: "google"
+      target: "_blank"
