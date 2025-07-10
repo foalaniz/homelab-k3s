@@ -20,18 +20,19 @@ spec:
         - name: commafeed
           image: athou/commafeed:5.10.0-postgresql-jvm
           env:
-            # --- CORRECT QUARKUS ENVIRONMENT VARIABLES ---
+            # --- Point to the correct database ---
             - name: QUARKUS_DATASOURCE_JDBC_URL
-              value: "jdbc:postgresql://postgresql.database.svc.cluster.local:5432/commafeed"
+              value: "jdbc:postgresql://postgresql.database.svc.cluster.local:5432/homelab"
+            # --- Use the main postgres user ---
             - name: QUARKUS_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: commafeed-creds
-                  key: DB_USER
+                  name: postgres-creds 
+                  key: POSTGRES_USERNAME 
             - name: QUARKUS_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: commafeed-creds
-                  key: DB_PASSWORD
+                  name: postgres-creds 
+                  key: POSTGRES_PASSWORD 
           ports:
             - containerPort: 8080
