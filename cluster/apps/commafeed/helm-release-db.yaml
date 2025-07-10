@@ -1,4 +1,3 @@
-# cluster/apps/commafeed/helm-release-db.yaml
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -18,11 +17,18 @@ spec:
     auth:
       database: commafeed
       username: commafeed
+      # Use the standard PostgreSQL secret key names
       existingSecret: "commafeed-creds"
       secretKeys:
-        userPasswordKey: DB_PASSWORD
+        adminPasswordKey: "DB_PASSWORD"
+        userPasswordKey: "DB_PASSWORD"
     primary:
       persistence:
         enabled: true
         storageClass: "local-path"
         size: 2Gi
+      # Add initialization script for CommAFeed
+      initdb:
+        scripts:
+          init.sql: |
+
