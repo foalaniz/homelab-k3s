@@ -48,6 +48,9 @@ data:
             href: http://downloads.homelab.local
             icon: qbittorrent.png
            
+        - Commafeed:
+            href: http://rss.homelab.local
+            icon: commafeed.png
 
 
     - "Infraestructura":
