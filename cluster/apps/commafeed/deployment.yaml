@@ -1,4 +1,4 @@
-# cluster/apps/commafeed/commafeed-deployment.yaml
+# cluster/apps/commafeed/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,19 +20,24 @@ spec:
         - name: commafeed
           image: athou/commafeed:5.10.0-postgresql-jvm
           env:
-            # --- Point to the correct database ---
             - name: QUARKUS_DATASOURCE_JDBC_URL
-              value: "jdbc:postgresql://postgresql.database.svc.cluster.local:5432/homelab"
-            # --- Use the main postgres user ---
+              value: "jdbc:postgresql://commafeed-db-postgresql.media-stack.svc.cluster.local:5432/commafeed"
             - name: QUARKUS_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: postgres-creds 
-                  key: POSTGRES_USERNAME 
+                  name: commafeed-creds
+                  key: DB_USER
             - name: QUARKUS_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-creds 
-                  key: POSTGRES_PASSWORD 
+                  name: commafeed-creds
+                  key: DB_PASSWORD
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "150m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

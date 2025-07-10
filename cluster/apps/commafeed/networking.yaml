@@ -1,4 +1,4 @@
-# cluster/apps/commafeed/commafeed-networking.yaml
+# cluster/apps/commafeed/networking.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -20,7 +20,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`rss.homelab.local`) # Dominio para Commafeed
+    - match: Host(`rss.homelab.local`)
       kind: Rule
       services:
         - name: commafeed
