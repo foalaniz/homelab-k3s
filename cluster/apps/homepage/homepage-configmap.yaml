@@ -26,5 +26,5 @@ data:
   settings.yaml: |
     title: "Mi Homelab"
     search:
-      provider: "google"
+      provider: "https://www.google.com/search?q="
       target: "_blank"
