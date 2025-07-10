@@ -1,4 +1,3 @@
-# cluster/apps/database/helm-release.yaml
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -15,13 +14,14 @@ spec:
         name: bitnami
         namespace: flux-system
   values:
-    # --- Autenticación Simplificada ---
     auth:
-      existingSecret: "postgres-creds" 
+      existingSecret: "postgres-creds"
       database: "homelab"
-
-
-    # --- Almacenamiento Persistente ---
+      # Add the commafeed user and database here
+      databases:
+        - commafeed
+      usernames:
+        - commafeed
     primary:
       persistence:
         enabled: true
