@@ -20,6 +20,9 @@ spec:
         - name: commafeed
           image: athou/commafeed:4.5.0
           env:
+            # --- ADD THIS LINE ---
+            - name: CF_DATABASE_DRIVER
+              value: "org.postgresql.Driver"
             # --- VARIABLES DE ENTORNO CORREGIDAS ---
             - name: CF_DATABASE_URL
               value: "jdbc:postgresql://postgresql.database.svc.cluster.local:5432/commafeed"
