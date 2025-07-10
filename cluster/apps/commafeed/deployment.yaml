@@ -1,3 +1,4 @@
+# cluster/apps/commafeed/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -40,10 +41,7 @@ spec:
             - name: QUARKUS_DATASOURCE_JDBC_URL
               value: "jdbc:postgresql://commafeed-db-postgresql.media-stack.svc.cluster.local:5432/commafeed"
             - name: QUARKUS_DATASOURCE_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: commafeed-creds
-                  key: DB_USER
+              value: "commafeed" # Use the correct username directly
             - name: QUARKUS_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -53,10 +51,7 @@ spec:
             - name: COMMAFEED_DB_URL
               value: "postgresql://commafeed-db-postgresql.media-stack.svc.cluster.local:5432/commafeed"
             - name: COMMAFEED_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: commafeed-creds
-                  key: DB_USER
+              value: "commafeed" # Use the correct username directly
             - name: COMMAFEED_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
