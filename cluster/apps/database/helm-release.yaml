@@ -17,11 +17,6 @@ spec:
     auth:
       existingSecret: "postgres-creds"
       database: "homelab"
-      # Add the commafeed user and database here
-      databases:
-        - commafeed
-      usernames:
-        - commafeed
     primary:
       persistence:
         enabled: true
