@@ -26,12 +26,7 @@ data:
   settings.yaml: |
     title: "Mi Homelab"
     search:
-      provider: "google"  # Simple identifier
+      provider: "google"  # Only the simple identifier for v0.10.9
       target: "_blank"
-      providers:  # Explicit URL mappings
-        google: "https://www.google.com/search?q="
-        duckduckgo: "https://duckduckgo.com/?q="
-        brave: "https://search.brave.com/search?q="
-      default: "google"  # Fallback provider
     appearance:
-      theme: "dark"  # Optional theme setting
+      theme: "dark"
