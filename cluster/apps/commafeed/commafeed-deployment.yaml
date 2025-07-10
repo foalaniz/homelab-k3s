@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: deployment
 metadata:
   name: commafeed
@@ -20,7 +20,7 @@ spech:
     image: athou/commafeed:4.5.0
     env:
       - name: DATABASE_URL
-        value: "postgres://$(DB_USER):$(DB_PASSWORD)@postgresql.database.svc.cluster.local:5432/commafeed"
+        value: "postgresql://$(DB_USER):$(DB_PASSWORD)@postgresql.database.svc.cluster.local:5432/commafeed"
       - name: DATABASE_USER
         valueFrom:
           name: commafeed-creds
