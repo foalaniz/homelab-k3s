@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: homepage-config
-  namespace: media-stack 
+  namespace: media-stack
 data:
   bookmarks.yaml: |
     - Search:
@@ -26,5 +26,12 @@ data:
   settings.yaml: |
     title: "Mi Homelab"
     search:
-      provider: "https://www.google.com/search?q="
+      provider: "google"  # Simple identifier
       target: "_blank"
+      providers:  # Explicit URL mappings
+        google: "https://www.google.com/search?q="
+        duckduckgo: "https://duckduckgo.com/?q="
+        brave: "https://search.brave.com/search?q="
+      default: "google"  # Fallback provider
+    appearance:
+      theme: "dark"  # Optional theme setting
