@@ -1,3 +1,4 @@
+# cluster/apps/commafeed/commafeed-networking.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -7,23 +8,20 @@ spec:
   selector:
     app: commafeed
   ports:
-    - name: http
-      port: 8082
+    - port: 8082
       targetPort: 8082
-
 ---
-
-ApiVersion: traefik.io/v1alpha1
-kind: IngressRouter
-metadata: 
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
   name: commafeed
   namespace: media-stack
 spec:
   entryPoints:
     - web
-  router:
-    -match: Host(`commafeed.homelab.local`)
-    kind: Rule
-    services: 
-      - name: commafeed
-        port: 8082
+  routes:
+    - match: Host(`rss.homelab.local`) # Dominio para Commafeed
+      kind: Rule
+      services:
+        - name: commafeed
+          port: 8082
