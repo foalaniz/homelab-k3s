@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: commafeed
-  namespace: database 
+  namespace: database
   labels:
     app: commafeed
 spec:
@@ -19,19 +19,17 @@ spec:
         - name: commafeed
           image: athou/commafeed:4.5.0
           env:
-            - name: DATABASE_URL
-              value: "postgresql://$(DB_USER):$(DB_PASSWORD)@postgresql.database.svc.cluster.local:5432/commafeed"
-            - name: DB_USER
+            - name: COMMAFEED_DATABASE_URL
+              value: "postgresql://postgresql.database.svc.cluster.local:5432/commafeed"
+            - name: COMMAFEED_DATABASE_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: commafeed-creds
                   key: DB_USER
-                 
-            - name: DB_PASSWORD
+            - name: COMMAFEED_DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: commafeed-creds
                   key: DB_PASSWORD
-                 
           ports:
-            - containerPort: 8082
+            - containerPort: 8080 
