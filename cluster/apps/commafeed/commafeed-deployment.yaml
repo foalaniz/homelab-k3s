@@ -1,9 +1,8 @@
-# cluster/apps/commafeed/commafeed-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: commafeed
-  namespace: media-stack # 
+  namespace: database 
   labels:
     app: commafeed
 spec:
@@ -18,7 +17,7 @@ spec:
     spec:
       containers:
         - name: commafeed
-          image: athou/commafeed:4.5.0
+          image: commafeed/commafeed:2.9.0
           env:
             - name: DATABASE_URL
               value: "postgresql://$(DB_USER):$(DB_PASSWORD)@postgresql.database.svc.cluster.local:5432/commafeed"
@@ -27,12 +26,12 @@ spec:
                 secretKeyRef:
                   name: commafeed-creds
                   key: DB_USER
-                  namespace: database # 
+                 
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: commafeed-creds
                   key: DB_PASSWORD
-                  namespace: database # 
+                 
           ports:
             - containerPort: 8082
