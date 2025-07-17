@@ -1,3 +1,4 @@
+# cluster/apps/traefik-system/helm-release.yaml
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -14,25 +15,18 @@ spec:
         name: traefik
         namespace: flux-system
   values:
-    #  servicio sea de tipo LoadBalancer para que MetalLB le dé una IP
     service:
-      type: LoadBalancer
-      loadBalancerIP: 192.168.1.45
-    # Habilita el dashboard de Traefik para poder verlo
+      type: LoadBalancer # Let MetalLB assign an IP from the dynamic pool
     api:
       dashboard: true
-      insecure: true #  permite acceder sin HTTPS por ahora
-
-    #  puertos de entrada.
+      insecure: true
     ports:
       web:
         port: 8000
-        # Redirigi el puerto 80 del exterior al puerto 8000 de Traefik
         exposedPort: 80
         protocol: TCP
       websecure:
         port: 8443
-        # Redirigis el puerto 443 del exterior al puerto 8443 de Traefik
         exposedPort: 443
         protocol: TCP
       traefik:
