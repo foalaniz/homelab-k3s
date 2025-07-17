@@ -51,14 +51,6 @@ data:
             icon: pgadmin.png
             description: Administrador de PostgreSQL
 
-  # --- Bookmarks ---
-  bookmarks.yaml: |
-    - Búsqueda:
-        - Google:
-            href: https://google.com
-        - DuckDuckGo:
-            href: https://duckduckgo.com
-
   # --- Widgets ---
   widgets.yaml: |
     - resources:
