@@ -9,3 +9,4 @@ resources:
   - ./lidarr
   - ./prowlarr
   - ./jellyfin
+  - ./plex
