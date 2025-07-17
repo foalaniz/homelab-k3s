@@ -16,7 +16,8 @@ spec:
         namespace: flux-system
   values:
     service:
-      type: LoadBalancer # Let MetalLB assign an IP from the dynamic pool
+      type: LoadBalancer
+      loadBalancerIP: 192.168.1.45
     api:
       dashboard: true
       insecure: true
