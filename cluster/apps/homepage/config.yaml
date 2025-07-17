@@ -4,8 +4,11 @@ kind: ConfigMap
 metadata:
   name: homepage-settings
   namespace: media-stack
-data:
+data: 
   settings.yaml: |
+    connectivityCheck:
+      forwards:
+        - "X-Forwarded-Host"
     title: Mi Homelab
     background: "#2F4F4F"
     providers:
