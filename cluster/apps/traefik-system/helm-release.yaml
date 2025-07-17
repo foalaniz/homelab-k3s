@@ -15,6 +15,10 @@ spec:
         name: traefik
         namespace: flux-system
   values:
+    # --- INICIO DEL CAMBIO ---
+    accessLogs:
+      enabled: true
+    # --- FIN DEL CAMBIO ---
     service:
       type: LoadBalancer
       loadBalancerIP: 192.168.1.50
