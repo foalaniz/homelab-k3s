@@ -20,20 +20,19 @@ spec:
       tag: v0.9.5
 
     ingress:
-      enabled: true
-      ingressClassName: traefik
-      hosts:
-        - host: home.homelab.local
-          paths:
-            - path: /
-              pathType: Prefix
-      tls: []
+      main:
+        enabled: true
+        ingressClassName: traefik
+        hosts:
+          - host: home.homelab.local
+            paths:
+              - path: /
+                pathType: Prefix
+        tls: []
 
-    # Le decimos a homepage que use nuestro ConfigMap
-    # para su configuración.
     persistence:
       config:
         enabled: true
         type: configMap
-        name: homepage-config # El nombre del ConfigMap que creamos
-        mountPath: /app/config # La ruta interna del contenedor
+        name: homepage-config
+        mountPath: /app/config
