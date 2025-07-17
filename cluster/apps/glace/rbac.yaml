@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: glance
-  namespace: glance
+  name: glace
+  namespace: glace
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: glance-reader
+  name: glace-reader
 rules:
 - apiGroups: [""]
   resources: ["nodes", "pods", "persistentvolumes", "persistentvolumeclaims"]
@@ -19,12 +19,12 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: glance-reader-binding
+  name: glace-reader-binding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: glance-reader
+  name: glace-reader
 subjects:
 - kind: ServiceAccount
-  name: glance
-  namespace: glance
+  name: glace
+  namespace: glace
