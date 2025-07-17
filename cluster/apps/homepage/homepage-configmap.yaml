@@ -4,67 +4,13 @@ metadata:
   name: homepage-config
   namespace: media-stack
 data:
-  # --- General Settings ---
   settings.yaml: |
+    ---
     title: Mi Homelab
     background: "#2F4F4F"
-    search:
-      provider: google
-      target: _blank
-
-  # --- Services ---
   services.yaml: |
-    - "Mis Aplicaciones":
-        - Sonarr:
-            href: "http://series.homelab.local"
-            icon: sonarr.png
-        - Radarr:
-            href: "http://movies.homelab.local"
-            icon: radarr.png
-        - Lidarr:
-            href: "http://music.homelab.local"
-            icon: lidarr.png
-        - Prowlarr:
-            href: "http://prowlarr.homelab.local"
-            icon: prowlarr.png
-        - qBittorrent:
-            href: "http://downloads.homelab.local"
-            icon: qbittorrent.png
-        - Commafeed:
-            href: "http://rss.homelab.local"
-            icon: commafeed.png
-        - Plex:
-            href: "http://plex.homelab.local"
-            icon: plex.png
-
+    ---
     - "Infraestructura":
         - Traefik:
             href: "http://traefik.homelab.local/dashboard/#/"
             icon: traefik.png
-            description: Dashboard de Traefik
-        - AdGuard:
-            href: "http://adguard.homelab.local"
-            icon: adguard-home.png
-            description: Bloqueador de Anuncios
-        - pgAdmin:
-            href: "http://pgadmin.homelab.local"
-            icon: pgadmin.png
-            description: Administrador de PostgreSQL
-
-  # --- Bookmarks ---
-  bookmarks.yaml: |
-    - Búsqueda:
-        - Google:
-            href: "https://google.com"
-            abbr: G
-        - DuckDuckGo:
-            href: "https://duckduckgo.com"
-            description: "Motor de búsqueda privado"
-            abbr: DDG
-
-  # --- Widgets ---
-  widgets.yaml: |
-    - resources:
-        label: Cluster
-        cpu: true
-        memory: true
