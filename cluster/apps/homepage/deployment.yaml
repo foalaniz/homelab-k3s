@@ -15,7 +15,7 @@ spec:
     metadata:
       annotations:
         # Forza un reinicio del pod al aplicar este cambio
-        restartedAt: "2025-07-17T16:42:00Z"
+        restartedAt: "2025-07-17T16:00:00Z"
       labels:
         app: homepage
     spec:

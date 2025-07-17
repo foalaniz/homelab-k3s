@@ -30,7 +30,6 @@ data:
         - Radarr:
             href: http://movies.homelab.local
             icon: radarr.png
-
     - "Infraestructura":
         - Traefik:
             href: http://traefik.homelab.local/dashboard/#/
