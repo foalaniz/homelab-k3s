@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: glance
-  namespace: glance
+  name: glace
+  namespace: glace
   labels:
-    app: glance
+    app: glace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: glance
+      app: glace
   template:
     metadata:
       labels:
-        app: glance
+        app: glace
     spec:
-      serviceAccountName: glance
+      serviceAccountName: glace
       containers:
-        - name: glance
+        - name: glace
           image: glace/dashboard:latest
           env:
             - name: TZ
@@ -38,4 +38,4 @@ spec:
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: glance-config
+            claimName: glace-config
