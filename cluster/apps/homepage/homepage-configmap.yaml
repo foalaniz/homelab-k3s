@@ -13,21 +13,53 @@ data:
       target: _blank
 
   # --- Services ---
-  # Leave this empty for now to fix the error
   services.yaml: |
     - "Mis Aplicaciones":
         - Sonarr:
             href: http://series.homelab.local
             icon: sonarr.png
+        - Radarr:
+            href: http://movies.homelab.local
+            icon: radarr.png
+        - Lidarr:
+            href: http://music.homelab.local
+            icon: lidarr.png
+        - Prowlarr:
+            href: http://prowlarr.homelab.local
+            icon: prowlarr.png
+        - qBittorrent:
+            href: http://downloads.homelab.local
+            icon: qbittorrent.png
+        - Commafeed:
+            href: http://rss.homelab.local
+            icon: commafeed.png
+        - Plex:
+            href: http://plex.homelab.local
+            icon: plex.png
+
+    - "Infraestructura":
+        - Traefik:
+            href: http://traefik.homelab.local/dashboard/#/
+            icon: traefik.png
+            description: Dashboard de Traefik
+        - AdGuard:
+            href: http://adguard.homelab.local
+            icon: adguard-home.png
+            description: Bloqueador de Anuncios
+        - pgAdmin:
+            href: http://pgadmin.homelab.local
+            icon: pgadmin.png
+            description: Administrador de PostgreSQL
 
   # --- Bookmarks ---
   bookmarks.yaml: |
     - Búsqueda:
         - Google:
             href: https://google.com
+        - DuckDuckGo:
+            href: https://duckduckgo.com
 
   # --- Widgets ---
-  # Keep your cluster widget
   widgets.yaml: |
     - resources:
         label: Cluster
