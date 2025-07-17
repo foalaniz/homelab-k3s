@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: glance
+  namespace: glance
+  labels:
+    app: glance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: glance
+  template:
+    metadata:
+      labels:
+        app: glance
+    spec:
+      serviceAccountName: glance
+      containers:
+        - name: glance
+          image: ghcr.io/glanceapp/glance:v0.6.2 # Usamos una versión específica
+          ports:
+            - containerPort: 61208
+              name: http
+          volumeMounts:
+            - name: config
+              mountPath: /app/db
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: glance-config
