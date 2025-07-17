@@ -1,0 +1,45 @@
+# cluster/apps/homepage/config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: media-stack
+data:
+  # settings.yaml
+  settings.yaml: |
+    title: Mi Homelab
+    background: "#2F4F4F"
+    providers:
+      search:
+        provider: google
+        target: _blank
+
+  # services.yaml
+  services.yaml: |
+    - "Mis Aplicaciones":
+        - Sonarr:
+            href: http://series.homelab.local
+            icon: sonarr.png
+        - Radarr:
+            href: http://movies.homelab.local
+            icon: radarr.png
+
+    - "Infraestructura":
+        - Traefik:
+            href: http://traefik.homelab.local/dashboard/#/
+            icon: traefik.png
+            description: Dashboard de Traefik
+
+  # bookmarks.yaml
+  bookmarks.yaml: |
+    - Búsqueda:
+        - Google:
+            href: https://google.com
+            abbr: G
+
+  # widgets.yaml
+  widgets.yaml: |
+    - resources:
+        label: Cluster
+        cpu: true
+        memory: true
