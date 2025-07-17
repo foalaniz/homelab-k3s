@@ -18,7 +18,10 @@ spec:
       serviceAccountName: glance
       containers:
         - name: glance
-          image: ghcr.io/glanceapp/glance:v0.6.2 # Usamos una versión específica
+          image: lscr.io/linuxserver/glances:latest
+          env:
+            - name: TZ
+              value: "America/Mexico_City"
           ports:
             - containerPort: 61208
               name: http
