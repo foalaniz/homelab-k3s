@@ -1,0 +1,6 @@
+apiVersion: kustomize.config
+kind: Kustomization
+resources:
+  - plex-pvc.yaml
+  - plex-deployment.yaml
+  - plex-networking.yaml
