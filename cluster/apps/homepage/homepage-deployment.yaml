@@ -18,33 +18,15 @@ spec:
     spec:
       containers:
         - name: homepage
-          image: ghcr.io/gethomepage/homepage:v0.10.9
+          image: ghcr.io/gethomepage/homepage:latest
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
               value: "home.homelab.local"
           ports:
             - containerPort: 3000
-          volumeMounts:
-            - name: config
-              mountPath: /app/config
-            - name: config-files
-              mountPath: /app/config/services.yaml
-              subPath: services.yaml
-            - name: config-files
-              mountPath: /app/config/bookmarks.yaml
-              subPath: bookmarks.yaml
-            - name: config-files
-              mountPath: /app/config/widgets.yaml
-              subPath: widgets.yaml
-            - name: config-files
-              mountPath: /app/config/settings.yaml
-              subPath: settings.yaml
-      volumes:
-        - name: config
-          emptyDir: {}
-        - name: config-files
-          configMap:
-            name: homepage-config
+          # La sección de volumeMounts se ha eliminado
+
+      # La sección de volumes se ha eliminado
 
 ---
 
