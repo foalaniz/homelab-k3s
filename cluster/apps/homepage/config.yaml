@@ -6,11 +6,9 @@ metadata:
   namespace: media-stack
 data:
   settings.yaml: |
-    # Solución para el error "Host validation failed"
     connectivityCheck:
       forwards:
         - "X-Forwarded-Host"
-
     title: Mi Homelab
     background: "#2F4F4F"
     providers:
