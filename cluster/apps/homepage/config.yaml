@@ -1,4 +1,4 @@
-# homepage-config-fix.yaml
+# cluster/apps/homepage/config.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,14 +6,59 @@ metadata:
   namespace: media-stack
 data:
   settings.yaml: |
-    # Habilita el reenvío de host para la validación
+    # Solución para el error "Host validation failed"
     connectivityCheck:
       forwards:
         - "X-Forwarded-Host"
-    
+
     title: Mi Homelab
     background: "#2F4F4F"
     providers:
       search:
         provider: google
         target: _blank
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-services
+  namespace: media-stack
+data:
+  services.yaml: |
+    - "Mis Aplicaciones":
+        - Sonarr:
+            href: http://series.homelab.local
+            icon: sonarr.png
+        - Radarr:
+            href: http://movies.homelab.local
+            icon: radarr.png
+
+    - "Infraestructura":
+        - Traefik:
+            href: http://traefik.homelab.local/dashboard/#/
+            icon: traefik.png
+            description: Dashboard de Traefik
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-bookmarks
+  namespace: media-stack
+data:
+  bookmarks.yaml: |
+    - Búsqueda:
+        - Google:
+            href: https://google.com
+            abbr: G
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-widgets
+  namespace: media-stack
+data:
+  widgets.yaml: |
+    - resources:
+        label: Cluster
+        cpu: true
+        memory: true
