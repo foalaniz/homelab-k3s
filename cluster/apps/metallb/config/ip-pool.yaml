@@ -1,11 +1,22 @@
+# foalaniz/homelab-k3s/cluster/apps/metallb/config/ip-pool.yaml
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: main-pool
+  name: static-pool
   namespace: metallb-system
 spec:
   addresses:
-    - "192.168.1.44-192.168.1.64" # rango de IPs
+    - "192.168.1.45-192.168.1.46" 
+  autoAssign: false 
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: dynamic-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    - "192.168.1.50-192.168.1.64" 
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
@@ -14,4 +25,5 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-    - main-pool
+    - static-pool
+    - dynamic-pool
