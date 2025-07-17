@@ -7,7 +7,7 @@ data:
   # --- General Settings ---
   settings.yaml: |
     title: Mi Homelab
-    background: https://images.unsplash.com/photo-1470813740244-df37b8c1edcb
+    background: "#2F4F4F"
     search:
       provider: google
       target: _blank
@@ -16,38 +16,38 @@ data:
   services.yaml: |
     - "Mis Aplicaciones":
         - Sonarr:
-            href: http://series.homelab.local
+            href: "http://series.homelab.local"
             icon: sonarr.png
         - Radarr:
-            href: http://movies.homelab.local
+            href: "http://movies.homelab.local"
             icon: radarr.png
         - Lidarr:
-            href: http://music.homelab.local
+            href: "http://music.homelab.local"
             icon: lidarr.png
         - Prowlarr:
-            href: http://prowlarr.homelab.local
+            href: "http://prowlarr.homelab.local"
             icon: prowlarr.png
         - qBittorrent:
-            href: http://downloads.homelab.local
+            href: "http://downloads.homelab.local"
             icon: qbittorrent.png
         - Commafeed:
-            href: http://rss.homelab.local
+            href: "http://rss.homelab.local"
             icon: commafeed.png
         - Plex:
-            href: http://plex.homelab.local
+            href: "http://plex.homelab.local"
             icon: plex.png
 
     - "Infraestructura":
         - Traefik:
-            href: http://traefik.homelab.local/dashboard/#/
+            href: "http://traefik.homelab.local/dashboard/#/"
             icon: traefik.png
             description: Dashboard de Traefik
         - AdGuard:
-            href: http://adguard.homelab.local
+            href: "http://adguard.homelab.local"
             icon: adguard-home.png
             description: Bloqueador de Anuncios
         - pgAdmin:
-            href: http://pgadmin.homelab.local
+            href: "http://pgadmin.homelab.local"
             icon: pgadmin.png
             description: Administrador de PostgreSQL
 
@@ -55,12 +55,11 @@ data:
   bookmarks.yaml: |
     - Búsqueda:
         - Google:
-            href: https://google.com
-            # Abbreviation is optional
+            href: "https://google.com"
             abbr: G
         - DuckDuckGo:
-            href: https://duckduckgo.com
-            description: Motor de búsqueda privado
+            href: "https://duckduckgo.com"
+            description: "Motor de búsqueda privado"
             abbr: DDG
 
   # --- Widgets ---
