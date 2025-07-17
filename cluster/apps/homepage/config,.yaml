@@ -2,10 +2,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: homepage-config
+  name: homepage-settings
   namespace: media-stack
 data:
-  # settings.yaml
   settings.yaml: |
     title: Mi Homelab
     background: "#2F4F4F"
@@ -13,8 +12,13 @@ data:
       search:
         provider: google
         target: _blank
-
-  # services.yaml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-services
+  namespace: media-stack
+data:
   services.yaml: |
     - "Mis Aplicaciones":
         - Sonarr:
@@ -29,15 +33,25 @@ data:
             href: http://traefik.homelab.local/dashboard/#/
             icon: traefik.png
             description: Dashboard de Traefik
-
-  # bookmarks.yaml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-bookmarks
+  namespace: media-stack
+data:
   bookmarks.yaml: |
     - Búsqueda:
         - Google:
             href: https://google.com
             abbr: G
-
-  # widgets.yaml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-widgets
+  namespace: media-stack
+data:
   widgets.yaml: |
     - resources:
         label: Cluster

@@ -1,0 +1,63 @@
+# cluster/apps/homepage/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homepage
+  namespace: media-stack
+  labels:
+    app: homepage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homepage
+  template:
+    metadata:
+      labels:
+        app: homepage
+    spec:
+      containers:
+        - name: homepage
+          image: "ghcr.io/gethomepage/homepage:latest"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: settings
+              mountPath: /app/config/settings.yaml
+              subPath: settings.yaml
+            - name: services
+              mountPath: /app/config/services.yaml
+              subPath: services.yaml
+            - name: bookmarks
+              mountPath: /app/config/bookmarks.yaml
+              subPath: bookmarks.yaml
+            - name: widgets
+              mountPath: /app/config/widgets.yaml
+              subPath: widgets.yaml
+      volumes:
+        - name: settings
+          configMap:
+            name: homepage-settings
+        - name: services
+          configMap:
+            name: homepage-services
+        - name: bookmarks
+          configMap:
+            name: homepage-bookmarks
+        - name: widgets
+          configMap:
+            name: homepage-widgets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homepage
+  namespace: media-stack
+spec:
+  selector:
+    app: homepage
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
