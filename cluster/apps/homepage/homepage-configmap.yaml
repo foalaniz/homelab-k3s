@@ -4,16 +4,22 @@ metadata:
   name: homepage-config
   namespace: media-stack
 data:
-  # We only need settings.yaml for the app to start
+  # --- General Settings ---
   settings.yaml: |
-    ---
     title: Mi Homelab
-    background: "#121212"
+    background: "#2F4F4F" # Dark Slate Gray background
 
-  # Leave other files empty for now
+  # --- Services (add your services back here one-by-one) ---
   services.yaml: |
-    ---
+    - "Infrastructure":
+        - Traefik:
+            href: "http://traefik.homelab.local/dashboard/#/"
+            icon: traefik.png
+
+  # --- Bookmarks (can be left empty for now) ---
   bookmarks.yaml: |
     ---
+
+  # --- Widgets (can be left empty for now) ---
   widgets.yaml: |
     ---
