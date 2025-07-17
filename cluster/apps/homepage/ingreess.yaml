@@ -1,0 +1,15 @@
+# cluster/apps/homepage/ingress.yaml
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: homepage-ingress
+  namespace: media-stack
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`home.homelab.local`)
+      kind: Rule
+      services:
+        - name: homepage
+          port: 80
