@@ -1,0 +1,77 @@
+# cluster/apps/homepage/helm-release.yaml
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homepage
+  namespace: media-stack # Deploy into the media-stack namespace
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: homepage
+      version: 1.2.0 # Use a specific chart version for stability
+      sourceRef:
+        kind: HelmRepository
+        name: jameswynn
+        namespace: flux-system
+  values:
+    # Set the container image to the same version you had
+    image:
+      repository: ghcr.io/gethomepage/homepage
+      tag: v0.9.5
+
+    # Configure the Ingress (Traefik IngressRoute)
+    ingress:
+      enabled: true
+      # This will create a Traefik IngressRoute
+      ingressClassName: traefik
+      annotations:
+        # This tells the chart to use Traefik's CRDs
+        kubernetes.io/ingress.class: traefik
+      hosts:
+        - host: home.homelab.local
+          paths:
+            - path: /
+              pathType: Prefix
+      tls: [] # Disable TLS for now
+
+    # This is where your ConfigMap configuration now lives
+    config:
+      # settings.yaml
+      settings:
+        title: Mi Homelab
+        background: "#2F4F4F"
+        providers:
+          search:
+            provider: google
+            target: _blank
+
+      # services.yaml
+      services:
+        - "Mis Aplicaciones":
+            - Sonarr:
+                href: http://series.homelab.local
+                icon: sonarr.png
+            - Radarr:
+                href: http://movies.homelab.local
+                icon: radarr.png
+
+        - "Infraestructura":
+            - Traefik:
+                href: http://traefik.homelab.local/dashboard/#/
+                icon: traefik.png
+                description: Dashboard de Traefik
+
+      # bookmarks.yaml
+      bookmarks:
+        - Búsqueda:
+            - Google:
+                href: https://google.com
+                abbr: G
+
+      # widgets.yaml
+      widgets:
+        - resources:
+            label: Cluster
+            cpu: true
+            memory: true

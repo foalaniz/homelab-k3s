@@ -5,3 +5,4 @@ resources:
   - traefik.yaml
   - bitnami.yaml
   - community-charts.yaml
+  - jameswynn.yaml
