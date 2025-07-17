@@ -10,6 +10,6 @@ resources:
  - ./media 
  - ./database 
  - ./media-stack
- - ./homepage
+ - ./homepage/
  - ./pgadmin
  - ./commafeed
