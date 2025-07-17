@@ -5,8 +5,8 @@ resources:
  - ./metallb-config.yaml
  - ./networking-adguard.yaml 
  - ./traefik-install.yaml
- - ./traefik-system 
- - ./networking/
+ #- ./traefik-system 
+ #- ./networking/
  - ./media 
  - ./database 
  - ./media-stack
