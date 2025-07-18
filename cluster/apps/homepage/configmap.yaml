@@ -1,0 +1,75 @@
+  # cluster/apps/homepage/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: homepage
+data:
+  kubernetes.yaml: |
+    mode: cluster
+  settings.yaml: |
+    # Add any specific Homepage settings here
+    # For example:
+    # theme: dark
+  bookmarks.yaml: |
+    - Homelab:
+        - GitHub:
+            - abbr: GH
+              href: "https://github.com/foalaniz/homelab-k3s"
+  services.yaml: |
+    - Networking:
+        - Traefik:
+            href: http://traefik.homelab.local
+            description: Traefik Dashboard
+            icon: traefik
+        - AdGuard:
+            href: http://adguard.homelab.local
+            description: AdGuard Home
+            icon: adguard-home
+    - Media:
+        - qBittorrent:
+            href: http://downloads.homelab.local
+            description: Torrent Client
+            icon: qbittorrent
+        - Sonarr:
+            href: http://series.homelab.local
+            description: TV Show Management
+            icon: sonarr
+        - Radarr:
+            href: http://movies.homelab.local
+            description: Movie Management
+            icon: radarr
+        - Lidarr:
+            href: http://music.homelab.local
+            description: Music Management
+            icon: lidarr
+        - Prowlarr:
+            href: http://prowlarr.homelab.local
+            description: Indexer Manager
+            icon: prowlarr
+        - Jellyfin:
+            href: http://jellyfin.homelab.local
+            description: Media Server
+            icon: jellyfin
+        - Plex:
+            href: http://plex.homelab.local
+            description: Media Server
+            icon: plex
+    - Database:
+        - pgAdmin:
+            href: http://pgadmin.homelab.local
+            description: PostgreSQL Admin
+            icon: pgadmin
+  widgets.yaml: |
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+    - resources:
+        cpu: true
+        memory: true

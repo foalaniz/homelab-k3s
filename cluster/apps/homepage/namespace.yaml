@@ -1,0 +1,7 @@
+# cluster/apps/homepage/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: homepage
+  labels:
+    name: homepage
