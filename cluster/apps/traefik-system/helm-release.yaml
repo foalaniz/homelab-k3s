@@ -19,8 +19,7 @@ spec:
       enabled: true
     service:
       type: LoadBalancer
-      # Remove or comment out the following line:
-      # loadBalancerIP: 192.168.1.50
+      loadBalancerIP: 192.168.1.45
     api:
       dashboard: true
       insecure: true
