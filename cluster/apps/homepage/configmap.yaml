@@ -7,7 +7,6 @@ metadata:
 data:
   # Defaults for homepage
   docker.yaml: ""
-  custom.css: ""
   custom.js: ""
 
   kubernetes.yaml: |
@@ -91,7 +90,7 @@ data:
   custom.css: |
     /* Apply a full-screen background image */
     body {
-      background-image: url('https://images.unsplash.com/photo-1722231818801-f1a76d744923_HERE'); /* Replace with your image URL */
+      background-image: url('https://images.unsplash.com/photo-1722231818801-f1a76d744923'); /* Replace with your image URL */
       background-size: cover;
       background-position: center;
       background-attachment: fixed; /* Keeps background fixed when scrolling */
