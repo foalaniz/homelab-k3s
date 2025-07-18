@@ -1,15 +1,14 @@
-# cluster/apps/traefik-install.yaml
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: traefik-install
+  name: monitoring
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: metallb-config # Traefik depende de MetalLB para obtener su IP
   interval: 10m
+  path: ./cluster/apps/monitoring
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./cluster/apps/traefik-system
+  dependsOn:
+    - name: traefik-install
