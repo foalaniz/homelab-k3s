@@ -24,7 +24,7 @@ data:
   services.yaml: |
     - Networking:
         - Traefik:
-            href: http://traefik.homelab.local
+            href: http://traefik.homelab.local/dashboard/#/
             description: Traefik Dashboard
             icon: traefik
         - AdGuard:
