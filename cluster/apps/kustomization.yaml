@@ -13,3 +13,4 @@ resources:
  - ./pgadmin
  - ./commafeed
  - ./homepage.yaml
+ - ./monitoring.yaml
