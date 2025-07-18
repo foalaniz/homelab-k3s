@@ -65,6 +65,15 @@ data:
             href: http://pgadmin.homelab.local
             description: PostgreSQL Admin
             icon: pgadmin
+    - Monitoring: # New category
+        - Grafana:
+            href: http://grafana.homelab.local
+            description: Metrics Dashboard
+            icon: grafana
+        - Prometheus:
+            href: http://prometheus.homelab.local
+            description: Metrics Server
+            icon: prometheus
   widgets.yaml: |
     - kubernetes:
         cluster:
@@ -78,3 +87,45 @@ data:
     - resources:
         cpu: true
         memory: true
+
+  custom.css: |
+    /* Apply a full-screen background image */
+    body {
+      background-image: url('https://images.unsplash.com/photo-1722231818801-f1a76d744923_HERE'); /* Replace with your image URL */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed; /* Keeps background fixed when scrolling */
+    }
+
+    /* Style for the main content areas to give them a glass effect */
+    .dashboard,
+    .dashboard-items .item,
+    .widget,
+    .card,
+    .services-container,
+    .service-group {
+      background: rgba(255, 255, 255, 0.1); /* White background with 10% opacity */
+      border-radius: 16px; /* Rounded corners */
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+      backdrop-filter: blur(8px); /* Blur effect on the background behind the element */
+      -webkit-backdrop-filter: blur(8px); /* Safari support */
+      border: 1px solid rgba(255, 255, 255, 0.3); /* Light border for definition */
+      padding: 20px; /* Adjust padding as needed */
+      margin-bottom: 20px; /* Space between elements */
+    }
+
+    /* Optional: Adjust text color for better readability on transparent backgrounds */
+    body, h1, h2, h3, h4, h5, h6, p, span, a, .text-color {
+      color: #f0f0f0; /* Light color for text */
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Subtle shadow for text readability */
+    }
+
+    /* Adjust specific elements if they don't look right with the general styling */
+    .item-title, .item-description {
+      color: inherit; /* Inherit color from parent to apply new text color */
+    }
+
+    /* Make sure icons are visible */
+    .icon {
+      filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5));
+    }
