@@ -1,3 +1,4 @@
+# cluster/apps/networking-adguard.yaml
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -9,5 +10,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  # Point to the directory containing your AdGuard configuration
   path: ./cluster/apps/networking/adguard
+  dependsOn:
+    - name: traefik-install 
