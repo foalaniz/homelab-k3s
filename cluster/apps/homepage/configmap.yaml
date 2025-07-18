@@ -17,9 +17,12 @@ data:
     # theme: dark
     background:
       image: https://images.unsplash.com/photo-1722231818801-f1a76d744923
-      opacity: 50 # Ajusta la opacidad si necesitas que el fondo de color se vea más
-    cardBlur: md # Aplica el desenfoque a las tarjetas. Opciones: xs, sm, md, lg, xl, 2xl, 3xl.
-                 # NOTA: Esto es incompatible con 'background.blur'
+      blur: xl
+      brightness: 90
+      opacity: 60
+
+    cardBlur: sm
+
   bookmarks.yaml: |
     - Homelab:
         - GitHub:
