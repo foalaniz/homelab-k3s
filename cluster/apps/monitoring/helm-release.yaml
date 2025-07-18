@@ -1,3 +1,4 @@
+# cluster/apps/monitoring/helm-release.yaml
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -27,6 +28,13 @@ spec:
           - "grafana.homelab.local"
         paths:
           - /
+      persistence: # This block is now correctly nested under the 'grafana' key
+        enabled: true
+        type: pvc
+        storageClassName: local-path
+        accessModes:
+          - ReadWriteOnce
+        size: 5Gi
     prometheus:
       enabled: true
       ingress:
@@ -38,8 +46,7 @@ spec:
           - "prometheus.homelab.local"
         paths:
           - /
-    prometheus:
-      prometheusSpec:
+      prometheusSpec: # This block is now correctly nested under the 'prometheus' key
         storageSpec:
           volumeClaimTemplate:
             spec:
@@ -48,11 +55,3 @@ spec:
               resources:
                 requests:
                   storage: 10Gi # Ajusta según tus necesidades
-    grafana:
-      persistence:
-        enabled: true
-        type: pvc
-        storageClassName: local-path
-        accessModes:
-          - ReadWriteOnce
-        size: 5Gi
