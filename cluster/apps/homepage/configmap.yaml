@@ -16,7 +16,7 @@ data:
     # For example:
     # theme: dark
     background:
-      image: https://images.unsplash.com/photo-1722231818801-f1a76d744923
+      image: https://images.unsplash.com/photo-1695376425475-1b6b561f8e4e
       blur: xl
       brightness: 90
       opacity: 60
