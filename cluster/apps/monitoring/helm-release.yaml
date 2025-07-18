@@ -1,0 +1,58 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: "61.3.1" # Revisa la última versión si lo deseas
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+  values:
+    alertmanager:
+      enabled: true
+    grafana:
+      enabled: true
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: web
+        hosts:
+          - "grafana.homelab.local"
+        paths:
+          - /
+    prometheus:
+      enabled: true
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: web
+        hosts:
+          - "prometheus.homelab.local"
+        paths:
+          - /
+    prometheus:
+      prometheusSpec:
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: local-path
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 10Gi # Ajusta según tus necesidades
+    grafana:
+      persistence:
+        enabled: true
+        type: pvc
+        storageClassName: local-path
+        accessModes:
+          - ReadWriteOnce
+        size: 5Gi
