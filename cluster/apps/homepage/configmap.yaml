@@ -1,10 +1,15 @@
-  # cluster/apps/homepage/configmap.yaml
+# cluster/apps/homepage/configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: homepage-config
   namespace: homepage
 data:
+  # Defaults for homepage
+  docker.yaml: ""
+  custom.css: ""
+  custom.js: ""
+
   kubernetes.yaml: |
     mode: cluster
   settings.yaml: |
