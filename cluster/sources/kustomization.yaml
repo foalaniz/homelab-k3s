@@ -6,4 +6,3 @@ resources:
   - bitnami.yaml
   - community-charts.yaml
   - jameswynn.yaml
-  - prometheus-community.yaml
