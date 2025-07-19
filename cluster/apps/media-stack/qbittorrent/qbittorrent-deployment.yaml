@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: qbittorrent
-          image: lscr.io/linuxserver/latest
+          image: lscr.io/linuxserver/qbittorrent:latest
           env:
             - name: PUID
               value: "1000"
