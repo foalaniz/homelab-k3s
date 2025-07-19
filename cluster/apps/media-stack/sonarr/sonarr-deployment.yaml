@@ -34,12 +34,12 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-            - name: downloads 
+            - name: downloads
               mountPath: /media
       volumes:
         - name: config
           persistentVolumeClaim:
             claimName: sonarr-config
-        - name: downloads 
+        - name: downloads
           hostPath:
             path: /mnt/windows-media
