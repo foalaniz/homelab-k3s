@@ -39,6 +39,6 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config
-        - name: media # Usa el mismo hostPath que los otros 'arrs'
+        - name: media 
           hostPath:
             path: /mnt/windows-media
