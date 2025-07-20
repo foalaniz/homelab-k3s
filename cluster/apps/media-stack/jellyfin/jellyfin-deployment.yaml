@@ -42,3 +42,4 @@ spec:
         - name: media 
           hostPath:
             path: /mnt/windows-media
+            type: Directory
