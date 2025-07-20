@@ -10,3 +10,4 @@ resources:
   - ./prowlarr
   - ./jellyfin
   - ./plex
+  - ./bazarr
