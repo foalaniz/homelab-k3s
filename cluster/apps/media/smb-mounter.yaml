@@ -13,7 +13,7 @@ spec:
       labels:
         app: smb-mounter
     spec:
-      # tolerations MUST be here, inside spec.template.spec
+      # tolerations DEBE estar aquí, y solo aquí
       tolerations:
       - operator: "Exists"
         effect: "NoSchedule"
@@ -39,13 +39,13 @@ spec:
         - /bin/sh
         - -c
         - |
-          # Install cifs-utils
+          # Instala utilidades cifs
           apk add --no-cache cifs-utils
           
-          # Create mount point
+          # Crea el punto de montaje
           mkdir -p /host/mnt/windows-media
           
-          # Check if already mounted
+          # Comprueba si ya está montado
           if ! mountpoint -q /host/mnt/windows-media; then
             echo "Mounting SMB share..."
             mount -t cifs //192.168.1.6/media /host/mnt/windows-media \
@@ -61,7 +61,7 @@ spec:
             echo "SMB share already mounted"
           fi
           
-          # Keep container running and monitor mount
+          # Mantiene el contenedor en ejecución y monitoriza el montaje
           while true; do
             if ! mountpoint -q /host/mnt/windows-media; then
               echo "Mount lost, attempting to remount..."
