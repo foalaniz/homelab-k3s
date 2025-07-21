@@ -20,7 +20,7 @@ spec:
       initContainers:
         - name: wait-for-smb
           image: busybox:1.36
-          command: ['sh', '-c', 'until [ -d "/media/movies" ] && [ -d "/media/tv" ]; do echo "waiting for SMB subfolders..."; sleep 5; done']
+          command: ['sh', '-c', 'until [ -d "/media" ] && [ "$(ls -A /media)" ]; do echo "waiting for SMB mount to be populated..."; sleep 5; done']
           volumeMounts:
             - name: downloads
               mountPath: /media
