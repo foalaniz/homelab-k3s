@@ -1,3 +1,4 @@
+# cluster/apps/media/smb-mounter.yaml
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -12,6 +13,7 @@ spec:
       labels:
         app: smb-mounter
     spec:
+      # tolerations MUST be here, inside spec.template.spec
       tolerations:
       - operator: "Exists"
         effect: "NoSchedule"
