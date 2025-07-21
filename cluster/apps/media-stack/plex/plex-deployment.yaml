@@ -22,7 +22,7 @@ spec:
           image: busybox:1.36
           command: ['sh', '-c', 'until [ -d "/media" ] && [ "$(ls -A /media)" ]; do echo "waiting for SMB mount to be populated..."; sleep 5; done']
           volumeMounts:
-            - name: downloads
+            - name: media
               mountPath: /media
       containers:
         - name: plex
