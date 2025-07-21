@@ -13,7 +13,7 @@ spec:
       labels:
         app: smb-mounter
     spec:
-      # El bloque 'tolerations' está ahora en la posición correcta.
+      # tolerations DEBE estar aquí, con esta indentación
       tolerations:
       - operator: "Exists"
         effect: "NoSchedule"
@@ -39,34 +39,19 @@ spec:
         - /bin/sh
         - -c
         - |
-          # Instala utilidades cifs
           apk add --no-cache cifs-utils
-          
-          # Crea el punto de montaje
           mkdir -p /host/mnt/windows-media
-          
-          # Comprueba si ya está montado
           if ! mountpoint -q /host/mnt/windows-media; then
             echo "Mounting SMB share..."
-            mount -t cifs //192.168.1.6/media /host/mnt/windows-media \
-                -o username="$SMB_USERNAME",password="$SMB_PASSWORD",uid=1000,gid=1000,file_mode=0777,dir_mode=0777,vers=3.0
-            
-            if [ $? -eq 0 ]; then
-              echo "SMB share mounted successfully"
-            else
-              echo "Failed to mount SMB share"
-              exit 1
-            fi
+            mount -t cifs //192.168.1.6/media /host/mnt/windows-media -o username="$SMB_USERNAME",password="$SMB_PASSWORD",uid=1000,gid=1000,file_mode=0777,dir_mode=0777,vers=3.0
+            if [ $? -eq 0 ]; then echo "SMB share mounted successfully"; else echo "Failed to mount SMB share"; exit 1; fi
           else
             echo "SMB share already mounted"
           fi
-          
-          # Mantiene el contenedor en ejecución y monitoriza el montaje
           while true; do
             if ! mountpoint -q /host/mnt/windows-media; then
               echo "Mount lost, attempting to remount..."
-              mount -t cifs //192.168.1.6/media /host/mnt/windows-media \
-                -o username="$SMB_USERNAME",password="$SMB_PASSWORD",uid=0,gid=0,file_mode=0777,dir_mode=0777,vers=3.0
+              mount -t cifs //192.168.1.6/media /host/mnt/windows-media -o username="$SMB_USERNAME",password="$SMB_PASSWORD",uid=0,gid=0,file_mode=0777,dir_mode=0777,vers=3.0
             fi
             sleep 30
           done
