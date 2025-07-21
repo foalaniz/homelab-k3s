@@ -18,6 +18,13 @@ spec:
       labels:
         app: prowlarr
     spec:
+      initContainers:
+        - name: wait-for-smb
+          image: busybox:1.36
+          command: ['sh', '-c', 'until ls -A /media | grep .; do echo "waiting for SMB mount..."; sleep 5; done']
+          volumeMounts:
+            - name: downloads
+              mountPath: /media
       containers:
         - name: prowlarr
           image: lscr.io/linuxserver/prowlarr:latest
