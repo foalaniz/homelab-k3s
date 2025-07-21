@@ -13,8 +13,8 @@ spec:
         app: smb-mounter
     spec:
       tolerations:
-      - operator: Exists
-        effect: NoSchedule
+      - operator: "Exists"
+        effect: "NoSchedule"
       hostNetwork: true
       hostPID: true
       containers:
@@ -84,6 +84,3 @@ spec:
         hostPath:
           path: /
           type: Directory
-      tolerations:
-      - operator: Exists
-        effect: NoSchedule
