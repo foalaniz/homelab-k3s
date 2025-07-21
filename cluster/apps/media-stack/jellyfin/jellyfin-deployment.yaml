@@ -40,7 +40,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-            - name: media # Montamos el SMB para que Jellyfin pueda escanearlo
+            - name: media 
               mountPath: /media
       volumes:
         - name: config
