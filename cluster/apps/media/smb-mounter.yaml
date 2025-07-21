@@ -12,6 +12,9 @@ spec:
       labels:
         app: smb-mounter
     spec:
+      tolerations:
+      - operator: Exists
+        effect: NoSchedule
       hostNetwork: true
       hostPID: true
       containers:
