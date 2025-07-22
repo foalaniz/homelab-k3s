@@ -1,16 +1,18 @@
+# cluster/base/smb-storageclass.yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: smb-dynamic 
+  name: smb-dynamic # Nombre de tu nuevo StorageClass
 provisioner: smb.csi.k8s.io
 parameters:
-  source: "//192.168.1.6/k8s-data" 
+  source: "//192.168.1.6/k8s-data" # LA IP DE TU HOST WINDOWS Y EL NUEVO RECURSO COMPARTIDO
   
+  # ¡NUEVAS LÍNEAS IMPORTANTES PARA EL USUARIO Y CONTRASEÑA!
+  # Estas le dicen al CSI driver qué claves del secret usar para el nombre de usuario y la contraseña.
+  username: "username"  # Debe coincidir con la clave 'username' en tu csi-smb-secret
+  password: "password"  # Debe coincidir con la clave 'password' en tu csi-smb-secret
   
-  username: "username"  
-  password: "password"  
-  
-  
+  # Estas líneas ya estaban correctas y enlazan el Secret con el driver.
   csi.storage.k8s.io/node-stage-secret-name: "csi-smb-secret"
   csi.storage.k8s.io/node-stage-secret-namespace: "kube-system"
   
