@@ -64,7 +64,7 @@ spec:
               memory: "256Mi"
               cpu: "150m"
             limits:
-              memory: "512Mi"
+              memory: "728Mi"
               cpu: "500m"
           # Add health checks
           livenessProbe:
