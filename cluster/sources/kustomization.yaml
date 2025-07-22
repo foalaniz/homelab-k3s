@@ -7,3 +7,4 @@ resources:
   - community-charts.yaml
   - jameswynn.yaml
   - prometheus-community.yaml
+  - smb-csi-driver.yaml

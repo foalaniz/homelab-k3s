@@ -13,8 +13,6 @@ spec:
       labels:
         app: smb-mounter
     spec:
-      # El bloque 'tolerations' está ahora en la posición correcta,
-      # dentro de spec.template.spec
       tolerations:
       - operator: "Exists"
         effect: "NoSchedule"

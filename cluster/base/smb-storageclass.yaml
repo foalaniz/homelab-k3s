@@ -1,0 +1,17 @@
+# cluster/base/smb-storageclass.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: smb-dynamic # Nombre de tu nuevo StorageClass
+provisioner: smb.csi.k8s.io
+parameters:
+  source: "//192.168.1.6/k8s-data" 
+ 
+mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=1000 # O el UID/GID de tu usuario de K3s/aplicaciones
+  - gid=1000 # O el UID/GID de tu usuario de K3s/aplicaciones
+  - vers=3.0 # La versión de SMB a usar
+reclaimPolicy: Retain 
+volumeBindingMode: Immediate
