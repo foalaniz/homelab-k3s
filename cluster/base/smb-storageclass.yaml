@@ -1,17 +1,24 @@
-# cluster/base/smb-storageclass.yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: smb-dynamic # Nombre de tu nuevo StorageClass
+  name: smb-dynamic 
 provisioner: smb.csi.k8s.io
 parameters:
   source: "//192.168.1.6/k8s-data" 
- 
+  
+  
+  username: "username"  
+  password: "password"  
+  
+  
+  csi.storage.k8s.io/node-stage-secret-name: "csi-smb-secret"
+  csi.storage.k8s.io/node-stage-secret-namespace: "kube-system"
+  
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
 mountOptions:
   - dir_mode=0777
   - file_mode=0777
   - uid=1000 # O el UID/GID de tu usuario de K3s/aplicaciones
   - gid=1000 # O el UID/GID de tu usuario de K3s/aplicaciones
   - vers=3.0 # La versión de SMB a usar
-reclaimPolicy: Retain 
-volumeBindingMode: Immediate
