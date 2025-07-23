@@ -56,7 +56,6 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-              subPath: qbittorrent
             - name: downloads
               mountPath: /media
       volumes:
