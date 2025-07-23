@@ -18,6 +18,8 @@ spec:
       existingSecret: "postgres-creds"
       database: "homelab"
     primary:
+      volumePermissions:
+        enabled: true
       persistence:
         enabled: true
         storageClass: "smb-strict" 

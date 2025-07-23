@@ -17,6 +17,10 @@ spec:
       labels:
         app: adguard-home
     spec:
+      securityContext: # Add this entire block
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
       - name: adguard-home
         image: adguard/adguardhome:v0.107.52

@@ -23,6 +23,8 @@ spec:
         adminPasswordKey: "DB_PASSWORD"
         userPasswordKey: "DB_PASSWORD"
     primary:
+      volumePermissions:
+        enabled: true
       persistence:
         enabled: true
         storageClass: "smb-strict" 

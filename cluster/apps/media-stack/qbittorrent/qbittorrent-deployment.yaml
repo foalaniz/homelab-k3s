@@ -48,7 +48,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /login
-              port: http
+              port: webui
             initialDelaySeconds: 15
             periodSeconds: 10
             timeoutSeconds: 5
