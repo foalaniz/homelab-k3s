@@ -18,7 +18,6 @@ spec:
       existingSecret: "postgres-creds"
       database: "homelab"
     primary:
-      # Este es el cambio clave para forzar el usuario correcto
       podSecurityContext:
         enabled: true
         fsGroup: 1001

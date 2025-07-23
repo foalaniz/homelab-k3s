@@ -9,11 +9,11 @@ resources:
   # Aplicaciones que dependen de las bases
   - ./networking-adguard.yaml
   - ./media.yaml
-  #- ./database.yaml
+  - ./database.yaml
   - ./monitoring.yaml
   - ./homepage.yaml
 
   # Aplicaciones que dependen de otras apps (como database)
-  #- ./pgadmin.yaml
-  #- ./commafeed.yaml
+  - ./pgadmin.yaml
+  - ./commafeed.yaml
   - ./media-stack.yaml
