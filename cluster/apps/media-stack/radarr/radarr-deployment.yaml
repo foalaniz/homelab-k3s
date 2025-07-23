@@ -40,7 +40,7 @@ spec:
               containerPort: 7878
           readinessProbe:
             httpGet:
-              path: /
+              path: /login
               port: http
             initialDelaySeconds: 15
             periodSeconds: 10
