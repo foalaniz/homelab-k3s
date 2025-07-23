@@ -19,3 +19,4 @@ mountOptions:
   - uid=1000 # O el UID/GID de tu usuario de K3s/aplicaciones
   - gid=1000 # O el UID/GID de tu usuario de K3s/aplicaciones
   - vers=3.0 # La versión de SMB a usar
+  - nobrl
