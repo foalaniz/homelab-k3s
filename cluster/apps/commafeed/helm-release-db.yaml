@@ -17,22 +17,23 @@ spec:
     auth:
       database: commafeed
       username: commafeed
-      # Use the standard PostgreSQL secret key names
       existingSecret: "commafeed-creds"
       secretKeys:
         adminPasswordKey: "DB_PASSWORD"
         userPasswordKey: "DB_PASSWORD"
     primary:
-      volumePermissions:
+      # Este es el cambio clave para forzar el usuario correcto
+      podSecurityContext:
         enabled: true
+        fsGroup: 1001
+      containerSecurityContext:
+        enabled: true
+        runAsUser: 1001
       persistence:
         enabled: true
-        storageClass: "smb-strict" 
-        subPath: "commafeed-data"        
+        storageClass: "smb-strict"
         size: 2Gi
-        subPath: postgresql-data
-      # Add initialization script for CommAFeed
+        subPath: "postgresql-data"
       initdb:
         scripts:
           init.sql: |
-

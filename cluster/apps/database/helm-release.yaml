@@ -18,11 +18,15 @@ spec:
       existingSecret: "postgres-creds"
       database: "homelab"
     primary:
-      volumePermissions:
+      # Este es el cambio clave para forzar el usuario correcto
+      podSecurityContext:
         enabled: true
+        fsGroup: 1001
+      containerSecurityContext:
+        enabled: true
+        runAsUser: 1001
       persistence:
         enabled: true
-        storageClass: "smb-strict" 
-        subPath: "postgresql-data" 
+        storageClass: "smb-strict"
         size: 8Gi
-        subPath: postgresql-data
+        subPath: "postgresql-data"
