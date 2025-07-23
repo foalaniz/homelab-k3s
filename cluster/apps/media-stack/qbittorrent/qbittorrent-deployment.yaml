@@ -45,6 +45,14 @@ spec:
             - name: torrent-udp
               containerPort: 6881
               protocol: UDP
+          readinessProbe:
+            httpGet:
+              path: /login
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
           volumeMounts:
             - name: config
               mountPath: /config
