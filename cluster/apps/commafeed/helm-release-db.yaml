@@ -32,6 +32,7 @@ spec:
         enabled: true
         storageClass: "smb-strict"
         size: 2Gi
+        subPath: "commafeed-data"
       initdb:
         scripts:
           init.sql: |
