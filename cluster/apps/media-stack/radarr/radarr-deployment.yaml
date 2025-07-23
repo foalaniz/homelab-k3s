@@ -49,6 +49,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+              subPath: radarr
             - name: downloads
               mountPath: /media
       volumes:

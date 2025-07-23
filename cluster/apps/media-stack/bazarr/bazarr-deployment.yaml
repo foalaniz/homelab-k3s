@@ -48,6 +48,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+              subPath: bazarr
             - name: downloads
               mountPath: /media
       volumes:

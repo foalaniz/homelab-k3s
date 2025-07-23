@@ -49,6 +49,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+              subPath: prowlarr
             - name: downloads 
               mountPath: /media
       volumes:
