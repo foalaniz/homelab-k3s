@@ -1,4 +1,4 @@
-# cluster/apps/media-stack/qbittorrent-deployment.yaml
+# cluster/apps/media-stack/qbittorrent/qbittorrent-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -9,8 +9,8 @@ metadata:
 spec:
   replicas: 1
   strategy:
-   type: Recreate 
-  selector: 
+    type: Recreate
+  selector:
     matchLabels:
       app: qbittorrent
   template:
@@ -36,7 +36,7 @@ spec:
             - name: TZ
               value: "America/Mexico_City"
             - name: WEBUI_PORT
-              value: "8080" 
+              value: "8080"
           ports:
             - name: webui
               containerPort: 8080
@@ -45,17 +45,10 @@ spec:
             - name: torrent-udp
               containerPort: 6881
               protocol: UDP
-          readinessProbe:
-            httpGet:
-              path: /login
-              port: webui
-            initialDelaySeconds: 15
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
           volumeMounts:
             - name: config
               mountPath: /config
+              subPath: qbittorrent 
             - name: downloads
               mountPath: /media
       volumes:
@@ -64,4 +57,4 @@ spec:
             claimName: qbittorrent-config
         - name: downloads
           hostPath:
-            path: /mnt/windows-media 
+            path: /mnt/windows-media
