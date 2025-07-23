@@ -18,18 +18,18 @@ spec:
       labels:
         app: pgadmin
     spec:
+      # El bloque securityContext ha sido eliminado de aquí
       containers:
         - name: pgadmin
           image: dpage/pgadmin4:8.8
           envFrom:
             - secretRef:
-                name: pgadmin-creds 
+                name: pgadmin-creds
           ports:
             - containerPort: 80
           volumeMounts:
             - name: pgadmin-data
               mountPath: /var/lib/pgadmin
-              subPath: pgadmin
             - name: config
               mountPath: /pgadmin4/servers.json
               subPath: servers.json

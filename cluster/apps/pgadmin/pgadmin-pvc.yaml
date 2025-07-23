@@ -1,3 +1,4 @@
+# cluster/apps/pgadmin/pgadmin-pvc.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -6,7 +7,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: smb-dynamic
+  storageClassName: local-path  # <--- ESTE ES EL CAMBIO CLAVE
   resources:
     requests:
-      storage: 2Gi
+      storage: 2Gi 
