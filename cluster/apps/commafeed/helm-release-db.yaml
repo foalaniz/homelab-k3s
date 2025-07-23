@@ -25,7 +25,7 @@ spec:
     primary:
       persistence:
         enabled: true
-        storageClass: "local-path"
+        storageClass: "smb-dynamic"
         size: 2Gi
       # Add initialization script for CommAFeed
       initdb:

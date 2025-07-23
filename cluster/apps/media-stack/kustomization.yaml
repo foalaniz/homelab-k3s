@@ -8,6 +8,6 @@ resources:
   - ./radarr
   - ./lidarr
   - ./prowlarr
-  - ./jellyfin
-  - ./plex
+  #- ./jellyfin
+  #- ./plex
   - ./bazarr
