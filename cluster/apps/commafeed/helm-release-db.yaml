@@ -25,7 +25,8 @@ spec:
     primary:
       persistence:
         enabled: true
-        storageClass: "smb-dynamic"
+        storageClass: "smb-strict" 
+        subPath: "commafeed-data"        
         size: 2Gi
         subPath: postgresql-data
       # Add initialization script for CommAFeed

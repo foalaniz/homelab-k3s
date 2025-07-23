@@ -20,6 +20,7 @@ spec:
     primary:
       persistence:
         enabled: true
-        storageClass: "smb-dynamic"
+        storageClass: "smb-strict" 
+        subPath: "postgresql-data" 
         size: 8Gi
         subPath: postgresql-data

@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - ./smb-csi-driver-helm-release.yaml
   - ./smb-storageclass.yaml
+  - ./smb-storageclass-strict.yaml
