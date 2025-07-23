@@ -32,8 +32,10 @@ spec:
         volumeMounts:
         - name: adguard-config
           mountPath: /opt/adguardhome/conf
+          subPath: adguard/config
         - name: adguard-data
           mountPath: /opt/adguardhome/work
+          subPath: adguard/data
         env:
         - name: TZ
           value: "America/Mexico_City"

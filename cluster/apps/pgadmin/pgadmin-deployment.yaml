@@ -29,6 +29,7 @@ spec:
           volumeMounts:
             - name: pgadmin-data
               mountPath: /var/lib/pgadmin
+              subPath: pgadmin
             - name: config
               mountPath: /pgadmin4/servers.json
               subPath: servers.json
