@@ -27,6 +27,7 @@ spec:
         enabled: true
         storageClass: "smb-dynamic"
         size: 2Gi
+        subPath: postgresql-data
       # Add initialization script for CommAFeed
       initdb:
         scripts:
