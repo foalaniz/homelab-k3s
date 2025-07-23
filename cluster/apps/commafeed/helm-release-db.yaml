@@ -32,7 +32,6 @@ spec:
         enabled: true
         storageClass: "smb-strict"
         size: 2Gi
-        subPath: "postgresql-data" # Corregido
       initdb:
         scripts:
           init.sql: |
