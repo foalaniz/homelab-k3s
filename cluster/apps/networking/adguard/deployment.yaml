@@ -47,24 +47,24 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
-        # --- MODIFIED PROBES ---
-        livenessProbe:
-          httpGet:
-            path: /control/status
-            port: 80
-          initialDelaySeconds: 60 # Increased from 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-        readinessProbe:
-          httpGet:
-            path: /control/status
-            port: 80
-          initialDelaySeconds: 30 # Increased from 5
-          periodSeconds: 5
-          timeoutSeconds: 2
-          failureThreshold: 3
-        # --- END OF MODIFICATIONS ---
+        # --- PROBES TEMPORARILY DISABLED ---
+        # livenessProbe:
+        #   httpGet:
+        #     path: /control/status
+        #     port: 80
+        #   initialDelaySeconds: 60
+        #   periodSeconds: 10
+        #   timeoutSeconds: 5
+        #   failureThreshold: 3
+        # readinessProbe:
+        #   httpGet:
+        #     path: /control/status
+        #     port: 80
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 5
+        #   timeoutSeconds: 2
+        #   failureThreshold: 3
+        # --- END OF CHANGE ---
       volumes:
       - name: adguard-config
         persistentVolumeClaim:
