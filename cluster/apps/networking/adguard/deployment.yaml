@@ -1,3 +1,4 @@
+# cluster/apps/networking/adguard/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,7 +9,7 @@ metadata:
 spec:
   replicas: 1
   strategy:
-    type: Recreate  # Porque usamos PVC ReadWriteOnce
+    type: Recreate
   selector:
     matchLabels:
       app: adguard-home
@@ -17,7 +18,7 @@ spec:
       labels:
         app: adguard-home
     spec:
-      securityContext: # Add this entire block
+      securityContext: # <--- Mueve el bloque aquí
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
