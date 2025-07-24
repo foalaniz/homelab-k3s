@@ -22,7 +22,7 @@ spec:
       - name: adguard-home
         image: adguard/adguardhome:v0.107.52
         ports:
-        - containerPort: 3000
+        - containerPort: 80
           name: http
         - containerPort: 53
           name: dns-tcp
@@ -48,22 +48,22 @@ spec:
             memory: "512Mi"
             cpu: "500m"
         # --- PROBES TEMPORARILY DISABLED ---
-        # livenessProbe:
-        #   httpGet:
-        #     path: /control/status
-        #     port: 80
-        #   initialDelaySeconds: 60
-        #   periodSeconds: 10
-        #   timeoutSeconds: 5
-        #   failureThreshold: 3
-        # readinessProbe:
-        #   httpGet:
-        #     path: /control/status
-        #     port: 80
-        #   initialDelaySeconds: 30
-        #   periodSeconds: 5
-        #   timeoutSeconds: 2
-        #   failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /control/status
+              port: 80
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /control/status
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
         # --- END OF CHANGE ---
       volumes:
       - name: adguard-config
