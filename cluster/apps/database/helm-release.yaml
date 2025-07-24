@@ -29,7 +29,7 @@ spec:
         runAsUser: 1001
       persistence:
         enabled: true
-        storageClass: "smb-dynamic"  # Changed from local-path
+        storageClass: "smb-strict"  # CAMBIO: usar smb-strict en lugar de smb-dynamic
         size: 8Gi
       resources:
         requests:
@@ -39,4 +39,4 @@ spec:
           memory: "512Mi"
           cpu: "500m"
     metrics:
-      enabled: false  # Disable metrics to reduce resource usage
+      enabled: false
