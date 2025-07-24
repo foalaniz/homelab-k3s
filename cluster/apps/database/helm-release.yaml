@@ -29,7 +29,7 @@ spec:
         runAsUser: 1001
       persistence:
         enabled: true
-        storageClass: "smb-strict"  # CAMBIO: usar smb-strict en lugar de smb-dynamic
+        storageClass: "smb-postgres"  # CAMBIO: usar smb-strict en lugar de smb-dynamic
         size: 8Gi
       resources:
         requests:
