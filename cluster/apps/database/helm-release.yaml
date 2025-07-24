@@ -21,32 +21,10 @@ spec:
         adminPasswordKey: "postgres-password"
         userPasswordKey: "password"
     primary:
-      podSecurityContext:
-        enabled: true
-        fsGroup: 1001
-      containerSecurityContext:
-        enabled: true
-        runAsUser: 1001
       persistence:
         enabled: true
-        storageClass: "smb-dynamic"
+        storageClass: "local-path"  
         size: 8Gi
-      initContainers:
-        - name: fix-permissions
-          image: busybox:1.36
-          command: ['sh', '-c']
-          args:
-            - |
-              echo "=== Fixing PostgreSQL permissions ==="
-              mkdir -p /bitnami/postgresql/data
-              chown -R 1001:1001 /bitnami/postgresql/data
-              chmod -R 700 /bitnami/postgresql/data
-              echo "✅ Permissions fixed!"
-          volumeMounts:
-            - name: data
-              mountPath: /bitnami/postgresql/data
-          securityContext:
-            runAsUser: 0
       resources:
         requests:
           memory: "256Mi"
@@ -54,5 +32,3 @@ spec:
         limits:
           memory: "512Mi"
           cpu: "500m"
-    metrics:
-      enabled: false
