@@ -1,3 +1,4 @@
+# cluster/apps/database/helm-release.yaml
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -18,8 +19,13 @@ spec:
       existingSecret: "postgres-creds"
       database: "homelab"
     primary:
+      podSecurityContext:
+        enabled: true
+        fsGroup: 1001
+      containerSecurityContext:
+        enabled: true
+        runAsUser: 1001
       persistence:
         enabled: true
-        storageClass: "smb-strict"
+        storageClass: "local-path" # <-- CAMBIO CRÍTICO
         size: 8Gi
-        subPath: "postgresql-data"
