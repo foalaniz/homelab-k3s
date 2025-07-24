@@ -31,22 +31,22 @@ spec:
         enabled: true
         storageClass: "smb-dynamic"
         size: 8Gi
-      # AGREGAR ESTA SECCIÓN
       initContainers:
         - name: fix-permissions
           image: busybox:1.36
           command: ['sh', '-c']
           args:
             - |
-              echo "Fixing permissions for PostgreSQL data directory..."
+              echo "=== Fixing PostgreSQL permissions ==="
+              mkdir -p /bitnami/postgresql/data
               chown -R 1001:1001 /bitnami/postgresql/data
               chmod -R 700 /bitnami/postgresql/data
-              echo "Permissions fixed successfully"
+              echo "✅ Permissions fixed!"
           volumeMounts:
             - name: data
               mountPath: /bitnami/postgresql/data
           securityContext:
-            runAsUser: 0  # Necesario para cambiar ownership
+            runAsUser: 0
       resources:
         requests:
           memory: "256Mi"
