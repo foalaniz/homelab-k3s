@@ -1,0 +1,19 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: smb-postgres
+provisioner: smb.csi.k8s.io
+parameters:
+  source: "//192.168.1.6/k8s-data"
+  csi.storage.k8s.io/node-stage-secret-name: "csi-smb-secret"
+  csi.storage.k8s.io/node-stage-secret-namespace: "kube-system"
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+mountOptions:
+  - dir_mode=0700   # Permisos estrictos para directorios
+  - file_mode=0600  # Permisos estrictos para archivos
+  - uid=1001        # Usuario PostgreSQL
+  - gid=1001        # Grupo PostgreSQL
+  - vers=3.0
+  - nobrl
+  - forceuuid       # Forzar UUID para ownership

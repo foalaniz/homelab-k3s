@@ -59,14 +59,10 @@ data:
             href: http://prowlarr.homelab.local
             description: Indexer Manager
             icon: prowlarr
-        - Jellyfin:
-            href: http://jellyfin.homelab.local
-            description: Media Server
-            icon: jellyfin
-        - Plex:
-            href: http://plex.homelab.local
-            description: Media Server
-            icon: plex
+        - Commafeed:
+            href: http://rss.homelab.local
+            description: RSS Feed Reader
+            icon: commafeed
     - Database:
         - pgAdmin:
             href: http://pgadmin.homelab.local

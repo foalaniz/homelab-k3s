@@ -5,3 +5,4 @@ resources:
   - ./smb-storageclass.yaml
   - ./smb-storageclass-strict.yaml
   - ./smb-storageclass-adguard.yaml
+  - ./smb-storageclass-postgres.yaml
