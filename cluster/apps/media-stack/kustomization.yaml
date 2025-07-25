@@ -12,3 +12,4 @@ resources:
   #- ./plex
   - ./bazarr
   - ./overseerr
+  - ./flaresolverr
