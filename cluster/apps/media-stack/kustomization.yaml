@@ -11,3 +11,4 @@ resources:
   #- ./jellyfin
   #- ./plex
   - ./bazarr
+  - ./overseerr
