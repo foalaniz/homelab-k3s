@@ -1,0 +1,9 @@
+# cluster/sources/wg-easy.yaml
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: wg-easy
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://ghcr.io/wg-easy/helm-charts
