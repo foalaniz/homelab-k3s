@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: wg-easy
-          image: weejewel/wg-easy:12
+          image: ghcr.io/wg-easy/wg-easy:latest
           imagePullPolicy: IfNotPresent
           env:
             # Replace with your public IP or DDNS name later.
