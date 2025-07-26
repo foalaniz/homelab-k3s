@@ -1,0 +1,60 @@
+# cluster/apps/vpn/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wg-easy
+  namespace: vpn
+  labels:
+    app: wg-easy
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: wg-easy
+  template:
+    metadata:
+      labels:
+        app: wg-easy
+    spec:
+      containers:
+        - name: wg-easy
+          image: weejewel/wg-easy:12
+          imagePullPolicy: IfNotPresent
+          env:
+            # Replace with your public IP or DDNS name later.
+            # This is used for client config generation.
+            - name: WG_HOST
+              value: "vpn.homelab.local"
+
+            # This is the password for the web UI, taken from our secret.
+            - name: WG_EASY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wg-easy-secret
+                  key: WG_EASY_PASSWORD
+            
+            # Allows VPN clients to access your entire local network.
+            - name: WG_ALLOWED_IPS
+              value: "192.168.1.0/24"
+
+          ports:
+            - name: wireguard
+              containerPort: 51820
+              protocol: UDP
+            - name: web
+              containerPort: 51821
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /etc/wireguard
+          # Add a capability required for WireGuard to manage network interfaces.
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: wg-easy-config

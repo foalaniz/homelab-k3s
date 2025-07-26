@@ -1,0 +1,13 @@
+# cluster/apps/vpn/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wg-easy-config
+  namespace: vpn
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: smb-dynamic 
+  resources:
+    requests:
+      storage: 1Gi
