@@ -20,14 +20,13 @@ spec:
       labels:
         app: subnet-router
     spec:
+      serviceAccountName: tailscale 
       containers:
       - name: tailscale
         image: tailscale/tailscale:latest
         env:
         - name: TS_ROUTES
           value: "192.168.1.0/24"
-        # Esta parte es segura. Simplemente le dice al deployment
-        # que busque un secreto que ya existe en el clúster.
         - name: TS_AUTH_KEY
           valueFrom:
             secretKeyRef:
