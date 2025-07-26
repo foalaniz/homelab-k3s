@@ -8,4 +8,3 @@ resources:
   - jameswynn.yaml
   - prometheus-community.yaml
   - smb-csi-driver.yaml
-  - wg-easy.yaml

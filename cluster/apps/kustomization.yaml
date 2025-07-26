@@ -17,4 +17,3 @@ resources:
   - ./pgadmin.yaml
   - ./commafeed.yaml
   - ./media-stack.yaml
-  - ./vpn.yaml
