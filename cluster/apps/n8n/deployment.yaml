@@ -23,6 +23,8 @@ spec:
           env:
             - name: TZ
               value: "America/Mexico_City"
+            - name: N8N_SECURE_COOKIE
+              value: "false"
           ports:
             - name: http
               containerPort: 5678
