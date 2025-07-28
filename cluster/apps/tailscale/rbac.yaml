@@ -10,11 +10,9 @@ metadata:
   name: tailscale
   namespace: tailscale
 rules:
-  # Permite a Tailscale crear y gestionar su propio secreto de estado
 - apiGroups: [""]
   resources: ["secrets"]
   verbs: ["create", "get", "update", "patch"]
-  # Permite al pod crear eventos de Kubernetes para facilitar la depuración
 - apiGroups: [""]
   resources: ["events"]
   verbs: ["create", "patch"]

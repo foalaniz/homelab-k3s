@@ -18,4 +18,5 @@ resources:
   - ./pgadmin.yaml
   - ./commafeed.yaml
   - ./media-stack.yaml
+  - ./n8n.yaml
 
