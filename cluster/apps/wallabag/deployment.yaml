@@ -15,19 +15,16 @@ spec:
       labels:
         app: wallabag
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - name: wallabag
           image: ghcr.io/wallabag/docker:2.6.10
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
           ports:
             - containerPort: 80
           env:
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
             - name: SYMFONY__ENV__DATABASE_DRIVER
               value: "pdo_pgsql"
             - name: SYMFONY__ENV__DATABASE_HOST
@@ -44,7 +41,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: postgres-creds
-                  key: postgres-password # <-- ESTA ES LA CORRECCIÓN
+                  key: postgres-password
             - name: SYMFONY__ENV__SECRET
               valueFrom:
                 secretKeyRef:
@@ -64,8 +61,7 @@ spec:
               cpu: "1000m"
       volumes:
         - name: data
-          persistentVolumeClaim:
-            claimName: wallabag-data
+          emptyDir: {} 
         - name: images
           persistentVolumeClaim:
-            claimName: wallabag-images
+            claimName: wallabag-images 
