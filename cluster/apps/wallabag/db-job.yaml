@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wallabag-db-creator
+  namespace: wallabag
+spec:
+  template:
+    spec:
+      containers:
+      - name: db-creator
+        image: postgres:15
+        env:
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-creds
+              namespace: database
+              key: postgres-password
+        command:
+        - "sh"
+        - "-c"
+        - |
+          psql -h postgresql.database.svc.cluster.local -U postgres -d homelab -c "CREATE DATABASE wallabag;"
+      restartPolicy: OnFailure
+  backoffLimit: 4
