@@ -43,6 +43,10 @@ data:
             href: http://downloads.homelab.local
             description: Torrent Client
             icon: qbittorrent
+        - Overseerr:
+            href: http://requests.homelab.local
+            description: Request Client
+            icon: overseerr                    
         - Sonarr:
             href: http://series.homelab.local
             description: TV Show Management
@@ -63,6 +67,11 @@ data:
             href: http://rss.homelab.local
             description: RSS Feed Reader
             icon: commafeed
+        - Wallabag:
+            href: http://wallabag.homelab.local
+            description: 
+            icon: wallabag
+            
     - Database:
         - pgAdmin:
             href: http://pgadmin.homelab.local
