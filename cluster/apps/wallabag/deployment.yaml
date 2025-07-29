@@ -15,21 +15,19 @@ spec:
       labels:
         app: wallabag
     spec:
-      initContainers:
-        - name: fix-permissions
-          image: busybox:latest
-          command: ["sh", "-c", "chown -R 1000:1000 /var/www/wallabag/var /var/www/wallabag/web/assets/images"]
-          volumeMounts:
-            - name: data
-              mountPath: /var/www/wallabag/var
-            - name: images
-              mountPath: /var/www/wallabag/web/assets/images
       containers:
         - name: wallabag
           image: ghcr.io/wallabag/docker:2.6.10
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
           ports:
             - containerPort: 80
           env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
             - name: SYMFONY__ENV__DATABASE_DRIVER
               value: "pdo_pgsql"
             - name: SYMFONY__ENV__DATABASE_HOST
@@ -42,11 +40,10 @@ spec:
               value: "postgres"
             - name: SYMFONY__ENV__DOMAIN_NAME
               value: "http://wallabag.homelab.local"
-            # --- Variables desde un Secret ---
             - name: SYMFONY__ENV__DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: wallabag-creds
+                  name: postgres-creds # Este es el secreto que copiaste a este namespace
                   key: DB_PASSWORD
             - name: SYMFONY__ENV__SECRET
               valueFrom:
