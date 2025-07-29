@@ -15,6 +15,10 @@ spec:
       labels:
         app: wallabag
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - name: wallabag
           image: ghcr.io/wallabag/docker:2.6.10
