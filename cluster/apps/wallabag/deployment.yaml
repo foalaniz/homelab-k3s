@@ -43,8 +43,8 @@ spec:
             - name: SYMFONY__ENV__DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-creds # Este es el secreto que copiaste a este namespace
-                  key: DB_PASSWORD
+                  name: postgres-creds
+                  key: postgres-password # <-- ESTA ES LA CORRECCIÓN
             - name: SYMFONY__ENV__SECRET
               valueFrom:
                 secretKeyRef:
