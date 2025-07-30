@@ -22,10 +22,7 @@ spec:
           image: ghcr.io/wallabag/docker:2.6.10
           command: ["/bin/sh", "-c"]
           args:
-            # --- THE DEFINITIVE FIX ---
-            # The entrypoint script expects the argument "wallabag" to start the server.
             - "chown -R 1000:1000 /var/www/wallabag && exec /entrypoint.sh wallabag"
-            # --- END ---
           ports:
             - containerPort: 80
           env:
@@ -61,8 +58,8 @@ spec:
               memory: "256Mi"
               cpu: "150m"
             limits:
-              memory: "768Mi"
-              cpu: "1"
+              memory: "1.5Gi"
+              cpu: "1500m"
       volumes:
         - name: data
           persistentVolumeClaim:
