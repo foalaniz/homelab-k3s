@@ -15,15 +15,12 @@ spec:
       labels:
         app: wallabag
     spec:
-      # La clave: fsGroup asegura que el volumen sea escribible por el grupo correcto (1000).
-      # El contenedor arrancará como root (por defecto), lo que es necesario para su script de inicio.
-      securityContext:
-        fsGroup: 1000
       containers:
         - name: wallabag
           image: ghcr.io/wallabag/docker:2.6.10
-          # El comando de inicio simple y correcto que la imagen espera.
-          command: ["/entrypoint.sh", "wallabag"]
+          command: ["/bin/sh", "-c"]
+          args:
+            - "chown -R 1000:1000 /var/www/wallabag/var /var/www/wallabag/web/assets/images && exec /entrypoint.sh wallabag"
           ports:
             - containerPort: 80
           env:
