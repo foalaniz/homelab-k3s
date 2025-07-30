@@ -115,7 +115,7 @@ data:
         memory: true
     - greeting:
         text_size: xl
-        text: Greeting Text        
+        text: Cuervo Homelab       
 
   custom.css: |
     /* Optional: Adjust text color for better readability on transparent backgrounds */
