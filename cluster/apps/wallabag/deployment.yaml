@@ -7,6 +7,8 @@ metadata:
     app: wallabag
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: wallabag
@@ -17,13 +19,19 @@ spec:
     spec:
       containers:
         - name: wallabag
-          image: ghcr.io/wallabag/docker:2.6.10
-          command: ["/bin/sh", "-c"]
-          args:
-            - "chown -R 1000:1000 /var/www/wallabag/var /var/www/wallabag/web/assets/images && exec /entrypoint.sh wallabag"
+          # 1. LA CLAVE: Usar la imagen de LinuxServer.io
+          image: lscr.io/linuxserver/wallabag:latest
           ports:
             - containerPort: 80
           env:
+            # 2. El script de esta imagen usará PUID/PGID para arreglar los permisos automáticamente.
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "America/Mexico_City"
+            # El resto de tus variables de entorno siguen igual.
             - name: SYMFONY__ENV__DATABASE_DRIVER
               value: "pdo_pgsql"
             - name: SYMFONY__ENV__DATABASE_HOST
@@ -47,8 +55,9 @@ spec:
                   name: wallabag-creds
                   key: SYMFONY_SECRET
           volumeMounts:
+            # 3. Las imágenes de LinuxServer usan /config para los datos de la aplicación.
             - name: data
-              mountPath: /var/www/wallabag/var
+              mountPath: /config
             - name: images
               mountPath: /var/www/wallabag/web/assets/images
           resources:
