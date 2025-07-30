@@ -15,26 +15,19 @@ spec:
       labels:
         app: wallabag
     spec:
-      # Volvemos a un contexto de seguridad estricto, es la mejor práctica.
+      # La clave: fsGroup asegura que el volumen sea escribible por el grupo correcto.
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
         fsGroup: 1000
       containers:
         - name: wallabag
-          # --- INICIO DEL CAMBIO ---
-          # Cambiamos a la nueva imagen de Docker Hub.
-          image: wallabag/wallabag:latest
-          # Eliminamos el 'command' personalizado, ya que esta imagen puede tener un entrypoint diferente.
-          # --- FIN DEL CAMBIO ---
+          # Volvemos a la imagen original que estabas usando.
+          image: ghcr.io/wallabag/docker:2.6.10
+          # El comando de inicio que necesita la imagen para no detenerse.
+          # No necesita 'chown' porque fsGroup se encarga de los permisos del volumen.
+          command: ["/entrypoint.sh", "wallabag"]
           ports:
             - containerPort: 80
           env:
-            # Añadimos PUID y PGID, ya que esta imagen podría usarlos para los permisos.
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
             - name: SYMFONY__ENV__DATABASE_DRIVER
               value: "pdo_pgsql"
             - name: SYMFONY__ENV__DATABASE_HOST
