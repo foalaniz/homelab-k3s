@@ -15,9 +15,30 @@ spec:
       labels:
         app: wallabag
     spec:
+      # --- INICIO: SOLUCIÓN FINAL ---
+      # 1. El securityContext del pod se mantiene para asegurar que fsGroup se aplique.
+      securityContext:
+        fsGroup: 1000
+      
+      # 2. Usamos un initContainer que corre como root (por defecto) para arreglar permisos.
+      initContainers:
+        - name: set-permissions
+          image: busybox:1.36
+          command: ["sh", "-c", "chown -R 1000:1000 /data && chown -R 1000:1000 /images"]
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: images
+              mountPath: /images
+      
       containers:
+        # 3. El contenedor principal corre de forma segura como usuario no-root.
         - name: wallabag
           image: ghcr.io/wallabag/docker:2.6.10
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          # --- FIN: SOLUCIÓN FINAL ---
           ports:
             - containerPort: 80
           env:
