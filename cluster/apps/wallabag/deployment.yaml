@@ -15,15 +15,26 @@ spec:
       labels:
         app: wallabag
     spec:
-      # Sin securityContext, para que el contenedor se ejecute como root.
+      # Volvemos a un contexto de seguridad estricto, es la mejor práctica.
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - name: wallabag
-          image: ghcr.io/wallabag/docker:2.6.10
-          # El comando de inicio que necesita la imagen para no detenerse.
-          command: ["/entrypoint.sh", "wallabag"]
+          # --- INICIO DEL CAMBIO ---
+          # Cambiamos a la nueva imagen de Docker Hub.
+          image: wallabag/wallabag:latest
+          # Eliminamos el 'command' personalizado, ya que esta imagen puede tener un entrypoint diferente.
+          # --- FIN DEL CAMBIO ---
           ports:
             - containerPort: 80
           env:
+            # Añadimos PUID y PGID, ya que esta imagen podría usarlos para los permisos.
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
             - name: SYMFONY__ENV__DATABASE_DRIVER
               value: "pdo_pgsql"
             - name: SYMFONY__ENV__DATABASE_HOST
@@ -56,8 +67,8 @@ spec:
               memory: "256Mi"
               cpu: "150m"
             limits:
-              memory: "768Mi"
-              cpu: "1000m"
+              memory: "1.5Gi"
+              cpu: "1500m"
       volumes:
         - name: data
           persistentVolumeClaim:
