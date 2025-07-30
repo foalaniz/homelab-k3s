@@ -22,7 +22,10 @@ spec:
           image: ghcr.io/wallabag/docker:2.6.10
           command: ["/bin/sh", "-c"]
           args:
-            - "chown -R 1000:1000 /var/www/wallabag && exec /entrypoint.sh apache2-foreground"
+            # --- INICIO DEL CAMBIO FINAL ---
+            # El comando correcto es 'start', no 'apache2-foreground'.
+            - "chown -R 1000:1000 /var/www/wallabag && exec /entrypoint.sh start"
+            # --- FIN DEL CAMBIO FINAL ---
           ports:
             - containerPort: 80
           env:
