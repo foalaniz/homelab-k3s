@@ -1,0 +1,14 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: omnivore
+  namespace: omnivore
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`omnivore.homelab.local`)
+      kind: Rule
+      services:
+        - name: web
+          port: 80

@@ -1,0 +1,26 @@
+# cluster/apps/omnivore/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: omnivore-postgres-data
+  namespace: omnivore
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: smb-dynamic
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: omnivore-minio-data
+  namespace: omnivore
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: smb-dynamic
+  resources:
+    requests:
+      storage: 20Gi
