@@ -1,0 +1,14 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: readeck
+  namespace: readeck
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`readeck.homelab.local`)
+      kind: Rule
+      services:
+        - name: readeck
+          port: 80
