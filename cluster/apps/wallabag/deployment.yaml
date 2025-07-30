@@ -15,28 +15,11 @@ spec:
       labels:
         app: wallabag
     spec:
-      securityContext:
-        fsGroup: 1000
-      initContainers:
-        - name: set-permissions
-          image: busybox:1.36
-          command: ["sh", "-c", "chown -R 1000:1000 /data && chown -R 1000:1000 /images"]
-          volumeMounts:
-            - name: data
-              mountPath: /data
-            - name: images
-              mountPath: /images
+      # Se elimina el securityContext para permitir que el contenedor se ejecute como root.
+      # Esta es la clave para que funcione.
       containers:
         - name: wallabag
           image: ghcr.io/wallabag/docker:2.6.10
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-          # --- START: DEBUGGING CHANGE ---
-          # Override the entrypoint to keep the container running
-          command: ["/bin/sh", "-c"]
-          args: ["sleep 3600"]
-          # --- END: DEBUGGING CHANGE ---
           ports:
             - containerPort: 80
           env:
@@ -44,13 +27,36 @@ spec:
               value: "pdo_pgsql"
             - name: SYMFONY__ENV__DATABASE_HOST
               value: "postgresql.database.svc.cluster.local"
-            # ... (rest of your env vars) ...
+            - name: SYMFONY__ENV__DATABASE_PORT
+              value: "5432"
+            - name: SYMFONY__ENV__DATABASE_NAME
+              value: "wallabag"
+            - name: SYMFONY__ENV__DATABASE_USER
+              value: "postgres"
+            - name: SYMFONY__ENV__DOMAIN_NAME
+              value: "http://wallabag.homelab.local"
+            - name: SYMFONY__ENV__DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-creds
+                  key: postgres-password
+            - name: SYMFONY__ENV__SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: wallabag-creds
+                  key: SYMFONY_SECRET
           volumeMounts:
             - name: data
               mountPath: /var/www/wallabag/var
             - name: images
               mountPath: /var/www/wallabag/web/assets/images
-          # ... (rest of your deployment) ...
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "150m"
+            limits:
+              memory: "768Mi"
+              cpu: "1000m"
       volumes:
         - name: data
           persistentVolumeClaim:
