@@ -20,15 +20,9 @@ spec:
       containers:
         - name: wallabag
           image: ghcr.io/wallabag/docker:2.6.10
-          # Se modifica el comando para que el servidor web se ejecute en primer plano y no termine.
-          command:
-            - "/bin/sh"
-            - "-c"
-            - |
-              chown -R 1000:1000 /var/www/wallabag
-              # El comando 'exec' reemplaza el script actual con el servidor web,
-              # asegurando que el contenedor permanezca en ejecución.
-              exec /entrypoint.sh apache2-foreground
+          command: ["/bin/sh", "-c"]
+          args:
+            - "chown -R 1000:1000 /var/www/wallabag && exec /entrypoint.sh apache2-foreground"
           ports:
             - containerPort: 80
           env:
@@ -65,7 +59,7 @@ spec:
               cpu: "150m"
             limits:
               memory: "768Mi"
-              cpu: "1000m"
+              cpu: "1"
       volumes:
         - name: data
           persistentVolumeClaim:
