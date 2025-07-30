@@ -11,16 +11,15 @@ data:
 
   kubernetes.yaml: |
     mode: cluster
+
   settings.yaml: |
-    # Add any specific Homepage settings here
-    # For example:
-    # theme: dark
+    # The 'clean' header style provides a more minimal look.
+    headerStyle: clean
     background:
       image: https://images.unsplash.com/photo-1695376425475-1b6b561f8e4e
       blur: xl
       brightness: 90
       opacity: 60
-
     cardBlur: sm
 
   bookmarks.yaml: |
@@ -28,10 +27,20 @@ data:
         - GitHub:
             - abbr: GH
               href: "https://github.com/foalaniz/homelab-k3s"
+    - Cloud & Media:
+        - Azure Portal:
+            - abbr: AZ
+              icon: microsoft-azure
+              href: "https://portal.azure.com"
+        - YouTube:
+            - abbr: YT
+              icon: youtube
+              href: "https://youtube.com"
+
   services.yaml: |
     - Networking:
         - Traefik:
-            href: http://traefik.homelab.local
+            href: https://traefik.homelab.local/dashboard/#/
             description: Traefik Dashboard
             icon: traefik
         - AdGuard:
@@ -46,7 +55,7 @@ data:
         - Overseerr:
             href: http://requests.homelab.local
             description: Request Client
-            icon: overseerr                    
+            icon: overseerr
         - Sonarr:
             href: http://series.homelab.local
             description: TV Show Management
@@ -63,15 +72,19 @@ data:
             href: http://prowlarr.homelab.local
             description: Indexer Manager
             icon: prowlarr
+    - Productivity & Tools:
+        - N8N:
+            href: http://n8n.homelab.local 
+            description: Workflow Automation
+            icon: n8n
         - Commafeed:
             href: http://rss.homelab.local
             description: RSS Feed Reader
             icon: commafeed
         - Wallabag:
             href: http://wallabag.homelab.local
-            description: 
+            description: Read-it-Later Service
             icon: wallabag
-            
     - Database:
         - pgAdmin:
             href: http://pgadmin.homelab.local
@@ -86,6 +99,7 @@ data:
             href: http://prometheus.homelab.local
             description: Metrics Server
             icon: prometheus
+
   widgets.yaml: |
     - kubernetes:
         cluster:
@@ -99,6 +113,9 @@ data:
     - resources:
         cpu: true
         memory: true
+    - greeting:
+        text_size: xl
+        text: Greeting Text        
 
   custom.css: |
     /* Optional: Adjust text color for better readability on transparent backgrounds */
