@@ -15,22 +15,12 @@ spec:
       labels:
         app: wallabag
     spec:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
       containers:
         - name: wallabag
           image: ghcr.io/wallabag/docker:2.6.10
           ports:
             - containerPort: 80
           env:
-            # --- INICIO DE LA SOLUCIÓN CORRECTA ---
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
-            # --- FIN DE LA SOLUCIÓN CORRECTA ---
             - name: SYMFONY__ENV__DATABASE_DRIVER
               value: "pdo_pgsql"
             - name: SYMFONY__ENV__DATABASE_HOST
