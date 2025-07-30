@@ -7,8 +7,6 @@ metadata:
     app: wallabag
 spec:
   replicas: 1
-  strategy:
-    type: Recreate
   selector:
     matchLabels:
       app: wallabag
@@ -17,21 +15,19 @@ spec:
       labels:
         app: wallabag
     spec:
+      # Sin securityContext, para que el contenedor se ejecute como root, que es lo que necesita.
       containers:
         - name: wallabag
-          # 1. LA CLAVE: Usar la imagen de LinuxServer.io
-          image: lscr.io/linuxserver/wallabag:latest
+          image: ghcr.io/wallabag/docker:2.6.10
+          # Este comando se ejecuta como root y hace dos cosas:
+          # 1. 'chown': Arregla los permisos de los volúmenes para el usuario de la aplicación.
+          # 2. 'exec': Inicia la aplicación de forma correcta para que no se detenga.
+          command: ["/bin/sh", "-c"]
+          args:
+            - "chown -R 1000:1000 /var/www/wallabag/var /var/www/wallabag/web/assets/images && exec /entrypoint.sh wallabag"
           ports:
             - containerPort: 80
           env:
-            # 2. El script de esta imagen usará PUID/PGID para arreglar los permisos automáticamente.
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
-            - name: TZ
-              value: "America/Mexico_City"
-            # El resto de tus variables de entorno siguen igual.
             - name: SYMFONY__ENV__DATABASE_DRIVER
               value: "pdo_pgsql"
             - name: SYMFONY__ENV__DATABASE_HOST
@@ -55,9 +51,8 @@ spec:
                   name: wallabag-creds
                   key: SYMFONY_SECRET
           volumeMounts:
-            # 3. Las imágenes de LinuxServer usan /config para los datos de la aplicación.
             - name: data
-              mountPath: /config
+              mountPath: /var/www/wallabag/var
             - name: images
               mountPath: /var/www/wallabag/web/assets/images
           resources:
