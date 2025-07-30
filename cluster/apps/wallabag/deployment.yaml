@@ -15,31 +15,14 @@ spec:
       labels:
         app: wallabag
     spec:
-      # 1. El initContainer se ejecuta como root y prepara los volúmenes.
-      initContainers:
-        - name: set-permissions
-          image: busybox:1.36
-          # 2. No solo cambiamos el propietario, sino que forzamos los permisos de escritura.
-          command:
-            - "/bin/sh"
-            - "-c"
-            - |
-              chown -R 1000:1000 /data /images
-              chmod -R 775 /data /images
-          volumeMounts:
-            - name: data
-              mountPath: /data
-            - name: images
-              mountPath: /images
-      
-      # 3. El contenedor principal se ejecuta de forma segura como usuario 1000.
+      # La clave: fsGroup asegura que el volumen sea escribible por el grupo correcto (1000).
+      # El contenedor arrancará como root (por defecto), lo que es necesario para su script de inicio.
+      securityContext:
+        fsGroup: 1000
       containers:
         - name: wallabag
           image: ghcr.io/wallabag/docker:2.6.10
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-          # 4. Usamos el comando de inicio correcto.
+          # El comando de inicio simple y correcto que la imagen espera.
           command: ["/entrypoint.sh", "wallabag"]
           ports:
             - containerPort: 80
