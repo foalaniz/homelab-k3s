@@ -15,19 +15,20 @@ spec:
       labels:
         app: wallabag
     spec:
-      # Se usa fsGroup para asegurar que los volúmenes sean escribibles por el grupo 1000.
       securityContext:
         fsGroup: 1000
       containers:
         - name: wallabag
           image: ghcr.io/wallabag/docker:2.6.10
-          # Se sobrescribe el comando para arreglar permisos internos antes de arrancar.
+          # Se modifica el comando para que el servidor web se ejecute en primer plano y no termine.
           command:
             - "/bin/sh"
             - "-c"
             - |
               chown -R 1000:1000 /var/www/wallabag
-              /entrypoint.sh
+              # El comando 'exec' reemplaza el script actual con el servidor web,
+              # asegurando que el contenedor permanezca en ejecución.
+              exec /entrypoint.sh apache2-foreground
           ports:
             - containerPort: 80
           env:
