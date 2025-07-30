@@ -6,4 +6,5 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+  - backup-cronjob.yaml
   #- db-job.yaml

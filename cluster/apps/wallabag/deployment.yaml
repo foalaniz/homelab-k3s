@@ -61,7 +61,8 @@ spec:
               cpu: "1000m"
       volumes:
         - name: data
-          emptyDir: {} 
+          persistentVolumeClaim:
+            claimName: wallabag-data
         - name: images
           persistentVolumeClaim:
             claimName: wallabag-images 
