@@ -15,9 +15,12 @@ spec:
       labels:
         app: wallabag
     spec:
+      # Sin securityContext, para que el contenedor se ejecute como root.
       containers:
         - name: wallabag
           image: ghcr.io/wallabag/docker:2.6.10
+          # El comando de inicio que necesita la imagen para no detenerse.
+          command: ["/entrypoint.sh", "wallabag"]
           ports:
             - containerPort: 80
           env:
