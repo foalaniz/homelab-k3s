@@ -30,7 +30,7 @@ spec:
         runAsUser: 1001
       persistence:
         enabled: true
-        storageClass: "smb-dynamic"
+        storageClass: "local-path"  
         size: 5Gi
       resources:
         requests:
