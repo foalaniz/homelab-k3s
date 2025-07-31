@@ -1,0 +1,5 @@
+# cluster/apps/weave-gitops/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: weave-gitops
