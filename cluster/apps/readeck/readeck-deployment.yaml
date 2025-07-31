@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readeck
+  namespace: readeck
+  labels:
+    app: readeck
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: readeck
+  template:
+    metadata:
+      labels:
+        app: readeck
+    spec:
+      initContainers:
+        - name: wait-for-postgres
+          image: busybox:1.36
+          command: 
+            - /bin/sh
+            - -c
+            - |
+              until nc -zv readeck-postgres 5432; do
+                echo "Waiting for PostgreSQL to be ready..."
+                sleep 2
+              done
+              echo "PostgreSQL is ready!"
+      containers:
+        - name: readeck
+          image: codeberg.org/readeck/readeck:0.14.0
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            - name: READECK_SERVER_HOST
+              value: "0.0.0.0"
+            - name: READECK_SERVER_PORT
+              value: "8000"
+            - name: READECK_DATABASE_DRIVER
+              value: "postgres"
+            - name: READECK_DATABASE_SOURCE
+              valueFrom:
+                secretKeyRef:
+                  name: readeck-secrets
+                  key: database-url
+            - name: READECK_LOG_LEVEL
+              value: "info"
+            - name: TZ
+              value: "America/Mexico_City"
+          volumeMounts:
+            - name: readeck-data
+              mountPath: /readeck
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+      volumes:
+        - name: readeck-data
+          persistentVolumeClaim:
+            claimName: readeck-data
