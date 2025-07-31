@@ -81,10 +81,10 @@ data:
             href: http://rss.homelab.local
             description: RSS Feed Reader
             icon: commafeed
-        - Wallabag:
-            href: http://wallabag.homelab.local
+        - Readeck:
+            href: http://readeck.homelab.local
             description: Read-it-Later Service
-            icon: wallabag
+            icon: readeck
     - Database:
         - pgAdmin:
             href: http://pgadmin.homelab.local
