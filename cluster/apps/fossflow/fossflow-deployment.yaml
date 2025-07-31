@@ -1,0 +1,46 @@
+# cluster/apps/fossflow/fossflow-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fossflow
+  namespace: fossflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fossflow
+  template:
+    metadata:
+      labels:
+        app: fossflow
+    spec:
+      initContainers:
+      - name: wait-for-postgres
+        image: busybox:1.36
+        command: ['sh', '-c', 'until nc -zv fossflow-postgres-postgresql.fossflow.svc.cluster.local 5432; do echo "Waiting for PostgreSQL..."; sleep 2; done']
+      - name: wait-for-redis
+        image: busybox:1.36
+        command: ['sh', '-c', 'until nc -zv redis.fossflow.svc.cluster.local 6379; do echo "Waiting for Redis..."; sleep 2; done']
+      containers:
+      - name: fossflow
+        image: stansmith/fossflow:latest 
+        ports:
+        - containerPort: 8000
+        env:
+        - name: POSTGRES_HOST
+          value: "fossflow-postgres-postgresql.fossflow.svc.cluster.local"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DB
+          value: "fossflow"
+        - name: POSTGRES_USER
+          value: "fossflow"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: fossflow-postgres-creds
+              key: password
+        - name: REDIS_HOST
+          value: "redis.fossflow.svc.cluster.local"
+        - name: REDIS_PORT
+          value: "6379"
