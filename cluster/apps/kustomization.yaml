@@ -20,4 +20,3 @@ resources:
   - ./media-stack.yaml
   - ./n8n.yaml
   - ./readeck.yaml
-  - ./fossflow.yaml
