@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sources
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/foalaniz/homelab-k3s.git'
+    targetRevision: argo-experiment
+    path: cluster/sources 
+  destination:
+    server: 'https://kubernetes.default.svc'
+    # Los HelmRepository deben vivir en flux-system para que los HelmReleases los encuentren
+    namespace: flux-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
