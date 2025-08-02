@@ -9,7 +9,7 @@ resources:
   # Aplicaciones que dependen de las bases
   #- ./networking-adguard.yaml
   #- ./media.yaml
-  - ./database.yaml
+  #- ./database.yaml
   - ./monitoring.yaml
   #- ./homepage.yaml
   - ./tailscale.yaml
