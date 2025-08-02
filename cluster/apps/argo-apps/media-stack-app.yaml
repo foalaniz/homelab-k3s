@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/foalaniz/homelab-k3s.git'
-    targetRevision: argo-experiment
+    targetRevision: main
     path: cluster/apps/media-stack 
   destination:
     server: 'https://kubernetes.default.svc'
