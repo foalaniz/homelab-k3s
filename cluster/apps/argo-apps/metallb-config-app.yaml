@@ -1,0 +1,21 @@
+# cluster/apps/argo-apps/metallb-config-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metallb-config
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/foalaniz/homelab-k3s.git'
+    targetRevision: argo-experiment 
+    path: cluster/apps/metallb/config
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: metallb-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
