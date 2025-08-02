@@ -10,13 +10,13 @@ resources:
   #- ./networking-adguard.yaml
   #- ./media.yaml
   #- ./database.yaml
-  - ./monitoring.yaml
+  #- ./monitoring.yaml
   #- ./homepage.yaml
   #- ./tailscale.yaml
 
   # Aplicaciones que dependen de otras apps (como database)
   #- ./pgadmin.yaml
   #- ./commafeed.yaml
-  - ./media-stack.yaml
+  #- ./media-stack.yaml
   #- ./n8n.yaml
  # - ./readeck.yaml
