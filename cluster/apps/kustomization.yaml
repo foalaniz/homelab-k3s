@@ -7,8 +7,8 @@ resources:
   - ./traefik-install.yaml
 
   # Aplicaciones que dependen de las bases
-  - ./networking-adguard.yaml
-  - ./media.yaml
+  #- ./networking-adguard.yaml
+  #- ./media.yaml
   - ./database.yaml
   - ./monitoring.yaml
   #- ./homepage.yaml
