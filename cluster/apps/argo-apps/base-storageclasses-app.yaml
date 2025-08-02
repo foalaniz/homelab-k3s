@@ -1,20 +1,27 @@
-# cluster/apps/argo-apps/commafeed-app.yaml
+# cluster/apps/argo-apps/base-storageclasses-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: commafeed
+  name: base-storageclasses
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "-19"
 spec:
   project: default
   source:
     repoURL: 'https://github.com/foalaniz/homelab-k3s.git'
     targetRevision: main
-    path: cluster/apps/commafeed
+    path: cluster/base
+    kustomize:
+      patches:
+      - target:
+          kind: Kustomization
+        patch: |-
+          - op: remove
+            path: /resources/0
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: media-stack
+    namespace: default
   syncPolicy:
     automated:
       prune: true

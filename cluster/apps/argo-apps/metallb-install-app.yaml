@@ -1,8 +1,8 @@
-# cluster/apps/argo-apps/metallb-app.yaml
+# cluster/apps/argo-apps/metallb-install-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metallb
+  name: metallb-install
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
@@ -12,9 +12,6 @@ spec:
     repoURL: 'https://metallb.github.io/metallb'
     chart: metallb
     targetRevision: '0.14.7'
-    helm:
-      valueFiles:
-        - $values/cluster/apps/metallb/config/ip-pool.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: metallb-system

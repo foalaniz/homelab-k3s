@@ -1,3 +1,4 @@
+# cluster/apps/argo-apps/readeck-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
