@@ -3,15 +3,17 @@ kind: Application
 metadata:
   name: adguard
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/foalaniz/homelab-k3s.git' 
+    repoURL: 'https://github.com/foalaniz/homelab-k3s.git'
     targetRevision: main
     path: cluster/apps/networking/adguard
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: adguard
+    namespace: networking
   syncPolicy:
     automated:
       prune: true

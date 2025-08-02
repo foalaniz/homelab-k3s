@@ -3,12 +3,34 @@ kind: Application
 metadata:
   name: database
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/foalaniz/homelab-k3s.git'
-    targetRevision: main
-    path: cluster/apps/database 
+    repoURL: 'https://charts.bitnami.com/bitnami'
+    chart: postgresql
+    targetRevision: '15.5.18'
+    helm:
+      values: |
+        auth:
+          existingSecret: "postgres-creds"
+          database: "homelab"
+          secretKeys:
+            adminPasswordKey: "postgres-password"
+            userPasswordKey: "password"
+        primary:
+          persistence:
+            enabled: true
+            storageClass: "local-path"  
+            size: 8Gi
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: database

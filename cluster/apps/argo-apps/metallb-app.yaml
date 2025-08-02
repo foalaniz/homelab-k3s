@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: metallb
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - component: install
+        path: cluster/apps/metallb/install
+        wave: -10
+      - component: config
+        path: cluster/apps/metallb/config
+        wave: -9
+  template:
+    metadata:
+      name: 'metallb-{{component}}'
+      namespace: argocd
+      annotations:
+        argocd.argoproj.io/sync-wave: "{{wave}}"
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/foalaniz/homelab-k3s.git'
+        targetRevision: main
+        path: '{{path}}'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: metallb-system
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true

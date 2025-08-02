@@ -3,12 +3,56 @@ kind: Application
 metadata:
   name: monitoring
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "15"
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/foalaniz/homelab-k3s.git'
-    targetRevision: main
-    path: cluster/apps/monitoring
+    repoURL: 'https://prometheus-community.github.io/helm-charts'
+    chart: kube-prometheus-stack
+    targetRevision: '61.3.1'
+    helm:
+      values: |
+        alertmanager:
+          enabled: true
+        grafana:
+          enabled: true
+          ingress:
+            enabled: true
+            ingressClassName: traefik
+            annotations:
+              traefik.ingress.kubernetes.io/router.entrypoints: web
+            hosts:
+              - "grafana.homelab.local"
+            paths:
+              - /
+          persistence:
+            enabled: true
+            type: pvc
+            storageClassName: local-path
+            accessModes:
+              - ReadWriteOnce
+            size: 5Gi
+        prometheus:
+          enabled: true
+          ingress:
+            enabled: true
+            ingressClassName: traefik
+            annotations:
+              traefik.ingress.kubernetes.io/router.entrypoints: web
+            hosts:
+              - "prometheus.homelab.local"
+            paths:
+              - /
+          prometheusSpec:
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: smb-dynamic
+                  accessModes: ["ReadWriteOnce"]
+                  resources:
+                    requests:
+                      storage: 10Gi
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: monitoring

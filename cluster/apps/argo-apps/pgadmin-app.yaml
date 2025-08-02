@@ -3,18 +3,18 @@ kind: Application
 metadata:
   name: pgadmin
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/foalaniz/homelab-k3s.git' 
-    targetRevision: main 
+    repoURL: 'https://github.com/foalaniz/homelab-k3s.git'
+    targetRevision: main
     path: cluster/apps/pgadmin
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: pgadmin
+    namespace: database
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true

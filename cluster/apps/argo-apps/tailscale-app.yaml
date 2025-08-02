@@ -3,12 +3,14 @@ kind: Application
 metadata:
   name: tailscale
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
   source:
     repoURL: 'https://github.com/foalaniz/homelab-k3s.git'
-    targetRevision: main 
-    path: cluster/apps/tailscale 
+    targetRevision: main
+    path: cluster/apps/tailscale
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: tailscale
