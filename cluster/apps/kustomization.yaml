@@ -19,4 +19,4 @@ resources:
   #- ./commafeed.yaml
   - ./media-stack.yaml
   #- ./n8n.yaml
-  - ./readeck.yaml
+ # - ./readeck.yaml
