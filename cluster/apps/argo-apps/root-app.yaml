@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: 'ssh://git@github.com/foalaniz/homelab-k3s.git' 
-    targetRevision: main
+    targetRevision: argo-experiment
     path: cluster/apps/argo-apps 
   destination:
     server: 'https://kubernetes.default.svc'
