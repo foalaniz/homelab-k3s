@@ -11,13 +11,12 @@ resources:
   - ./media.yaml
   - ./database.yaml
   - ./monitoring.yaml
-  - ./homepage.yaml
+  #- ./homepage.yaml
   - ./tailscale.yaml
 
   # Aplicaciones que dependen de otras apps (como database)
-  - ./pgadmin.yaml
-  - ./commafeed.yaml
+  #- ./pgadmin.yaml
+  #- ./commafeed.yaml
   - ./media-stack.yaml
-  - ./n8n.yaml
+  #- ./n8n.yaml
   - ./readeck.yaml
-  - ./weave-gitops.yaml
