@@ -23,6 +23,19 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       initContainers:
+        # NEW: Wait for the secret to be created first
+        - name: wait-for-secret
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until kubectl get secret readeck-secrets -n readeck >/dev/null 2>&1; do
+                echo "Waiting for secret 'readeck-secrets' to be created..."
+                sleep 2
+              done
+              echo "Secret 'readeck-secrets' found!"
+        # Existing: Wait for the database service
         - name: wait-for-db
           image: busybox:1.36
           command: 
@@ -51,8 +64,8 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: readeck-secrets
-                  key: postgres-password 
-            - name: READECK_DATABASE_SOURCE 
+                  key: postgres-password
+            - name: READECK_DATABASE_SOURCE
               value: "postgres://readeck:$(POSTGRES_PASSWORD)@readeck-postgres-postgresql.readeck.svc.cluster.local:5432/readeck?sslmode=disable"
             - name: READECK_LOG_LEVEL
               value: "info"
