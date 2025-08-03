@@ -24,6 +24,11 @@ spec:
           containerSecurityContext:
             enabled: true
             runAsUser: 1001
+          # THE FIX: Give the database more time to start before checking it.
+          readinessProbe:
+            initialDelaySeconds: 30
+          livenessProbe:
+            initialDelaySeconds: 30
           persistence:
             enabled: true
             storageClass: "smb-readeck-db"
