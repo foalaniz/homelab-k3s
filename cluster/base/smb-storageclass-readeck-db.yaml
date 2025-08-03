@@ -12,7 +12,7 @@ volumeBindingMode: Immediate
 mountOptions:
   - dir_mode=0700
   - file_mode=0600
-  - uid=70
-  - gid=70
+  - uid=1001
+  - gid=1001
   - vers=3.0
   - nobrl
