@@ -26,7 +26,10 @@ spec:
             - name: QUARKUS_DATASOURCE_JDBC_URL
               value: "jdbc:postgresql://commafeed-db-postgresql.media-stack.svc.cluster.local:5432/commafeed"
             - name: QUARKUS_DATASOURCE_USERNAME
-              value: "commafeed"
+              valueFrom: "commafeed"
+              secretKeyRef:
+                  name: commafeed-creds
+                  key: DB_USERNAME
             - name: QUARKUS_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
