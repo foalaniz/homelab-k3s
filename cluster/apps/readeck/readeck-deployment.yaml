@@ -18,32 +18,49 @@ spec:
         app: readeck
     spec:
       initContainers:
-      # ... (sin cambios)
+        - name: wait-for-db
+          image: busybox:1.36
+          command: 
+            - /bin/sh
+            - -c
+            - |
+              until nc -zv readeck-postgres-postgresql.readeck.svc.cluster.local 5432; do
+                echo "Waiting for PostgreSQL to be ready..."
+                sleep 2
+              done
+              echo "PostgreSQL is ready!"
       containers:
         - name: readeck
           image: codeberg.org/readeck/readeck:0.14.0
+          # Añadimos un 'command' para usar un shell
+          command: ["/bin/sh", "-c"]
+          args:
+            # El shell construye la variable y luego ejecuta la aplicación
+            - |
+              export READECK_DATABASE_SOURCE="postgres://${DB_USERNAME}:${DB_PASSWORD}@readeck-postgres-postgresql.readeck.svc.cluster.local:5432/readeck?sslmode=disable"
+              /readeck
           ports:
             - containerPort: 8000
               name: http
           env:
+            # Estas variables ahora son leídas por el shell
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: readeck-secrets
+                  key: postgres-password
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: readeck-secrets
+                  key: postgres-password
+            # Variables de entorno originales de la aplicación
             - name: READECK_SERVER_HOST
               value: "0.0.0.0"
             - name: READECK_SERVER_PORT
               value: "8000"
             - name: READECK_DATABASE_DRIVER
               value: "postgres"
-            - name: READECK_DATABASE_SOURCE
-              value: "postgres://$(DB_USERNAME):$(DB_PASSWORD)@readeck-postgres-postgresql.readeck.svc.cluster.local:5432/readeck?sslmode=disable"
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: readeck-secrets
-                  key: DB_USERNAME
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: readeck-secrets
-                  key: postgres-password
             - name: READECK_LOG_LEVEL
               value: "info"
             - name: TZ
