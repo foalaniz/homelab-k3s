@@ -20,7 +20,6 @@ spec:
         patch: |-
           - op: remove
             path: /resources/0 
-            # Esto asume que smb-csi-driver-helm-release.yaml es el primer recurso. Ajusta el índice si no lo es.
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default 
