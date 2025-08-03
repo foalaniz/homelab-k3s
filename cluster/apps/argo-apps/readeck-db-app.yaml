@@ -17,10 +17,8 @@ spec:
         auth:
           database: readeck
           username: readeck
-          existingSecret: "readeck-secrets"
-          secretKeys:
-            adminPasswordKey: "postgres-admin-password"
-            userPasswordKey: "postgres-password"
+          # The password will be auto-generated and stored in the new secret.
+          # The 'existingSecret' and 'secretKeys' blocks have been removed.
         primary:
           podSecurityContext:
             enabled: true

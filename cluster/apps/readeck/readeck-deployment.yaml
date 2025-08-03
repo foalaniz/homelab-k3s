@@ -23,19 +23,18 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       initContainers:
-        # NEW: Wait for the secret to be created first
         - name: wait-for-secret
           image: bitnami/kubectl:latest
           command:
             - /bin/sh
             - -c
             - |
-              until kubectl get secret readeck-secrets -n readeck >/dev/null 2>&1; do
-                echo "Waiting for secret 'readeck-secrets' to be created..."
+              # Wait for the secret that the Helm chart creates
+              until kubectl get secret readeck-postgres-postgresql -n readeck >/dev/null 2>&1; do
+                echo "Waiting for secret 'readeck-postgres-postgresql' to be created..."
                 sleep 2
               done
-              echo "Secret 'readeck-secrets' found!"
-        # Existing: Wait for the database service
+              echo "Secret 'readeck-postgres-postgresql' found!"
         - name: wait-for-db
           image: busybox:1.36
           command: 
@@ -63,7 +62,9 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: readeck-secrets
+                  # Use the secret created by the Helm chart
+                  name: readeck-postgres-postgresql
+                  # The chart stores the user password in this key
                   key: postgres-password
             - name: READECK_DATABASE_SOURCE
               value: "postgres://readeck:$(POSTGRES_PASSWORD)@readeck-postgres-postgresql.readeck.svc.cluster.local:5432/readeck?sslmode=disable"
