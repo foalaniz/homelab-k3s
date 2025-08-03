@@ -1,3 +1,4 @@
+# cluster/apps/readeck/readeck-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -46,11 +47,13 @@ spec:
               value: "8000"
             - name: READECK_DATABASE_DRIVER
               value: "postgres"
-            - name: READECK_DATABASE_SOURCE
+            - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: readeck-secrets
-                  key: database-url-helm
+                  key: postgres-password 
+            - name: READECK_DATABASE_SOURCE 
+              value: "postgres://readeck:$(POSTGRES_PASSWORD)@readeck-postgres-postgresql.readeck.svc.cluster.local:5432/readeck?sslmode=disable"
             - name: READECK_LOG_LEVEL
               value: "info"
             - name: TZ
