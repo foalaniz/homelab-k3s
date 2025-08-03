@@ -17,8 +17,6 @@ spec:
         auth:
           database: readeck
           username: readeck
-          # The password will be auto-generated and stored in the new secret.
-          # The 'existingSecret' and 'secretKeys' blocks have been removed.
         primary:
           podSecurityContext:
             enabled: true
@@ -28,7 +26,7 @@ spec:
             runAsUser: 1001
           persistence:
             enabled: true
-            storageClass: "local-path"  
+            storageClass: "smb-readeck-db"
             size: 5Gi
           resources:
             requests:
