@@ -62,3 +62,8 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  ignoreDifferences:
+  - group: apiregistration.k8s.io
+    kind: APIService
+    jsonPointers:
+    - /spec/caBundle
