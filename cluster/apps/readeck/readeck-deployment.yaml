@@ -42,7 +42,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: readeck-postgres-postgresql
-                  key: postgres-password
+                  key: password
           command:
             - /bin/sh
             - -c
@@ -70,7 +70,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: readeck-postgres-postgresql
-                  key: postgres-password
+                  key: password
             - name: READECK_DATABASE_SOURCE
               value: "postgres://readeck:$(POSTGRES_PASSWORD)@readeck-postgres-postgresql.readeck.svc.cluster.local:5432/readeck?sslmode=disable"
             - name: READECK_LOG_LEVEL
