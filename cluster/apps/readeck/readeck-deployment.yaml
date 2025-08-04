@@ -1,3 +1,4 @@
+# cluster/apps/readeck/readeck-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -69,7 +70,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: readeck-postgres-postgresql
-                  key: password
+                  key: password # <-- THE FIX IS HERE
             - name: READECK_DATABASE_SOURCE
               value: "postgres://readeck:$(POSTGRES_PASSWORD)@readeck-postgres-postgresql.readeck.svc.cluster.local:5432/readeck?sslmode=disable"
             - name: READECK_LOG_LEVEL
