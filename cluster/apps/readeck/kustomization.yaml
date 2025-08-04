@@ -7,4 +7,4 @@ resources:
   - readeck-deployment.yaml
   - readeck-service.yaml
   - readeck-ingress.yaml
-  - configmap-entrypoint.yaml
+  #- configmap-entrypoint.yaml

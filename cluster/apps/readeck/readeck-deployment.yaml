@@ -35,7 +35,7 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: readeck-secrets  # Using your existing secret
+                  name: readeck-secrets
                   key: password
           command:
             - /bin/sh
@@ -50,7 +50,7 @@ spec:
       containers:
         - name: readeck
           image: codeberg.org/readeck/readeck:0.14.0
-          command: ["/bin/sh", "/entrypoint/entrypoint.sh"]
+          # Remove custom command, let container use its default entrypoint
           ports:
             - containerPort: 8000
               name: http
@@ -61,11 +61,11 @@ spec:
               value: "8000"
             - name: READECK_DATABASE_DRIVER
               value: "postgres"
-            - name: POSTGRES_PASSWORD 
+            - name: READECK_DATABASE_SOURCE
               valueFrom:
                 secretKeyRef:
-                  name: readeck-secrets  # Using your existing secret
-                  key: password
+                  name: readeck-secrets
+                  key: database-url-helm
             - name: READECK_LOG_LEVEL
               value: "debug"
             - name: TZ
@@ -73,9 +73,6 @@ spec:
           volumeMounts:
             - name: readeck-data
               mountPath: /readeck
-            - name: readeck-entrypoint
-              mountPath: /entrypoint
-              readOnly: true
           livenessProbe:
             httpGet:
               path: /
@@ -92,7 +89,3 @@ spec:
         - name: readeck-data
           persistentVolumeClaim:
             claimName: readeck-data
-        - name: readeck-entrypoint
-          configMap:
-            name: readeck-entrypoint
-            defaultMode: 0755
