@@ -5,9 +5,13 @@ metadata:
   namespace: readeck
 data:
   entrypoint.sh: |
-
+    #!/bin/sh
+    set -e
+    
+    echo "Setting up database connection..."
     export READECK_DATABASE_SOURCE="postgres://readeck:${POSTGRES_PASSWORD}@readeck-postgres-postgresql.readeck.svc.cluster.local:5432/readeck?sslmode=disable"
     
+    echo "Database source: $READECK_DATABASE_SOURCE"
     echo "Starting Readeck with correctly configured database source..."
     
-    /app/readeck
+    exec /app/readeck

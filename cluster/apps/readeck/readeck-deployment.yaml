@@ -46,6 +46,7 @@ spec:
                 echo "Waiting for PostgreSQL to be truly ready..."
                 sleep 5
               done
+              echo "PostgreSQL is ready!"
       containers:
         - name: readeck
           image: codeberg.org/readeck/readeck:0.14.0
@@ -66,7 +67,7 @@ spec:
                   name: readeck-postgres-postgresql
                   key: password
             - name: READECK_LOG_LEVEL
-              value: "info"
+              value: "debug"  # Changed to debug for better troubleshooting
             - name: TZ
               value: "America/Mexico_City"
           volumeMounts:
@@ -75,6 +76,18 @@ spec:
             - name: readeck-entrypoint
               mountPath: /entrypoint
               readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 10
       volumes:
         - name: readeck-data
           persistentVolumeClaim:
@@ -82,4 +95,4 @@ spec:
         - name: readeck-entrypoint
           configMap:
             name: readeck-entrypoint
-            defaultMode: 0755 
+            defaultMode: 0755
