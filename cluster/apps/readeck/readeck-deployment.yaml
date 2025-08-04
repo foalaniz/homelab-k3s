@@ -28,12 +28,7 @@ spec:
           command:
             - /bin/sh
             - -c
-            - |
-              until kubectl get secret readeck-postgres-postgresql -n readeck >/dev/null 2>&1; do
-                echo "Waiting for secret 'readeck-postgres-postgresql' to be created..."
-                sleep 2
-              done
-              echo "Secret 'readeck-postgres-postgresql' found!"
+            - "until kubectl get secret readeck-postgres-postgresql -n readeck >/dev/null 2>&1; do echo Waiting for secret...; sleep 2; done"
         - name: wait-for-db
           image: docker.io/bitnami/postgresql:16.3.0-debian-12-r21
           env:
@@ -41,7 +36,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: readeck-postgres-postgresql
-                  key: password 
+                  key: password
           command:
             - /bin/sh
             - -c
@@ -51,10 +46,10 @@ spec:
                 echo "Waiting for PostgreSQL to be truly ready..."
                 sleep 5
               done
-              echo "PostgreSQL is ready to accept connections!"
       containers:
         - name: readeck
           image: codeberg.org/readeck/readeck:0.14.0
+          command: ["/bin/sh", "/entrypoint/entrypoint.sh"]
           ports:
             - containerPort: 8000
               name: http
@@ -65,13 +60,11 @@ spec:
               value: "8000"
             - name: READECK_DATABASE_DRIVER
               value: "postgres"
-            - name: POSTGRES_PASSWORD
+            - name: POSTGRES_PASSWORD 
               valueFrom:
                 secretKeyRef:
                   name: readeck-postgres-postgresql
-                  key: password # <-- THE DEFINITIVE FIX
-            - name: READECK_DATABASE_SOURCE
-              value: "postgres://readeck:$(POSTGRES_PASSWORD)@readeck-postgres-postgresql.readeck.svc.cluster.local:5432/readeck?sslmode=disable"
+                  key: password
             - name: READECK_LOG_LEVEL
               value: "info"
             - name: TZ
@@ -79,30 +72,14 @@ spec:
           volumeMounts:
             - name: readeck-data
               mountPath: /readeck
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "100m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 8000
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 8000
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 3
-            failureThreshold: 3
+            - name: readeck-entrypoint
+              mountPath: /entrypoint
+              readOnly: true
       volumes:
         - name: readeck-data
           persistentVolumeClaim:
             claimName: readeck-data
+        - name: readeck-entrypoint
+          configMap:
+            name: readeck-entrypoint
+            defaultMode: 0755 
