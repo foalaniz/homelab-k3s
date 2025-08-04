@@ -19,40 +19,6 @@ spec:
         app: readeck
     spec:
       serviceAccountName: readeck
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-      initContainers:
-        - name: wait-for-secret
-          image: bitnami/kubectl:latest
-          command:
-            - /bin/sh
-            - -c
-            - |
-              until kubectl get secret readeck-postgres-postgresql -n readeck >/dev/null 2>&1; do
-                echo "Waiting for secret 'readeck-postgres-postgresql' to be created..."
-                sleep 2
-              done
-              echo "Secret 'readeck-postgres-postgresql' found!"
-        - name: wait-for-db
-          image: docker.io/bitnami/postgresql:16.3.0-debian-12-r21
-          env:
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: readeck-postgres-postgresql
-                  key: password
-          command:
-            - /bin/sh
-            - -c
-            - |
-              export PGPASSWORD="$POSTGRES_PASSWORD"
-              until pg_isready -h readeck-postgres-postgresql.readeck.svc.cluster.local -U readeck -d readeck -p 5432; do
-                echo "Waiting for PostgreSQL to be truly ready..."
-                sleep 5
-              done
-              echo "PostgreSQL is ready to accept connections!"
       containers:
         - name: readeck
           image: codeberg.org/readeck/readeck:0.14.0
@@ -66,13 +32,11 @@ spec:
               value: "8000"
             - name: READECK_DATABASE_DRIVER
               value: "postgres"
-            - name: POSTGRES_PASSWORD
+            - name: READECK_DATABASE_SOURCE
               valueFrom:
                 secretKeyRef:
-                  name: readeck-postgres-postgresql
-                  key: password # <-- THE FIX IS HERE
-            - name: READECK_DATABASE_SOURCE
-              value: "postgres://readeck:$(POSTGRES_PASSWORD)@readeck-postgres-postgresql.readeck.svc.cluster.local:5432/readeck?sslmode=disable"
+                  name: readeck-secrets
+                  key: database-url-helm 
             - name: READECK_LOG_LEVEL
               value: "info"
             - name: TZ
@@ -80,29 +44,6 @@ spec:
           volumeMounts:
             - name: readeck-data
               mountPath: /readeck
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "100m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 8000
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 8000
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 3
-            failureThreshold: 3
       volumes:
         - name: readeck-data
           persistentVolumeClaim:
