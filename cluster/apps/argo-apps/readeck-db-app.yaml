@@ -16,6 +16,10 @@ spec:
         auth:
           database: readeck
           username: readeck
+          existingSecret: "readeck-secrets"  # Using your existing secret
+          secretKeys:
+            adminPasswordKey: "postgres-password"
+            userPasswordKey: "password"
         primary:
           podSecurityContext:
             enabled: true

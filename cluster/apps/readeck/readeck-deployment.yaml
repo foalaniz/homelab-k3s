@@ -28,14 +28,14 @@ spec:
           command:
             - /bin/sh
             - -c
-            - "until kubectl get secret readeck-postgres-postgresql -n readeck >/dev/null 2>&1; do echo Waiting for secret...; sleep 2; done"
+            - "until kubectl get secret readeck-secrets -n readeck >/dev/null 2>&1; do echo Waiting for secret...; sleep 2; done"
         - name: wait-for-db
           image: docker.io/bitnami/postgresql:16.3.0-debian-12-r21
           env:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: readeck-postgres-postgresql
+                  name: readeck-secrets  # Using your existing secret
                   key: password
           command:
             - /bin/sh
@@ -64,10 +64,10 @@ spec:
             - name: POSTGRES_PASSWORD 
               valueFrom:
                 secretKeyRef:
-                  name: readeck-postgres-postgresql
+                  name: readeck-secrets  # Using your existing secret
                   key: password
             - name: READECK_LOG_LEVEL
-              value: "debug"  # Changed to debug for better troubleshooting
+              value: "debug"
             - name: TZ
               value: "America/Mexico_City"
           volumeMounts:
