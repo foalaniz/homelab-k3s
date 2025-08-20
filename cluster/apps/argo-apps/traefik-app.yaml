@@ -13,27 +13,18 @@ spec:
     targetRevision: '28.0.0'
     helm:
       values: |
-        # Enable access logs
-        accessLogs:
-          enabled: true
-        
-        # Service configuration
         service:
           type: LoadBalancer
           loadBalancerIP: 192.168.1.45
         
-        # API and Dashboard configuration
         api:
           dashboard: true
           insecure: true
-          debug: true
         
-        # Disable the built-in dashboard IngressRoute to avoid conflicts
         ingressRoute:
           dashboard:
             enabled: false
         
-        # Port configuration
         ports:
           web:
             port: 8000
@@ -45,17 +36,26 @@ spec:
             protocol: TCP
           traefik:
             port: 9000
+            exposedPort: 9000
             expose: true
         
-        # Additional configuration for debugging
-        log:
-          level: INFO
+        entryPoints:
+          web:
+            address: ":8000"
+          websecure:
+            address: ":8443"
+          traefik:
+            address: ":9000"
         
-        # Ensure providers are correctly configured
+        api:
+          dashboard: true
+          insecure: true
+          debug: true
+        
         providers:
-          kubernetesIngress:
-            enabled: true
           kubernetesCRD:
+            enabled: true
+          kubernetesIngress:
             enabled: true
   destination:
     server: 'https://kubernetes.default.svc'
