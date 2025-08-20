@@ -7,22 +7,8 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`traefik.homelab.local`)
+    - match: Host(`traefik.homelab.local`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       kind: Rule
       services:
-        - name: traefik
-          port: 9000
-      middlewares:
-        - name: dashboard-redirect
----
-# Redirect middleware to ensure proper dashboard access
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: dashboard-redirect
-  namespace: traefik-system
-spec:
-  redirectRegex:
-    regex: ^https?://([^/]+)/?$
-    replacement: http://${1}/dashboard/
-    permanent: false
+        - name: api@internal
+          kind: TraefikService

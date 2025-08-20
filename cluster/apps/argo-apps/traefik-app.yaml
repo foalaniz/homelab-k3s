@@ -13,18 +13,18 @@ spec:
     targetRevision: '28.0.0'
     helm:
       values: |
+        # Global configuration
+        globalArguments:
+          - "--api.insecure=true"
+          - "--api.dashboard=true"
+          - "--api.debug=true"
+        
+        # Service configuration
         service:
           type: LoadBalancer
           loadBalancerIP: 192.168.1.45
         
-        api:
-          dashboard: true
-          insecure: true
-        
-        ingressRoute:
-          dashboard:
-            enabled: false
-        
+        # Ports configuration
         ports:
           web:
             port: 8000
@@ -39,24 +39,20 @@ spec:
             exposedPort: 9000
             expose: true
         
-        entryPoints:
-          web:
-            address: ":8000"
-          websecure:
-            address: ":8443"
-          traefik:
-            address: ":9000"
+        # Deployment configuration
+        deployment:
+          replicas: 1
         
-        api:
-          dashboard: true
-          insecure: true
-          debug: true
+        # Disable the default ingressroute to avoid conflicts
+        ingressRoute:
+          dashboard:
+            enabled: false
         
-        providers:
-          kubernetesCRD:
-            enabled: true
-          kubernetesIngress:
-            enabled: true
+        # Additional configuration
+        additionalArguments:
+          - "--log.level=INFO"
+          - "--accesslog=true"
+          - "--providers.kubernetesCRD.allowCrossNamespace=true"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: traefik-system
