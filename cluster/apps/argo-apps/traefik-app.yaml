@@ -1,3 +1,7 @@
+# cluster/apps/argo-apps/traefik-app.yaml
+# Option 1: Remove the ingressRoute configuration from Helm values
+# and keep using the separate IngressRoute resource
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -32,6 +36,10 @@ spec:
             protocol: TCP
           traefik:
             port: 9000
+        # Disable the built-in dashboard IngressRoute since we have our own
+        ingressRoute:
+          dashboard:
+            enabled: false
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: traefik-system
