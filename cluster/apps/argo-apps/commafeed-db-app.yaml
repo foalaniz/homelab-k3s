@@ -29,7 +29,7 @@ spec:
             runAsUser: 1001
           persistence:
             enabled: true
-            storageClass: "smb-strict"
+            storageClass: "local-path"  
             size: 2Gi
           initdb:
             scripts:
