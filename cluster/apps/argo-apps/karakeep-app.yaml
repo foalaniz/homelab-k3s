@@ -3,14 +3,14 @@ kind: Application
 metadata:
   name: karakeep
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "10"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/foalaniz/homelab-k3s.git'
+    repoURL: 'https://github.com/foalaniz/homelab-k3s.git' 
     targetRevision: main
-    path: cluster/apps/karakeep
+    path: cluster/apps/karakeep  
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: karakeep
