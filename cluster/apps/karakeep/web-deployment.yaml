@@ -35,29 +35,19 @@ spec:
             - name: BROWSERLESS_HOST
               value: "http://karakeep-chrome.karakeep.svc.cluster.local:3001"
             - name: NEXTAUTH_URL
-              value: "http://karakeep.homelab.local"
+              value: "http://karakeep.homelab.local" 
             - name: NEXTAUTH_SECRET
               valueFrom:
                 secretKeyRef:
                   name: karakeep-secrets
                   key: NEXTAUTH_SECRET
-            - name: GOOGLE_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: karakeep-secrets
-                  key: GOOGLE_CLIENT_ID
-            - name: GOOGLE_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: karakeep-secrets
-                  key: GOOGLE_CLIENT_SECRET
             - name: AI_PROVIDER
-              value: "gemini"  
-            - name: GEMINI_API_KEY
+              value: "gemini" 
+            - name: GEMINI_API_KEY 
               valueFrom:
                 secretKeyRef:
-                  name: karakeep-secrets 
-                  key: GEMINI_API_KEY
+                  name: karakeep-secrets
+                  key: GEMINI_API_KEY 
             - name: TIMEZONE
               value: "America/Mexico_City"
           ports:
