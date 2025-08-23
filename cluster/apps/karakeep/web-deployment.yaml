@@ -1,0 +1,72 @@
+# web-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karakeep-web
+  namespace: karakeep
+  labels:
+    app: karakeep-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: karakeep-web
+  template:
+    metadata:
+      labels:
+        app: karakeep-web
+    spec:
+      containers:
+        - name: karakeep-web
+          image: ghcr.io/karakeep/karakeep:latest
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: DATABASE_URL
+            - name: MEILISEARCH_HOST
+              value: "http://meilisearch.karakeep.svc.cluster.local:7700"
+            - name: MEILISEARCH_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: MEILISEARCH_KEY
+            - name: BROWSERLESS_HOST
+              value: "http://karakeep-chrome.karakeep.svc.cluster.local:3001"
+            - name: NEXTAUTH_URL
+              value: "http://karakeep.homelab.local"
+            - name: NEXTAUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: NEXTAUTH_SECRET
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: GOOGLE_CLIENT_ID
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: GOOGLE_CLIENT_SECRET
+            - name: AI_PROVIDER
+              value: "gemini"  
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets 
+                  key: GEMINI_API_KEY
+            - name: TIMEZONE
+              value: "America/Mexico_City"
+          ports:
+            - name: http
+              containerPort: 3000
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: karakeep-data

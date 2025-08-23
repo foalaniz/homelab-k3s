@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meilisearch
+  namespace: karakeep
+  labels:
+    app: meilisearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meilisearch
+  template:
+    metadata:
+      labels:
+        app: meilisearch
+    spec:
+      containers:
+        - name: meilisearch
+          image: getmeili/meilisearch:latest
+          env:
+          - name: MEILI_MASTER_KEY
+          valueFrom:
+             secretKeyRef:
+             name: karakeep-secrets  
+             key: MEILISEARCH_KEY   
+          ports:
+            - name: http
+              containerPort: 7700
+          volumeMounts:
+            - name: data
+              mountPath: /data.ms
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: meilisearch-data

@@ -1,5 +1,6 @@
 # Ignorar cualquier archivo que termine en -secret.yaml
 *-secret.yaml
+*-secrets.yaml
 
 # Ignorar cualquier archivo que se llame secret.yaml
 secret.yaml
