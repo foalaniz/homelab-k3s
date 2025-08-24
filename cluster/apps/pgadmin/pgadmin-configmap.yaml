@@ -10,7 +10,7 @@ data:
         "1": {
           "Name": "Homelab PostgreSQL",
           "Group": "Servers",
-          "Host": "postgresql.database.svc.cluster.local",
+          "Host": "database-postgresql.database.svc.cluster.local",
           "Port": 5432,
           "MaintenanceDB": "homelab",
           "Username": "postgres",
