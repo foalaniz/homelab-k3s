@@ -1,4 +1,4 @@
-# web-deployment.yaml
+# cluster/apps/karakeep/web-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,6 +16,22 @@ spec:
       labels:
         app: karakeep-web
     spec:
+      # This Init Container will run first and prepare the database
+      initContainers:
+        - name: db-migration
+          image: ghcr.io/karakeep-app/karakeep:latest
+          command: ["sh", "-c", "npx prisma migrate deploy"]
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: DATABASE_URL
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+
+      # This is your existing application container
       containers:
         - name: karakeep-web
           image: ghcr.io/karakeep-app/karakeep:latest
