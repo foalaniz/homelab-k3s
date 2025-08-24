@@ -16,11 +16,15 @@ spec:
       labels:
         app: karakeep-web
     spec:
-      # This Init Container will run first and prepare the database
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       initContainers:
         - name: db-migration
           image: ghcr.io/karakeep-app/karakeep:latest
-          command: ["sh", "-c", "npx prisma migrate deploy"]
+          # This command now changes to the correct directory first
+          command: ["sh", "-c", "cd /app && npx prisma migrate deploy"]
           env:
             - name: DATABASE_URL
               valueFrom:
@@ -30,8 +34,6 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /app/data
-
-      # This is your existing application container
       containers:
         - name: karakeep-web
           image: ghcr.io/karakeep-app/karakeep:latest
@@ -51,19 +53,19 @@ spec:
             - name: BROWSERLESS_HOST
               value: "http://karakeep-chrome.karakeep.svc.cluster.local:3001"
             - name: NEXTAUTH_URL
-              value: "http://karakeep.homelab.local" 
+              value: "http://karakeep.homelab.local"
             - name: NEXTAUTH_SECRET
               valueFrom:
                 secretKeyRef:
                   name: karakeep-secrets
                   key: NEXTAUTH_SECRET
             - name: AI_PROVIDER
-              value: "gemini" 
-            - name: GEMINI_API_KEY 
+              value: "gemini"
+            - name: GEMINI_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: karakeep-secrets
-                  key: GEMINI_API_KEY 
+                  key: GEMINI_API_KEY
             - name: TIMEZONE
               value: "America/Mexico_City"
           ports:
