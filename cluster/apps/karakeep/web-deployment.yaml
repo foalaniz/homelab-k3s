@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: karakeep-web
-          image: ghcr.io/karakeep/karakeep:latest
+          image: ghcr.io/karakeep-app/karakeep:latest
           env:
             - name: DATABASE_URL
               valueFrom:
