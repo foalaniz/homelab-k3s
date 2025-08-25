@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: karakeep-data-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: smb-dynamic 
+  csi:
+    driver: smb.csi.k8s.io
+    readOnly: false
+    volumeHandle: karakeep-data-pv 
+    volumeAttributes:
+      source: "//192.168.1.6/k8s-data/karakeep" 
+    nodeStageSecretRef:
+      name: csi-smb-secret
+      namespace: kube-system
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: meilisearch-data-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: smb-dynamic 
+  csi:
+    driver: smb.csi.k8s.io
+    readOnly: false
+    volumeHandle: meilisearch-data-pv 
+    volumeAttributes:
+      source: "//192.168.1.6/k8s-data/meilisearch" 
+    nodeStageSecretRef:
+      name: csi-smb-secret
+      namespace: kube-system
