@@ -25,6 +25,8 @@ spec:
               value: "America/Mexico_City"
             - name: N8N_SECURE_COOKIE
               value: "false"
+            - name: WEBHOOK_URL
+              value: "https://n8n.alanizcloudsec.com"              
           ports:
             - name: http
               containerPort: 5678
