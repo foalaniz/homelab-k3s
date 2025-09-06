@@ -55,7 +55,7 @@ spec:
             - name: config
               mountPath: /data
             - name: downloads
-              mountPath: /media/music 
+              mountPath: music 
       volumes:
         - name: config
           persistentVolumeClaim:
