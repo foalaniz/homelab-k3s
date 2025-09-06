@@ -62,5 +62,5 @@ spec:
             claimName: navidrome-config
         - name: downloads
           hostPath:
-            path: /mnt/windows-media
+            path: /mnt/windows-media/music
             type: Directory
