@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: navidrome
+  namespace: media-stack
+spec:
+  selector:
+    app: navidrome
+  ports:
+    - name: http
+      port: 4533
+      targetPort: 4533
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: navidrome
+  namespace: media-stack
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`navidrome.homelab.local`)
+      kind: Rule
+      services:
+        - name: navidrome
+          port: 4533

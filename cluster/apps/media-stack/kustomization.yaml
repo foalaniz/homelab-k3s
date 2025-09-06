@@ -13,3 +13,4 @@ resources:
   - ./bazarr
   - ./overseerr
   - ./flaresolverr
+  - ./navidrome

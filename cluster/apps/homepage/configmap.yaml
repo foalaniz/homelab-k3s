@@ -68,6 +68,10 @@ data:
             href: http://music.homelab.local
             description: Music Management
             icon: lidarr
+        - Navidrome: 
+            href: http://navidrome.homelab.local
+            description: Music Streaming
+            icon: navidrome            
         - Prowlarr:
             href: http://prowlarr.homelab.local
             description: Indexer Manager

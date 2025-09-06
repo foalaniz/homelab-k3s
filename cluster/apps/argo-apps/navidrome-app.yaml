@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: navidrome
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/foalaniz/homelab-k3s.git'
+    targetRevision: main
+    path: cluster/apps/media-stack/navidrome
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: media-stack
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

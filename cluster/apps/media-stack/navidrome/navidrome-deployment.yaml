@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: navidrome
+  namespace: media-stack
+  labels:
+    app: navidrome
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: navidrome
+  template:
+    metadata:
+      labels:
+        app: navidrome
+    spec:
+      initContainers:
+        - name: wait-for-smb
+          image: busybox:1.36
+          command: ['sh', '-c', 'until mountpoint -q /media; do echo "waiting for SMB mount..."; sleep 5; done']
+          volumeMounts:
+            - name: downloads
+              mountPath: /media
+      containers:
+        - name: navidrome
+          image: deluan/navidrome:latest
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "America/Mexico_City"
+            - name: ND_SCANSCHEDULE
+              value: "1h"
+            - name: ND_LOGLEVEL
+              value: "info"
+            - name: ND_SESSIONTIMEOUT
+              value: "24h"
+          ports:
+            - name: http
+              containerPort: 4533
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          volumeMounts:
+            - name: config
+              mountPath: /data
+            - name: downloads
+              mountPath: /media/music 
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: navidrome-config
+        - name: downloads
+          hostPath:
+            path: /mnt/windows-media
+            type: Directory
