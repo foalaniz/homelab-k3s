@@ -81,14 +81,12 @@ data:
             href: http://n8n.homelab.local 
             description: Workflow Automation
             icon: n8n
-        - Commafeed:
-            href: http://rss.homelab.local
-            description: RSS Feed Reader
-            icon: commafeed
-        - Readeck:
-            href: http://readeck.homelab.local
-            description: Read-it-Later Service
-            icon: readeck
+        - Karakeep:
+            href: http://karakeep.homelab.local
+            description: RSS & Readlater
+            icon: Karakeep
+            
+
     - Database:
         - pgAdmin:
             href: http://pgadmin.homelab.local
