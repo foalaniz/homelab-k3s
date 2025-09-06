@@ -84,7 +84,7 @@ data:
         - Karakeep:
             href: http://karakeep.homelab.local
             description: RSS & Readlater
-            icon: Karakeep
+            icon: hoarder
     - Database:
         - pgAdmin:
             href: http://pgadmin.homelab.local
