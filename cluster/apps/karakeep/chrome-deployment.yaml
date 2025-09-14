@@ -21,13 +21,60 @@ spec:
           env:
             - name: TZ
               value: "America/Mexico_City"
+            - name: PORT
+              value: "3001"
+            - name: CONNECTION_TIMEOUT
+              value: "60000"
+            - name: MAX_CONCURRENT_SESSIONS
+              value: "2"
+            - name: PREBOOT_CHROME
+              value: "true"
+            - name: KEEP_ALIVE
+              value: "true"
+            - name: DEBUG
+              value: "browserless:*"
           ports:
             - name: http
-              containerPort: 3001 
+              containerPort: 3001
+              protocol: TCP
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "100m"
+              memory: "512Mi"
+              cpu: "250m"
             limits:
-              memory: "1Gi"
-              cpu: "1000m"
+              memory: "2Gi"
+              cpu: "1500m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3001
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3001
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            capabilities:
+              add:
+                - SYS_ADMIN
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: dev-shm
+              mountPath: /dev/shm
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: dev-shm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 512Mi
