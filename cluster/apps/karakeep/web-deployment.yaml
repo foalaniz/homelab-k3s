@@ -1,4 +1,3 @@
-# cluster/apps/karakeep/web-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,6 +28,12 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
+          env:
+            - name: MEILI_MASTER_KEY 
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: MEILISEARCH_KEY 
           envFrom:
             - secretRef:
                 name: karakeep-secrets

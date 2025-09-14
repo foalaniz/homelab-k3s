@@ -1,0 +1,4 @@
+creation_rules:
+  - path_regex: .*.yaml
+    pgp: 155E298E48A4DC13894CB2E7DC333448329671E1
+    
