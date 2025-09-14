@@ -7,3 +7,4 @@ data:
   DATA_DIR: "/data"
   MEILI_ADDR: "http://meilisearch.karakeep.svc.cluster.local:7700"
   BROWSER_WEB_URL: "http://karakeep-chrome.karakeep.svc.cluster.local:3001"
+  NODE_ENV: "production"
