@@ -42,6 +42,11 @@ spec:
             - name: data
               mountPath: /data
           env:
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: GEMINI_API_KEY          
             - name: MEILISEARCH_KEY 
               valueFrom:
                 secretKeyRef:
