@@ -1,3 +1,14 @@
+# cluster/apps/argocd/ingress.yaml
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: argocd-transport
+  namespace: argocd
+spec:
+  # Permite a Traefik comunicarse con backends que usan certificados autofirmados.
+  # Es seguro para la comunicación interna del clúster.
+  insecureSkipVerify: true
+---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -11,4 +22,6 @@ spec:
       kind: Rule
       services:
         - name: argocd-server
-          port: 80
+          port: 443
+          scheme: https
+          serversTransport: argocd-transport
