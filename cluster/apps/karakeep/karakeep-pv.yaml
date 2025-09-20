@@ -35,7 +35,7 @@ spec:
     readOnly: false
     volumeHandle: meilisearch-data-pv 
     volumeAttributes:
-      source: "//192.168.100.2/meilisearch" 
+      source: "//192.168.100.2/k8s-data/meilisearch" 
     nodeStageSecretRef:
       name: csi-smb-secret
       namespace: kube-system
