@@ -5,21 +5,13 @@ metadata:
   name: storageclasses
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-19"
+    argocd.argojroj.io/sync-wave: "-19"
 spec:
   project: default
   source:
     repoURL: 'https://github.com/foalaniz/homelab-k3s.git'
     targetRevision: main
     path: cluster/base
-    kustomize:
-      patches:
-      - target:
-          kind: Kustomization
-          name: kustomization
-        patch: |-
-          - op: remove
-            path: /resources/0 
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default 
