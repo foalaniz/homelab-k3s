@@ -26,7 +26,7 @@ spec:
         image: tailscale/tailscale:latest
         env:
         - name: TS_ROUTES
-          value: "192.168.1.0/24"
+          value: "192.168.100.0/24"
         - name: TS_AUTH_KEY
           valueFrom:
             secretKeyRef:
