@@ -1,7 +1,7 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: smb-dynamic 
+  name: smb-dynamic
 provisioner: smb.csi.k8s.io
 parameters:
   source: "//192.168.100.2/k8s-data"  
