@@ -5,4 +5,3 @@ resources:
   - ./smb-storageclass-strict.yaml
   - ./smb-storageclass-adguard.yaml
   - ./smb-storageclass-postgres.yaml
-  - ./smb-storageclass-readeck-db.yaml

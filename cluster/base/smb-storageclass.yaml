@@ -1,17 +1,15 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: smb-dynamic # Nombre de tu nuevo StorageClass
+  name: smb-dynamic 
 provisioner: smb.csi.k8s.io
 parameters:
   source: "//192.168.100.2/k8s-data"  
-
-  # Estas líneas son CORRECTAS y enlazan el Secret con el driver.
   csi.storage.k8s.io/node-stage-secret-name: "csi-smb-secret"
   csi.storage.k8s.io/node-stage-secret-namespace: "kube-system"
-  
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
+allowVolumeExpansion: true
 mountOptions:
   - dir_mode=0777
   - file_mode=0777
