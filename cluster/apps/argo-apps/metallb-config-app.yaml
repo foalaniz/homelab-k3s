@@ -13,7 +13,7 @@ spec:
     targetRevision: main
     path: cluster/apps/metallb/config
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: 'https://kuernetes.default.svc'
     namespace: metallb-system
   syncPolicy:
     automated:
