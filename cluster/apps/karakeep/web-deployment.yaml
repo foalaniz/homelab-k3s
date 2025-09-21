@@ -1,3 +1,4 @@
+# cluster/apps/karakeep/web-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -32,6 +33,18 @@ spec:
                 sleep 5
               done
               echo "MeiliSearch is ready!"
+        - name: wait-for-chrome
+          image: curlimages/curl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Waiting for Chrome to be ready..."
+              until curl -f http://karakeep-chrome.karakeep.svc.cluster.local:3000; do
+                echo "Chrome not ready yet, waiting..."
+                sleep 5
+              done
+              echo "Chrome is ready!"
       containers:
         - name: karakeep-web
           image: ghcr.io/karakeep-app/karakeep:latest
@@ -46,18 +59,18 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: karakeep-secrets
-                  key: GEMINI_API_KEY          
-            - name: MEILISEARCH_KEY 
+                  key: GEMINI_API_KEY
+            - name: MEILISEARCH_KEY
               valueFrom:
                 secretKeyRef:
                   name: karakeep-secrets
                   key: MEILISEARCH_KEY
-            - name: MEILI_MASTER_KEY 
+            - name: MEILI_MASTER_KEY
               valueFrom:
                 secretKeyRef:
                   name: karakeep-secrets
                   key: MEILISEARCH_KEY
-            - name: MEILI_API_KEY 
+            - name: MEILI_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: karakeep-secrets
