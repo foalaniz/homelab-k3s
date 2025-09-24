@@ -7,7 +7,7 @@ metadata:
     app: adguard-home
 spec:
   type: LoadBalancer
-  loadBalancerIP: 192.168.100.46
+  loadBalancerIP: 192.168.0.46
   selector:
     app: adguard-home
   ports:

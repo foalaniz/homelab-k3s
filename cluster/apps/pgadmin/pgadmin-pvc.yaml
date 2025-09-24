@@ -1,4 +1,3 @@
-# cluster/apps/pgadmin/pgadmin-pvc.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -7,7 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-path  # <--- ESTE ES EL CAMBIO CLAVE
+  storageClassName: local-path  
   resources:
     requests:
       storage: 2Gi 
