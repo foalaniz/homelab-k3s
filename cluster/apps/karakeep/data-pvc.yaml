@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: smb-karakeep  
+  storageClassName: nfs-dynamic
   resources:
     requests:
       storage: 10Gi

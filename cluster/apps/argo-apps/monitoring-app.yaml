@@ -48,7 +48,7 @@ spec:
             storageSpec:
               volumeClaimTemplate:
                 spec:
-                  storageClassName: smb-dynamic
+                  storageClassName: nfs-dynamic
                   accessModes: ["ReadWriteOnce"]
                   resources:
                     requests:
