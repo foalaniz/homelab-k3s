@@ -57,5 +57,5 @@ spec:
           persistentVolumeClaim:
             claimName: prowlarr-config
         - name: downloads 
-          hostPath:
-            path: /mnt/windows-media
+          persistentVolumeClaim:
+            claimName: media-nfs-pvc

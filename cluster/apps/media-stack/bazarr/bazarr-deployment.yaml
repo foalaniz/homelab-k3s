@@ -56,6 +56,5 @@ spec:
           persistentVolumeClaim:
             claimName: bazarr-config
         - name: downloads
-          hostPath:
-            path: /mnt/windows-media
-            type: Directory
+          persistentVolumeClaim:
+            claimName: media-nfs-pvc

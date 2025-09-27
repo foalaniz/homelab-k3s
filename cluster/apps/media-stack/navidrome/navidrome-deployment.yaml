@@ -61,6 +61,5 @@ spec:
           persistentVolumeClaim:
             claimName: navidrome-config
         - name: downloads
-          hostPath:
-            path: /mnt/windows-media/music
-            type: Directory
+          persistentVolumeClaim:
+            claimName: media-nfs-pvc

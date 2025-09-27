@@ -6,3 +6,4 @@ resources:
   - ./smb-storageclass-adguard.yaml
   - ./smb-storageclass-postgres.yaml
   - ./smb-storageclass-karakeep.yaml
+  - ./pv-media.yaml 

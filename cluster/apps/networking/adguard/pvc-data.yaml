@@ -9,7 +9,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: smb-adguard
+  storageClassName: nfs-dynamic
   resources:
     requests:
       storage: 2Gi
