@@ -1,4 +1,3 @@
-# cluster/apps/media-stack/qbittorrent/qbittorrent-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -33,15 +32,9 @@ spec:
           ports:
             - name: webui
               containerPort: 8080
-            - name: torrent-tcp
-              containerPort: 6881
-            - name: torrent-udp
-              containerPort: 6881
-              protocol: UDP
           volumeMounts:
             - name: config
               mountPath: /config
-              subPath: qbittorrent 
             - name: downloads
               mountPath: /media
       volumes:

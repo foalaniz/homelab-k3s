@@ -30,18 +30,9 @@ spec:
           ports:
             - name: http
               containerPort: 6767
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-            initialDelaySeconds: 15
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
           volumeMounts:
             - name: config
               mountPath: /config
-              subPath: bazarr
             - name: downloads
               mountPath: /media
       volumes:

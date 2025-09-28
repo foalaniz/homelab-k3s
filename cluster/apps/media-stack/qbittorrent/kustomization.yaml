@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - qbittorrent-config-pv.yaml
   - pvc-qbittorrent.yaml
-  - qbittorrent-deployment.yaml 
-  - qbittorrent-networking.yaml 
+  - qbittorrent-deployment.yaml
+  - qbittorrent-networking.yaml
