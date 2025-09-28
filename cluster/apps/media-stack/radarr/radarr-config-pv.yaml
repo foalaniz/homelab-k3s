@@ -8,7 +8,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: radarr-config-pv
+  storageClassName: nfs-dynamic
   nfs:
     server: 192.168.0.21
     path: "/mnt/tokyo-3/k8s-data/radarr" 
