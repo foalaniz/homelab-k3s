@@ -19,6 +19,51 @@ spec:
       labels:
         app: qbittorrent
     spec:
+      # INIT CONTAINER PARA FORZAR LA CONFIGURACIÓN CORRECTA
+      initContainers:
+      - name: fix-qbittorrent-config
+        image: busybox:latest
+        command: 
+        - /bin/sh
+        - -c
+        - |
+          echo "Creando estructura de directorios..."
+          mkdir -p /media/downloads/incomplete
+          mkdir -p /media/downloads/complete/movies
+          mkdir -p /media/downloads/complete/tv
+          mkdir -p /media/downloads/complete/music
+          
+          echo "Configurando qBittorrent..."
+          mkdir -p /config/qBittorrent
+          
+          # Si ya existe configuración, la actualizamos
+          if [ -f /config/qBittorrent/qBittorrent.conf ]; then
+            echo "Actualizando configuración existente..."
+            sed -i 's|Downloads\\SavePath=.*|Downloads\\SavePath=/media/downloads/incomplete/|g' /config/qBittorrent/qBittorrent.conf
+            sed -i 's|Downloads\\TempPath=.*|Downloads\\TempPath=/media/downloads/incomplete/|g' /config/qBittorrent/qBittorrent.conf
+          else
+            echo "Creando nueva configuración..."
+            cat > /config/qBittorrent/qBittorrent.conf << 'EOF'
+          [BitTorrent]
+          Session\AddTorrentStopped=false
+          Session\DefaultSavePath=/media/downloads/incomplete
+
+          [Preferences]
+          Connection\PortRangeMin=6881
+          Connection\UPnP=false
+          Downloads\SavePath=/media/downloads/incomplete/
+          Downloads\TempPath=/media/downloads/incomplete/
+          General\Locale=en
+          WebUI\Port=8080
+          EOF
+          fi
+          
+          echo "Configuración completada"
+        volumeMounts:
+        - mountPath: /config
+          name: config
+        - mountPath: /media
+          name: downloads
       containers:
       - env:
         - name: PUID
@@ -29,13 +74,6 @@ spec:
           value: America/Mexico_City
         - name: WEBUI_PORT
           value: "8080"
-        # NUEVAS VARIABLES PARA FORZAR LAS RUTAS CORRECTAS
-        - name: QBT_SAVEPATH
-          value: "/media/downloads/incomplete"
-        - name: QBT_DOWNLOADS_PATH
-          value: "/media/downloads/incomplete"
-        - name: QBT_COMPLETED_PATH
-          value: "/media/downloads/complete"
         image: lscr.io/linuxserver/qbittorrent:latest
         name: qbittorrent
         ports:
