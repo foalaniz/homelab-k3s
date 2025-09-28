@@ -18,6 +18,13 @@ spec:
       labels:
         app: lidarr
     spec:
+      initContainers:
+       - name: wait-for-nfs
+         image: busybox:1.36
+         command: ['sh', '-c', 'until mountpoint -q /media; do echo "waiting for NFS mount..."; sleep 5; done; echo "NFS mount ready"']
+         volumeMounts:
+         - name: downloads
+           mountPath: /media
       containers:
         - name: lidarr
           image: blampe/lidarr:latest
