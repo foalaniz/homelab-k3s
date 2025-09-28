@@ -1,46 +1,55 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qbittorrent
-  namespace: media-stack
+  annotations:
+    argocd.argoproj.io/tracking-id: media-stack:apps/Deployment:media-stack/qbittorrent
   labels:
     app: qbittorrent
+  name: qbittorrent
+  namespace: media-stack
 spec:
   replicas: 1
-  strategy:
-    type: Recreate
   selector:
     matchLabels:
       app: qbittorrent
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
         app: qbittorrent
     spec:
       containers:
-        - name: qbittorrent
-          image: lscr.io/linuxserver/qbittorrent:latest
-          env:
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
-            - name: TZ
-              value: "America/Mexico_City"
-            - name: WEBUI_PORT
-              value: "8080"
-          ports:
-            - name: webui
-              containerPort: 8080
-          volumeMounts:
-            - name: config
-              mountPath: /config
-            - name: downloads
-              mountPath: /media
+      - env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: America/Mexico_City
+        - name: WEBUI_PORT
+          value: "8080"
+        # NUEVAS VARIABLES PARA FORZAR LAS RUTAS CORRECTAS
+        - name: QBT_SAVEPATH
+          value: "/media/downloads/incomplete"
+        - name: QBT_DOWNLOADS_PATH
+          value: "/media/downloads/incomplete"
+        - name: QBT_COMPLETED_PATH
+          value: "/media/downloads/complete"
+        image: lscr.io/linuxserver/qbittorrent:latest
+        name: qbittorrent
+        ports:
+        - containerPort: 8080
+          name: webui
+        volumeMounts:
+        - mountPath: /config
+          name: config
+        - mountPath: /media
+          name: downloads
       volumes:
-        - name: config
-          persistentVolumeClaim:
-            claimName: qbittorrent-config
-        - name: downloads
-          persistentVolumeClaim:
-            claimName: media-nfs-pvc
+      - name: config
+        persistentVolumeClaim:
+          claimName: qbittorrent-config
+      - name: downloads
+        persistentVolumeClaim:
+          claimName: media-nfs-pvc
