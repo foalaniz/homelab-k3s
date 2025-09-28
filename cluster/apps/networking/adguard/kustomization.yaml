@@ -4,6 +4,8 @@ resources:
   - namespace.yaml
   - pvc-config.yaml
   - pvc-data.yaml
+  - adguard-config-pv.yaml  
+  - adguard-data-pv.yaml 
   - deployment.yaml
   - service.yaml
   - adguard-ingressroute.yaml

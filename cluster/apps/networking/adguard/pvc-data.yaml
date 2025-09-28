@@ -13,3 +13,5 @@ spec:
   resources:
     requests:
       storage: 2Gi
+  volumeName: adguard-data-pv        
+
