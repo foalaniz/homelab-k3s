@@ -13,4 +13,3 @@ resources:
   - meilisearch-pvc.yaml
   - chrome-deployment.yaml
   - chrome-service.yaml
-  - karakeep-pv.yaml
