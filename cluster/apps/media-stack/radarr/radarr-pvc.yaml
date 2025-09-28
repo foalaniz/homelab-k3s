@@ -6,8 +6,8 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: nfs-dynamic
+  storageClassName: nlocal-path
   resources:
     requests:
       storage: 1Gi
-  volumeName: radarr-config-pv
+  volumeName: radarr-config-pv-temporal
