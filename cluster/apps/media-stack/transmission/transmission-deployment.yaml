@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+  namespace: media-stack
+  labels:
+    app: transmission
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transmission
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      containers:
+      - name: transmission
+        image: lscr.io/linuxserver/transmission:latest
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "America/Mexico_City"
+        - name: TRANSMISSION_WEB_HOME
+          value: "/transmission-web-control/"
+        - name: TRANSMISSION_DOWNLOAD_DIR
+          value: "/media/downloads/complete"
+        - name: TRANSMISSION_INCOMPLETE_DIR
+          value: "/media/downloads/incomplete"
+        - name: TRANSMISSION_WATCH_DIR
+          value: "/media/downloads/watch"
+        ports:
+        - containerPort: 9091
+          name: webui
+        - containerPort: 51413
+          name: torrent-tcp
+        - containerPort: 51413
+          protocol: UDP
+          name: torrent-udp
+        volumeMounts:
+        - mountPath: /config
+          name: config
+        - mountPath: /media
+          name: downloads
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: transmission-config
+      - name: downloads
+        persistentVolumeClaim:
+          claimName: media-nfs-pvc
