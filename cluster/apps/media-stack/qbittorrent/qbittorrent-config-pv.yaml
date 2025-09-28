@@ -11,4 +11,4 @@ spec:
   storageClassName: nfs-dynamic
   nfs:
     server: 192.168.0.21
-    path: "/mnt/tokyo-3/k3s-data/qbittorrent" # <-- VERIFICA ESTA RUTA
+    path: "/mnt/tokyo-3/k8s-data/qbittorrent" 
