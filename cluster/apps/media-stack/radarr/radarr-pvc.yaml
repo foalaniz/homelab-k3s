@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: ""
+  storageClassName: nfs-dynamic
   resources:
     requests:
       storage: 1Gi
