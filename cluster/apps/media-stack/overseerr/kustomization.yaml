@@ -4,4 +4,4 @@ resources:
   - pvc.yaml
   - deployment.yaml
   - networking.yaml
-  - overseerr-config-pv.yam
+  - overseerr-config-pv.yaml
