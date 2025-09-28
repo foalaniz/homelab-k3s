@@ -27,8 +27,8 @@ spec:
           value: "1000"
         - name: TZ
           value: "America/Mexico_City"
-        - name: TRANSMISSION_WEB_HOME
-          value: "/transmission-web-control/"
+        #"- name: TRANSMISSION_WEB_HOME
+        # value: "/transmission-web-control/"
         - name: TRANSMISSION_DOWNLOAD_DIR
           value: "/media/downloads/complete"
         - name: TRANSMISSION_INCOMPLETE_DIR
