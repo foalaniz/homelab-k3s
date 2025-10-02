@@ -4,4 +4,4 @@ resources:
   - sonarr-pvc.yaml
   - sonarr-deployment.yaml
   - sonarr-networking.yaml
-  #- sonarr-config-pv.yaml
+  - sonarr-config-pv.yaml
