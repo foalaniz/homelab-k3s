@@ -1,7 +1,0 @@
-# cluster/apps/networking/adguard/namespace.yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: networking
-  labels:
-    name: networking
