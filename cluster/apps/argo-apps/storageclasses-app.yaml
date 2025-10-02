@@ -5,7 +5,7 @@ metadata:
   name: storageclasses
   namespace: argocd
   annotations:
-    argocd.argojroj.io/sync-wave: "-19"
+    argocd.argoproj.io/sync-wave: "-19"
 spec:
   project: default
   source:
