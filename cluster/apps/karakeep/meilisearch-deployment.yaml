@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meilisearch
+  namespace: karakeep
+  labels:
+    app: meilisearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meilisearch
+  template:
+    metadata:
+      labels:
+        app: meilisearch
+    spec:
+      containers:
+        - name: meilisearch
+          image: getmeili/meilisearch:latest
+          env:
+            - name: MEILI_MASTER_KEY 
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: MEILISEARCH_KEY
+            - name: MEILI_ENV
+              value: "production"
+          ports:
+            - name: http
+              containerPort: 7700
+          volumeMounts:
+            - name: data
+              mountPath: /data.ms
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 7700
+              httpHeaders:
+                - name: Authorization
+                  value: "Bearer $(MEILI_MASTER_KEY)"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 7700
+              httpHeaders:
+                - name: Authorization
+                  value: "Bearer $(MEILI_MASTER_KEY)"
+            initialDelaySeconds: 10
+            periodSeconds: 5
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: meilisearch-data

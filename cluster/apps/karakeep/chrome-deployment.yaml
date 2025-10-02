@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karakeep-chrome
+  namespace: karakeep
+  labels:
+    app: karakeep-chrome
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: karakeep-chrome
+  template:
+    metadata:
+      labels:
+        app: karakeep-chrome
+    spec:
+      containers:
+        - name: chrome
+          image: browserless/chrome:latest
+          env:
+            - name: TZ
+              value: "America/Mexico_City"
+          ports:
+            - name: http
+              containerPort: 3000 
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"

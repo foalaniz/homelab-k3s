@@ -1,0 +1,116 @@
+# cluster/apps/karakeep/web-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karakeep-web
+  namespace: karakeep
+  labels:
+    app: karakeep-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: karakeep-web
+  template:
+    metadata:
+      labels:
+        app: karakeep-web
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      initContainers:
+        - name: wait-for-meilisearch
+          image: curlimages/curl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Waiting for MeiliSearch to be ready..."
+              until curl -f http://meilisearch.karakeep.svc.cluster.local:7700/health; do
+                echo "MeiliSearch not ready yet, waiting..."
+                sleep 5
+              done
+              echo "MeiliSearch is ready!"
+        - name: wait-for-chrome
+          image: curlimages/curl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Waiting for Chrome to be ready..."
+              until curl -f http://karakeep-chrome.karakeep.svc.cluster.local:3000; do
+                echo "Chrome not ready yet, waiting..."
+                sleep 5
+              done
+              echo "Chrome is ready!"
+        # Nuevo initContainer para verificar y arreglar permisos
+        - name: fix-permissions
+          image: busybox:1.36
+          securityContext:
+            runAsUser: 0  # Ejecutar como root para cambiar permisos
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Creating data directory and fixing permissions..."
+              mkdir -p /data
+              chown -R 1000:1000 /data
+              chmod -R 755 /data
+              ls -la /data
+              echo "Permissions fixed"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      containers:
+        - name: karakeep-web
+          image: ghcr.io/karakeep-app/karakeep:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          env:
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: GEMINI_API_KEY
+            - name: MEILISEARCH_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: MEILISEARCH_KEY
+            - name: MEILI_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: MEILISEARCH_KEY
+            - name: MEILI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: MEILISEARCH_KEY
+          envFrom:
+            - secretRef:
+                name: karakeep-secrets
+            - configMapRef:
+                name: karakeep-configuration
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 120  
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 60   
+            periodSeconds: 10
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: karakeep-data
