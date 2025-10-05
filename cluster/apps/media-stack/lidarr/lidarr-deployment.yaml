@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: lidarr
-          image: lscr.io/linuxserver/lidarr:develop
+          image: lscr.io/linuxserver/lidarr:latest
           env:
             - name: PUID
               value: "1000"
