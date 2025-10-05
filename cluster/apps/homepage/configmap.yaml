@@ -38,10 +38,9 @@ data:
               href: "https://youtube.com"
 
   services.yaml: |
-    # --- NUEVO GRUPO PARA INFRAESTRUCTURA ---
     - Infrastructure:
         - Proxmox:
-            href: https://proxmox.homelab.local 
+            href: https://proxmox.homelab.local
             description: Virtualization Manager
             icon: proxmox
         - Truenas:
@@ -58,20 +57,28 @@ data:
             href: http://adguard.homelab.local
             description: AdGuard Home
             icon: adguard-home
-            
-    - Media:
+
+    # --- NUEVO GRUPO PARA REPRODUCTORES ---
+    - Players:
         - Plex:
             href: http://plex.homelab.local
             description: Media Server
             icon: plex
         - Jellyfin:
-            href: http://jelly.homelab.local 
+            href: http://jelly.homelab.local
             description: Media Server
             icon: jellyfin
-        - Transmission:
+        - Navidrome: 
+            href: http://navidrome.homelab.local
+            description: Music Streaming
+            icon: navidrome
+
+    # --- GRUPO RENOMBRADO Y REORGANIZADO ---
+    - Media Management:
+        - qBittorrent:
             href: http://downloads.homelab.local
             description: Torrent Client
-            icon: transmission 
+            icon: transmission
         - Overseerr:
             href: http://requests.homelab.local
             description: Request Client
@@ -88,10 +95,6 @@ data:
             href: http://music.homelab.local
             description: Music Management
             icon: lidarr
-        - Navidrome: 
-            href: http://navidrome.homelab.local
-            description: Music Streaming
-            icon: navidrome            
         - Prowlarr:
             href: http://prowlarr.homelab.local
             description: Indexer Manager
