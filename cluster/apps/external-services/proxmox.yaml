@@ -33,16 +33,33 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: proxmox
+  name: proxmox-https
   namespace: external-services
 spec:
   entryPoints:
-    - web
+    - websecure 
   routes:
   - match: Host(`proxmox.homelab.local`)
     kind: Rule
     services:
     - name: proxmox
       port: 8006
-      scheme: https 
+      scheme: https
+      passHostHeader: true 
       serversTransport: proxmox-transport
+  tls: {} 
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: proxmox-http
+  namespace: external-services
+spec:
+  entryPoints:
+    - web 
+  routes:
+  - match: Host(`proxmox.homelab.local`)
+    kind: Rule
+    middlewares:
+      - name: redirect-to-https 
+        namespace: traefik-system

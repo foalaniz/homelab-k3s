@@ -41,11 +41,11 @@ data:
     # --- NUEVO GRUPO PARA INFRAESTRUCTURA ---
     - Infrastructure:
         - Proxmox:
-            href: https://proxmox.homelab.local # Usamos https como lo configuramos
+            href: https://proxmox.homelab.local 
             description: Virtualization Manager
             icon: proxmox
         - Truenas:
-            href: http://truenas.homelab.local
+            href: 192.168.0.20
             description: Storage Manager (NAS)
             icon: truenas
 
@@ -60,19 +60,18 @@ data:
             icon: adguard-home
             
     - Media:
-        # --- PLEX Y JELLYFIN AÑADIDOS AQUÍ ---
         - Plex:
             href: http://plex.homelab.local
             description: Media Server
             icon: plex
         - Jellyfin:
-            href: http://jelly.homelab.local # Usamos el subdominio que definimos
+            href: http://jelly.homelab.local 
             description: Media Server
             icon: jellyfin
-        - qBittorrent:
+        - Transmission:
             href: http://downloads.homelab.local
             description: Torrent Client
-            icon: transmission # Corregido
+            icon: transmission 
         - Overseerr:
             href: http://requests.homelab.local
             description: Request Client

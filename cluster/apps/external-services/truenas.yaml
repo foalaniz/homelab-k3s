@@ -29,10 +29,11 @@ metadata:
   namespace: external-services
 spec:
   entryPoints:
-    - web
+    - web # Solo escuchamos en HTTP
   routes:
   - match: Host(`truenas.homelab.local`)
     kind: Rule
     services:
     - name: truenas
       port: 80
+      passHostHeader: true # <-- Esto debería solucionar el "loading" infinito
