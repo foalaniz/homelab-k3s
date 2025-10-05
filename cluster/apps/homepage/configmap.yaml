@@ -45,7 +45,7 @@ data:
             description: Virtualization Manager
             icon: proxmox
         - Truenas:
-            href: 192.168.0.20
+            href: "192.168.0.20"
             description: Storage Manager (NAS)
             icon: truenas
 
