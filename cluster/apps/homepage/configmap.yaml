@@ -38,6 +38,17 @@ data:
               href: "https://youtube.com"
 
   services.yaml: |
+    # --- NUEVO GRUPO PARA INFRAESTRUCTURA ---
+    - Infrastructure:
+        - Proxmox:
+            href: https://proxmox.homelab.local # Usamos https como lo configuramos
+            description: Virtualization Manager
+            icon: proxmox
+        - Truenas:
+            href: http://truenas.homelab.local
+            description: Storage Manager (NAS)
+            icon: truenas
+
     - Networking:
         - Traefik:
             href: http://traefik.homelab.local/dashboard/#/
@@ -47,11 +58,21 @@ data:
             href: http://adguard.homelab.local
             description: AdGuard Home
             icon: adguard-home
+            
     - Media:
+        # --- PLEX Y JELLYFIN AÑADIDOS AQUÍ ---
+        - Plex:
+            href: http://plex.homelab.local
+            description: Media Server
+            icon: plex
+        - Jellyfin:
+            href: http://jelly.homelab.local # Usamos el subdominio que definimos
+            description: Media Server
+            icon: jellyfin
         - qBittorrent:
             href: http://downloads.homelab.local
             description: Torrent Client
-            icon: qbittorrent
+            icon: transmission # Corregido
         - Overseerr:
             href: http://requests.homelab.local
             description: Request Client
@@ -76,6 +97,7 @@ data:
             href: http://prowlarr.homelab.local
             description: Indexer Manager
             icon: prowlarr
+
     - Productivity & Tools:
         - N8N:
             href: http://n8n.homelab.local 
@@ -85,11 +107,13 @@ data:
             href: http://karakeep.homelab.local
             description: RSS & Readlater
             icon: hoarder
+            
     - Database:
         - pgAdmin:
             href: http://pgadmin.homelab.local
             description: PostgreSQL Admin
             icon: pgadmin
+            
     - Monitoring:
         - Grafana:
             href: http://grafana.homelab.local
