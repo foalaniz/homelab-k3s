@@ -1,0 +1,39 @@
+# cluster/apps/external-services/truenas.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: stirling
+  namespace: external-services
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: stirling
+  namespace: external-services
+subsets:
+  - addresses:
+      - ip: "192.168.0.223"
+    ports:
+      - port: 80
+        protocol: TCP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: stirling
+  namespace: external-services
+spec:
+  entryPoints:
+    - web 
+  routes:
+  - match: Host(`pdf.homelab.local`)
+    kind: Rule
+    services:
+    - name: truenas
+      port: 80
+      passHostHeader: true 

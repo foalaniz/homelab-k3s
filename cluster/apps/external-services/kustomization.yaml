@@ -6,3 +6,4 @@ resources:
   - plex.yaml
   - proxmox.yaml
   - truenas.yaml
+  - stirling.yaml
