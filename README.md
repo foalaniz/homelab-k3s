@@ -40,7 +40,7 @@ This homelab runs a variety of self-hosted applications, all managed by ArgoCD. 
 | :------------------ | :--------------------------------- | :------------- | :-------------------------------- |
 | **AdGuard Home** | Network-wide ad-blocker            | `networking`   | `adguard.homelab.local`           |
 | **Homepage** | A highly customizable dashboard    | `homepage`     | `homepage.homelab.local`          |
-| **qBittorrent** | A popular torrent client           | `media-stack`  | `downloads.homelab.local`         |
+| **Transmission** | A popular torrent client           | `media-stack`  | `transmission.homelab.local`         |
 | **Sonarr** | TV show management                 | `media-stack`  | `series.homelab.local`            |
 | **Radarr** | Movie management                   | `media-stack`  | `movies.homelab.local`            |
 | **Lidarr** | Music management                   | `media-stack`  | `music.homelab.local`             |
@@ -49,8 +49,7 @@ This homelab runs a variety of self-hosted applications, all managed by ArgoCD. 
 | **Overseerr** | Request management for media       | `media-stack`  | `requests.homelab.local`          |
 | **n8n** | Workflow automation                | `n8n`          | `n8n.homelab.local`               |
 | **pgAdmin** | PostgreSQL administration tool     | `database`     | `pgadmin.homelab.local`           |
-| **Readeck** | A read-it-later service            | `readeck`      | `readeck.homelab.local`           |
-| **Commafeed** | A self-hosted RSS reader           | `media-stack`  | `rss.homelab.local`               |
+| **Karakeep** | A self-hosted RSS reader           | `media-stack`  | `karakeep.homelab.local`               |
 | **Prometheus** | Monitoring and alerting            | `monitoring`   | `prometheus.homelab.local`        |
 | **Grafana** | Visualization and analytics        | `monitoring`   | `grafana.homelab.local`           |
 | **Traefik Dashboard** | Traefik's dashboard              | `traefik-system`| `traefik.homelab.local`           |
